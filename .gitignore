@@ -1,0 +1,8 @@
+.idea
+*.iml
+*.log
+target
+*.class
+*.zip
+*.tar.gz
+*.tgz
