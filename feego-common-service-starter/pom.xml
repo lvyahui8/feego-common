@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>feego-common-web-core</artifactId>
+    <artifactId>feego-common-service-starter</artifactId>
 
-    <name>feego-common-web-core</name>
+    <name>feego-common-service-starter</name>
 
     <properties>
     </properties>
@@ -20,14 +20,17 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <version>4.11</version>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>io.github.lvyahui8</groupId>
-            <artifactId>feego-common-service-starter</artifactId>
+            <artifactId>feego-common-service-core</artifactId>
         </dependency>
     </dependencies>
 
     <build>
+
     </build>
 </project>
