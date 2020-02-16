@@ -80,7 +80,11 @@
         <artifactId>feego-common-web-starter</artifactId>
         <version>${project.version}</version>
       </dependency>
-
+      <dependency>
+        <groupId>io.github.lvyahui8</groupId>
+        <artifactId>feego-common-example</artifactId>
+        <version>${project.version}</version>
+      </dependency>
       <dependency>
         <groupId>io.github.lvyahui8</groupId>
         <artifactId>spring-boot-data-aggregator-starter</artifactId>

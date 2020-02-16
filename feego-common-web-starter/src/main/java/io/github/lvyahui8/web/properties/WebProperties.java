@@ -12,7 +12,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 public class WebProperties {
     /**
+     * 格式化响应
+     */
+    boolean formatResponse =  true;
+    /**
      * 启用自动加签验签
      */
-    boolean enableSign = true;
+    boolean enableSignature = true;
 }
