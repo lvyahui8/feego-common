@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  io.github.lvyahui8.core.autoconfigure.CoreAutoConfiguration

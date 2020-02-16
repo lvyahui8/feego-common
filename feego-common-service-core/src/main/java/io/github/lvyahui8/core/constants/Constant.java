@@ -1,4 +1,4 @@
-package io.github.lvyahui8.core.configuration;
+package io.github.lvyahui8.core.constants;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)

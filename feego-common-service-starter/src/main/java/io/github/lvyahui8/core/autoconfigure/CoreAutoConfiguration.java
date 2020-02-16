@@ -1,7 +1,9 @@
-package io.github.lvyahui8.core.configuration;
+package io.github.lvyahui8.core.autoconfigure;
 
-import io.github.lvyahui8.core.properties.ExecutorProperties;
+
+import io.github.lvyahui8.core.constants.Constant;
 import io.github.lvyahui8.core.properties.ServiceProperties;
+import io.github.lvyahui8.core.properties.ExecutorProperties;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -17,7 +19,7 @@ import java.util.concurrent.Executor;
  */
 @Configuration
 @EnableConfigurationProperties({ServiceProperties.class})
-public class BeanConfiguration {
+public class CoreAutoConfiguration {
 
     @Autowired
     ServiceProperties serviceProperties;
