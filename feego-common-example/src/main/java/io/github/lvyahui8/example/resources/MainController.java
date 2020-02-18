@@ -1,4 +1,4 @@
-package io.github.lvyahui8.resources;
+package io.github.lvyahui8.example.resources;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

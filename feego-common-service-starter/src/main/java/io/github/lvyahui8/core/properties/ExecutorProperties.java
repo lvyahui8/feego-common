@@ -8,6 +8,7 @@ import lombok.Data;
  */
 @Data
 public class ExecutorProperties {
+    private boolean open = true;
     private int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
     private int maxPoolSize = Runtime.getRuntime().availableProcessors() * 7;
     private int keepAliveSeconds = 60;

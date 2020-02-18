@@ -1,5 +1,7 @@
 package io.github.lvyahui8.core.utils;
 
+import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.Setter;
 
 import java.util.concurrent.Callable;
@@ -12,7 +14,8 @@ import java.util.concurrent.Executor;
 @SuppressWarnings("unused")
 public class AsyncTaskExecutor {
 
-    @Setter
+    @Setter(AccessLevel.PACKAGE)
+    @Getter(AccessLevel.PACKAGE)
     private static Executor executor;
 
     public static void submit(Runnable r) {

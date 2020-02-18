@@ -2,8 +2,9 @@ package io.github.lvyahui8.core.autoconfigure;
 
 
 import io.github.lvyahui8.core.constants.Constant;
-import io.github.lvyahui8.core.properties.ServiceProperties;
 import io.github.lvyahui8.core.properties.ExecutorProperties;
+import io.github.lvyahui8.core.properties.ServiceProperties;
+import io.github.lvyahui8.core.utils.AsyncTaskExecutorInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -25,7 +26,7 @@ public class CoreAutoConfiguration {
     ServiceProperties serviceProperties;
 
     @Bean
-    @ConditionalOnProperty(name = Constant.CONFIG_PREFIX + ".executorSwitch", value = {"true"})
+    @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX ,name =  "executor-properties.open")
     Executor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         ExecutorProperties executorProperties = serviceProperties.getExecutorProperties();
@@ -34,6 +35,7 @@ public class CoreAutoConfiguration {
         taskExecutor.setAllowCoreThreadTimeOut(executorProperties.isAllowCoreThreadTimeOut());
         taskExecutor.setQueueCapacity(executorProperties.getQueueCapacity());
         taskExecutor.setKeepAliveSeconds(executorProperties.getKeepAliveSeconds());
+        AsyncTaskExecutorInitializer.initAsyncTaskExecutor(taskExecutor);
         return taskExecutor;
     }
 }

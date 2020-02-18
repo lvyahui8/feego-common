@@ -30,9 +30,12 @@
             <groupId>io.github.lvyahui8</groupId>
             <artifactId>feego-common-web-starter</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>
+        <plugins>
 
+        </plugins>
     </build>
 </project>

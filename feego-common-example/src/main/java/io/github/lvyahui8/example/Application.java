@@ -1,4 +1,4 @@
-package io.github.lvyahui8;
+package io.github.lvyahui8.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
