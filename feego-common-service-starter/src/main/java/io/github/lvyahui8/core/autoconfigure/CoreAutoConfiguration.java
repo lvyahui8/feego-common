@@ -5,6 +5,7 @@ import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
@@ -73,16 +74,19 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
         LoggingProperties loggingProperties = serviceProperties.getLoggingProperties();
         LoggerContext context = (LoggerContext) LoggerFactory.getILoggerFactory();
         String loggerName = "test";
-        Logger logger = context.getLogger(loggerName);
-        logger.setAdditive(false);
-        logger.setLevel(Level.INFO);
-        RollingFileAppender rollingFileAppender = new RollingFileAppender();
+
+
+        PatternLayoutEncoder patternLayoutEncoder = new PatternLayoutEncoder();
+        patternLayoutEncoder.setContext(context);
+        patternLayoutEncoder.setPattern("%d{yyyy-MM-dd HH:mm:ss.SSS} : %m%n");
+        patternLayoutEncoder.start();
+
+        RollingFileAppender<ILoggingEvent> rollingFileAppender = new RollingFileAppender<>();
         rollingFileAppender.setName(loggerName + "Appender");
         String fileName = "F:" + File.separator + loggerName + ".log";
         rollingFileAppender.setFile(fileName);
         rollingFileAppender.setContext(context);
         rollingFileAppender.setAppend(true);
-
         SizeAndTimeBasedRollingPolicy sizeAndTimeBasedRollingPolicy = new SizeAndTimeBasedRollingPolicy();
         sizeAndTimeBasedRollingPolicy.setContext(context);
         sizeAndTimeBasedRollingPolicy.setMaxFileSize(FileSize.valueOf(loggingProperties.getMaxFileSize()));
@@ -91,12 +95,15 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
         sizeAndTimeBasedRollingPolicy.setParent(rollingFileAppender);
         sizeAndTimeBasedRollingPolicy.setFileNamePattern(fileName + ".%d{yyyy-MM-dd}.%i");
         sizeAndTimeBasedRollingPolicy.start();
-        PatternLayoutEncoder patternLayoutEncoder = new PatternLayoutEncoder();
-        patternLayoutEncoder.setContext(context);
-        patternLayoutEncoder.setPattern("%d{yyyy-MM-dd HH:mm:ss.SSS} : %m%n");
-        patternLayoutEncoder.start();
-        rollingFileAppender.setRollingPolicy(sizeAndTimeBasedRollingPolicy);
+
         rollingFileAppender.setEncoder(patternLayoutEncoder);
+        rollingFileAppender.setRollingPolicy(sizeAndTimeBasedRollingPolicy);
+        rollingFileAppender.start();
+
+        Logger logger = context.getLogger(loggerName);
+        logger.setAdditive(false);
+        logger.setLevel(Level.DEBUG);
+
         logger.addAppender(rollingFileAppender);
         for (int i = 0; i < 1000; i++) {
             logger.info("xxx");
