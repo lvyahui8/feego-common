@@ -8,10 +8,28 @@ import lombok.Data;
  */
 @Data
 public class ExecutorProperties {
-    private boolean open = true;
-    private int corePoolSize = Runtime.getRuntime().availableProcessors() * 2;
-    private int maxPoolSize = Runtime.getRuntime().availableProcessors() * 7;
-    private int keepAliveSeconds = 60;
-    private int queueCapacity = 2147483647;
+    /**
+     * 是否初始化线程池
+     */
+    private boolean open                   = true;
+    /**
+     * 线程池核心线程数
+     */
+    private int     corePoolSize           = Runtime.getRuntime().availableProcessors() * 2;
+    /**
+     * 线程池最大线程数
+     */
+    private int     maxPoolSize            = Runtime.getRuntime().availableProcessors() * 7;
+    /**
+     * 非核心线程空闲存活时间， 单位为秒（s）
+     */
+    private int     keepAliveSeconds       = 60;
+    /**
+     * 任务等待队列容量
+     */
+    private int     queueCapacity          = Integer.MAX_VALUE;
+    /**
+     * 是否允许核心线程池也超时
+     */
     private boolean allowCoreThreadTimeOut = false;
 }

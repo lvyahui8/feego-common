@@ -8,9 +8,32 @@ import lombok.Data;
  */
 @Data
 public class LoggingProperties {
+    /**
+     * 是否开启模块化日志
+     */
     boolean open = true;
+    /**
+     * 存储路径
+     */
+    String storagePath;
+    /**
+     * 模块枚举类
+     */
+    Class<?> moduleEnumClass ;
+    /**
+     * 日志文件切片大小
+     */
     String  maxFileSize    = "100MB";
-    String  totalSizeCap   = "10GB";
+    /**
+     * 日志文件允许的最大大小
+     */
+    String  totalSizeCap   = "20GB";
+    /**
+     * 允许存多少天历史的日志
+     */
     Integer maxHistory     = 14;
+    /**
+     * 日志kv内容分隔符
+     */
     String  fieldSeparator = "|#|";
 }
