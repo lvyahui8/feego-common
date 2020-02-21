@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>feego-common-service-starter</artifactId>
+    <artifactId>feego-common-configuration-processor</artifactId>
 
-    <name>feego-common-service-starter</name>
+    <name>feego-common-configuration-processor</name>
 
     <properties>
     </properties>
@@ -22,31 +22,23 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-
-
-        <dependency>
-            <groupId>io.github.lvyahui8</groupId>
-            <artifactId>feego-common-service-core</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.lvyahui8</groupId>
-            <artifactId>feego-common-configuration-processor</artifactId>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
     </dependencies>
 
     <build>
-
+        <plugins>
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                    <!-- Disable annotation processing for ourselves. -->
+                    <compilerArgument>-proc:none</compilerArgument>
+                </configuration>
+            </plugin>
+        </plugins>
     </build>
 </project>

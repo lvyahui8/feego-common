@@ -8,19 +8,26 @@ import org.slf4j.Marker;
  * @since 2020/2/20 22:08
  */
 public interface ModuleLogger extends Logger {
+
+    /**
+     * get actual logger
+     * @return actual logger
+     */
+    public Logger getInnerLogger() ;
+
     @Override
     default String getName() {
-        return null;
+        return getInnerLogger().getName();
     }
 
     @Override
     default boolean isTraceEnabled() {
-        return false;
+        return getInnerLogger().isTraceEnabled();
     }
 
     @Override
     default void trace(String msg) {
-
+        getInnerLogger().trace(msg);
     }
 
     @Override
@@ -140,7 +147,7 @@ public interface ModuleLogger extends Logger {
 
     @Override
     default void info(String msg) {
-
+        getInnerLogger().info(msg);
     }
 
     @Override

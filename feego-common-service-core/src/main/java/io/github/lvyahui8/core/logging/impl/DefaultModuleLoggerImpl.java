@@ -8,10 +8,15 @@ import org.slf4j.Logger;
  * @since 2020/2/20 22:27
  */
 public class DefaultModuleLoggerImpl implements ModuleLogger {
-    Logger logger;
+    private Logger logger;
 
     public DefaultModuleLoggerImpl(Logger logger) {
         this.logger = logger;
+    }
+
+    @Override
+    public Logger getInnerLogger() {
+        return logger;
     }
 
     @Override

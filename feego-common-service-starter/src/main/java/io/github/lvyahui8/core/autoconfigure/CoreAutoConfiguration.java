@@ -9,9 +9,10 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
+import io.github.lvyahui8.configuration.processor.ModuleLoggerProcessor;
 import io.github.lvyahui8.core.constants.Constant;
 import io.github.lvyahui8.core.logging.ModuleLogger;
-import io.github.lvyahui8.core.logging.ModuleLoggerInvocationHandler;
+import io.github.lvyahui8.core.logging.ModuleLoggerRepository;
 import io.github.lvyahui8.core.logging.impl.DefaultModuleLoggerImpl;
 import io.github.lvyahui8.core.properties.ExecutorProperties;
 import io.github.lvyahui8.core.properties.LoggingProperties;
@@ -28,7 +29,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.io.File;
-import java.lang.reflect.Proxy;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -70,6 +70,7 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
         taskExecutor.setQueueCapacity(executorProperties.getQueueCapacity());
         taskExecutor.setKeepAliveSeconds(executorProperties.getKeepAliveSeconds());
         AsyncTaskExecutorInitializer.initAsyncTaskExecutor(taskExecutor);
+
         return taskExecutor;
     }
 
@@ -79,7 +80,12 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
         String storagePath = loggingProperties.getStoragePath() == null ? System.getProperty("user.home") + File.separator + "logs"
                 : loggingProperties.getStoragePath();
 
-        Class<?> moduleEnumClass = loggingProperties.getModuleEnumClass();
+        Class<?> moduleEnumClass = null;
+        try {
+            moduleEnumClass = Class.forName(ModuleLoggerProcessor.LOGGER_ENUM_CLASS);
+        } catch (ClassNotFoundException ignored) {
+            return;
+        }
         for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
             Enum<?> em  = (Enum<?>) enumInstance;
 
@@ -119,11 +125,11 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
             logger.addAppender(rollingFileAppender);
 
             /* 使用代理类替换代理枚举实现 */
-            ModuleLogger moduleLogger = (ModuleLogger) Proxy.newProxyInstance(ModuleLogger.class.getClassLoader(),new Class[] {ModuleLogger.class},
-                    new ModuleLoggerInvocationHandler(new DefaultModuleLoggerImpl(logger)));
+            ModuleLogger moduleLogger = new DefaultModuleLoggerImpl(logger);
+            ModuleLoggerRepository.put(loggerName,moduleLogger);
             ModuleLogger emModuleLogger = (ModuleLogger) em;
             for (int i = 0; i < 1000; i++) {
-                moduleLogger.info("xxx");
+                /// moduleLogger.info("xxx");
                 // how to instead ???
                 emModuleLogger.info("fff");
             }
