@@ -8,13 +8,6 @@ import org.slf4j.Marker;
  * @since 2020/2/20 22:08
  */
 public interface ModuleLogger extends Logger {
-
-    /**
-     * get actual logger
-     * @return actual logger
-     */
-    Logger getInnerLogger() ;
-
     default void info(LogSchema schema) {
         ((ModuleLogger) getInnerLogger()).info(schema);
     }
@@ -323,4 +316,10 @@ public interface ModuleLogger extends Logger {
     default void error(Marker marker, String msg, Throwable t) {
         getInnerLogger().error(marker,msg,t);
     }
+
+    /**
+     * get actual logger
+     * @return actual logger
+     */
+    Logger getInnerLogger() ;
 }

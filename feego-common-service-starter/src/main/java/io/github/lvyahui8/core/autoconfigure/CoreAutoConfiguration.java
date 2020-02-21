@@ -11,7 +11,6 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import io.github.lvyahui8.configuration.processor.ModuleLoggerProcessor;
 import io.github.lvyahui8.core.constants.Constant;
-import io.github.lvyahui8.core.logging.LogSchema;
 import io.github.lvyahui8.core.logging.ModuleLogger;
 import io.github.lvyahui8.core.logging.ModuleLoggerRepository;
 import io.github.lvyahui8.core.logging.impl.DefaultModuleLoggerImpl;
@@ -78,8 +77,8 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
         LoggingProperties loggingProperties = serviceProperties.getLoggingProperties();
-        String storagePath = loggingProperties.getStoragePath() == null ? System.getProperty("user.home") + File.separator + "logs"
-                : loggingProperties.getStoragePath();
+        String storagePath = (loggingProperties.getStoragePath() == null ? System.getProperty("user.home") : loggingProperties.getStoragePath())
+                + File.separator + "logs";
 
         Class<?> moduleEnumClass = null;
         try {
@@ -126,14 +125,16 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
             logger.addAppender(rollingFileAppender);
 
             /* 使用代理类替换代理枚举实现 */
-            ModuleLogger moduleLogger = new DefaultModuleLoggerImpl(logger);
+            ModuleLogger moduleLogger = new DefaultModuleLoggerImpl(logger,loggingProperties.getFieldSeparator());
             ModuleLoggerRepository.put(loggerName,moduleLogger);
-            ModuleLogger emModuleLogger = (ModuleLogger) em;
-            for (int i = 0; i < 1000; i++) {
-                /// moduleLogger.info("xxx");
-                // how to instead ???
-                emModuleLogger.info(LogSchema.empty().of("name","feego"));
-            }
+
+//            // 以下是测试代码
+//            ModuleLogger emModuleLogger = (ModuleLogger) em;
+//            for (int i = 0; i < 1000; i++) {
+//                /// moduleLogger.info("xxx");
+//                // how to instead ???
+//                emModuleLogger.info(LogSchema.empty().of("name","feego").of("age",26));
+//            }
         }
 
     }

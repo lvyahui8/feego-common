@@ -10,7 +10,7 @@ import java.util.concurrent.ConcurrentSkipListMap;
 public class LogSchema {
     private Map<String,Object> items = new ConcurrentSkipListMap<>();
 
-    protected LogSchema() {
+    private LogSchema() {
     }
 
     public static LogSchema empty() {
@@ -23,15 +23,21 @@ public class LogSchema {
         return this;
     }
 
-    public Detail build() {
+    public LogSchema clear() {
+        items.clear();
+        return this;
+    }
+
+    public Detail build(String sp) {
         Detail detail  = new Detail();
-        detail.pattern = "";
         detail.args = new Object[items.size()];
+        StringBuilder sb = new StringBuilder();
         int i = 0 ;
         for (Map.Entry<String,Object> item : items.entrySet()) {
-            detail.pattern += item.getKey() + ":{}|";
+            sb.append(item.getKey()).append(":{}").append(sp);
             detail.args[i++] = item.getValue();
         }
+        detail.pattern = sb.toString();
         return detail;
     }
 

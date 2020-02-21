@@ -11,8 +11,12 @@ import org.slf4j.Logger;
 public class DefaultModuleLoggerImpl implements ModuleLogger {
     private Logger logger;
 
-    public DefaultModuleLoggerImpl(Logger logger) {
+    private String separator;
+
+
+    public DefaultModuleLoggerImpl(Logger logger, String separator) {
         this.logger = logger;
+        this.separator = separator;
     }
 
     @Override
@@ -22,7 +26,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void info(LogSchema schema) {
-        LogSchema.Detail detail = schema.build();
+        LogSchema.Detail detail = schema.build(separator);
         getInnerLogger().info(detail.getPattern(),detail.getArgs());
     }
 }

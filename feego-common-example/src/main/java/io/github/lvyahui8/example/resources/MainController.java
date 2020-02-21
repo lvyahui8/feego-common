@@ -1,5 +1,7 @@
 package io.github.lvyahui8.example.resources;
 
+import io.github.lvyahui8.core.logging.LogSchema;
+import io.github.lvyahui8.core.logging.SystemLogger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class MainController {
     @RequestMapping("/status")
     public Object status() {
+        SystemLogger.status.info(LogSchema.empty().of("status","ok"));
         return "ok";
     }
 }
