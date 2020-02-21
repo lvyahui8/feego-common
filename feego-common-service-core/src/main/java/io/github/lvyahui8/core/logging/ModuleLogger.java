@@ -13,7 +13,11 @@ public interface ModuleLogger extends Logger {
      * get actual logger
      * @return actual logger
      */
-    public Logger getInnerLogger() ;
+    Logger getInnerLogger() ;
+
+    default void info(LogSchema schema) {
+        ((ModuleLogger) getInnerLogger()).info(schema);
+    }
 
     @Override
     default String getName() {
@@ -32,117 +36,117 @@ public interface ModuleLogger extends Logger {
 
     @Override
     default void trace(String format, Object arg) {
-
+        getInnerLogger().trace(format,arg);
     }
 
     @Override
     default void trace(String format, Object arg1, Object arg2) {
-
+        getInnerLogger().trace(format,arg1,arg2);
     }
 
     @Override
     default void trace(String format, Object... arguments) {
-
+        getInnerLogger().trace(format, arguments);
     }
 
     @Override
     default void trace(String msg, Throwable t) {
-
+        getInnerLogger().trace(msg,t);
     }
 
     @Override
     default boolean isTraceEnabled(Marker marker) {
-        return false;
+        return getInnerLogger().isTraceEnabled(marker);
     }
 
     @Override
     default void trace(Marker marker, String msg) {
-
+        getInnerLogger().trace(marker,msg);
     }
 
     @Override
     default void trace(Marker marker, String format, Object arg) {
-
+        getInnerLogger().trace(marker,format,arg);
     }
 
     @Override
     default void trace(Marker marker, String format, Object arg1, Object arg2) {
-
+        getInnerLogger().trace(marker, format, arg1, arg2);
     }
 
     @Override
     default void trace(Marker marker, String format, Object... argArray) {
-
+        getInnerLogger().trace(marker,format,argArray);
     }
 
     @Override
     default void trace(Marker marker, String msg, Throwable t) {
-
+        getInnerLogger().trace(marker,msg,t);
     }
 
     @Override
     default boolean isDebugEnabled() {
-        return false;
+        return getInnerLogger().isDebugEnabled();
     }
 
     @Override
     default void debug(String msg) {
-
+        getInnerLogger().debug(msg);
     }
 
     @Override
     default void debug(String format, Object arg) {
-
+        getInnerLogger().debug(format,arg);
     }
 
     @Override
     default void debug(String format, Object arg1, Object arg2) {
-
+        getInnerLogger().debug(format, arg1, arg2);
     }
 
     @Override
     default void debug(String format, Object... arguments) {
-
+        getInnerLogger().debug(format, arguments);
     }
 
     @Override
     default void debug(String msg, Throwable t) {
-
+        getInnerLogger().debug(msg,t);
     }
 
     @Override
     default boolean isDebugEnabled(Marker marker) {
-        return false;
+        return getInnerLogger().isDebugEnabled(marker);
     }
 
     @Override
     default void debug(Marker marker, String msg) {
-
+        getInnerLogger().debug(marker,msg);
     }
 
     @Override
     default void debug(Marker marker, String format, Object arg) {
-
+        getInnerLogger().debug(marker,format,arg);
     }
 
     @Override
     default void debug(Marker marker, String format, Object arg1, Object arg2) {
-
+        getInnerLogger().debug(marker, format, arg1, arg2);
     }
 
     @Override
     default void debug(Marker marker, String format, Object... arguments) {
-
+        getInnerLogger().debug(marker, format, arguments);
     }
 
     @Override
     default void debug(Marker marker, String msg, Throwable t) {
-
+        getInnerLogger().debug(marker, msg, t);
     }
 
     @Override
     default boolean isInfoEnabled() {
-        return false;
+        return getInnerLogger().isInfoEnabled();
     }
 
     @Override
@@ -152,171 +156,171 @@ public interface ModuleLogger extends Logger {
 
     @Override
     default void info(String format, Object arg) {
-
+        getInnerLogger().info(format,arg);
     }
 
     @Override
     default void info(String format, Object arg1, Object arg2) {
-
+        getInnerLogger().info(format, arg1, arg2);
     }
 
     @Override
     default void info(String format, Object... arguments) {
-
+        getInnerLogger().info(format, arguments);
     }
 
     @Override
     default void info(String msg, Throwable t) {
-
+        getInnerLogger().info(msg, t);
     }
 
     @Override
     default boolean isInfoEnabled(Marker marker) {
-        return false;
+        return getInnerLogger().isInfoEnabled(marker);
     }
 
     @Override
     default void info(Marker marker, String msg) {
-
+        getInnerLogger().info(marker, msg);
     }
 
     @Override
     default void info(Marker marker, String format, Object arg) {
-
+        getInnerLogger().info(marker, format, arg);
     }
 
     @Override
     default void info(Marker marker, String format, Object arg1, Object arg2) {
-
+        getInnerLogger().info(marker, format, arg1, arg2);
     }
 
     @Override
     default void info(Marker marker, String format, Object... arguments) {
-
+        getInnerLogger().info(marker, format, arguments);
     }
 
     @Override
     default void info(Marker marker, String msg, Throwable t) {
-
+        getInnerLogger().info(marker, msg, t);
     }
 
     @Override
     default boolean isWarnEnabled() {
-        return false;
+        return getInnerLogger().isWarnEnabled();
     }
 
     @Override
     default void warn(String msg) {
-
+        getInnerLogger().warn(msg);
     }
 
     @Override
     default void warn(String format, Object arg) {
-
+        getInnerLogger().warn(format,arg);
     }
 
     @Override
     default void warn(String format, Object... arguments) {
-
+        getInnerLogger().warn(format,arguments);
     }
 
     @Override
     default void warn(String format, Object arg1, Object arg2) {
-
+        getInnerLogger().warn(format, arg1, arg2);
     }
 
     @Override
     default void warn(String msg, Throwable t) {
-
+        getInnerLogger().warn(msg,t);
     }
 
     @Override
     default boolean isWarnEnabled(Marker marker) {
-        return false;
+        return getInnerLogger().isWarnEnabled(marker);
     }
 
     @Override
     default void warn(Marker marker, String msg) {
-
+        getInnerLogger().warn(msg);
     }
 
     @Override
     default void warn(Marker marker, String format, Object arg) {
-
+        getInnerLogger().warn(marker, format, arg);
     }
 
     @Override
     default void warn(Marker marker, String format, Object arg1, Object arg2) {
-
+        getInnerLogger().warn(marker, format, arg1, arg2);
     }
 
     @Override
     default void warn(Marker marker, String format, Object... arguments) {
-
+        getInnerLogger().warn(marker, format, arguments);
     }
 
     @Override
     default void warn(Marker marker, String msg, Throwable t) {
-
+        getInnerLogger().warn(marker, msg, t);
     }
 
     @Override
     default boolean isErrorEnabled() {
-        return false;
+        return getInnerLogger().isErrorEnabled();
     }
 
     @Override
     default void error(String msg) {
-
+        getInnerLogger().error(msg);
     }
 
     @Override
     default void error(String format, Object arg) {
-
+        getInnerLogger().error(format,arg);
     }
 
     @Override
     default void error(String format, Object arg1, Object arg2) {
-
+        getInnerLogger().error(format, arg1, arg2);
     }
 
     @Override
     default void error(String format, Object... arguments) {
-
+        getInnerLogger().error(format, arguments);
     }
 
     @Override
     default void error(String msg, Throwable t) {
-
+        getInnerLogger().error(msg,t);
     }
 
     @Override
     default boolean isErrorEnabled(Marker marker) {
-        return false;
+        return getInnerLogger().isErrorEnabled();
     }
 
     @Override
     default void error(Marker marker, String msg) {
-
+        getInnerLogger().error(marker,msg);
     }
 
     @Override
     default void error(Marker marker, String format, Object arg) {
-
+        getInnerLogger().error(marker,format,arg);
     }
 
     @Override
     default void error(Marker marker, String format, Object arg1, Object arg2) {
-
+        getInnerLogger().error(marker, format, arg1, arg2);
     }
 
     @Override
     default void error(Marker marker, String format, Object... arguments) {
-
+        getInnerLogger().error(marker,format,arguments);
     }
 
     @Override
     default void error(Marker marker, String msg, Throwable t) {
-
+        getInnerLogger().error(marker,msg,t);
     }
 }

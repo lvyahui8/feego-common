@@ -11,6 +11,7 @@ import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
 import io.github.lvyahui8.configuration.processor.ModuleLoggerProcessor;
 import io.github.lvyahui8.core.constants.Constant;
+import io.github.lvyahui8.core.logging.LogSchema;
 import io.github.lvyahui8.core.logging.ModuleLogger;
 import io.github.lvyahui8.core.logging.ModuleLoggerRepository;
 import io.github.lvyahui8.core.logging.impl.DefaultModuleLoggerImpl;
@@ -131,7 +132,7 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
             for (int i = 0; i < 1000; i++) {
                 /// moduleLogger.info("xxx");
                 // how to instead ???
-                emModuleLogger.info("fff");
+                emModuleLogger.info(LogSchema.empty().of("name","feego"));
             }
         }
 

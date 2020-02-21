@@ -1,5 +1,6 @@
 package io.github.lvyahui8.core.logging.impl;
 
+import io.github.lvyahui8.core.logging.LogSchema;
 import io.github.lvyahui8.core.logging.ModuleLogger;
 import org.slf4j.Logger;
 
@@ -20,7 +21,8 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
     }
 
     @Override
-    public void info(String msg) {
-        logger.info("msg:{}",msg);
+    public void info(LogSchema schema) {
+        LogSchema.Detail detail = schema.build();
+        getInnerLogger().info(detail.getPattern(),detail.getArgs());
     }
 }
