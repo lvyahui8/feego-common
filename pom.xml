@@ -15,6 +15,8 @@
         <module>feego-common-web-starter</module>
         <module>feego-common-configuration-processor</module>
         <module>feego-common-example-service</module>
+        <module>feego-common-logging-core</module>
+        <module>feego-common-logging-starter</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -63,26 +65,43 @@
                 <artifactId>feego-common-web-core</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
                 <artifactId>feego-common-configuration-processor</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
                 <artifactId>feego-common-web-starter</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
                 <artifactId>feego-common-example-start</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
                 <artifactId>feego-common-example-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
+            <dependency>
+                <groupId>io.github.lvyahui8</groupId>
+                <artifactId>feego-common-logging-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.lvyahui8</groupId>
+                <artifactId>feego-common-logging-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
                 <artifactId>spring-boot-data-aggregator-starter</artifactId>

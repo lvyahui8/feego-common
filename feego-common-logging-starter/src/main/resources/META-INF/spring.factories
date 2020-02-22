@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  io.github.lvyahui8.core.logging.autoconfigure.ModuleLoggerAutoConfiguration

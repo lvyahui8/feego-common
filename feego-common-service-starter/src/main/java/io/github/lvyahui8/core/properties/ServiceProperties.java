@@ -14,8 +14,5 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class ServiceProperties {
     @NestedConfigurationProperty
     ExecutorProperties executorProperties = new ExecutorProperties();
-
-    @NestedConfigurationProperty
-    LoggingProperties loggingProperties = new LoggingProperties();
 }
 

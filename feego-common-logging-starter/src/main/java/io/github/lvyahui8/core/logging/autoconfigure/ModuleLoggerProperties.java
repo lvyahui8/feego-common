@@ -1,13 +1,15 @@
-package io.github.lvyahui8.core.properties;
+package io.github.lvyahui8.core.logging.autoconfigure;
 
 import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
- * @since 2020/2/19 21:18
+ * @since 2020/2/22 12:15
  */
+@ConfigurationProperties(prefix = "feego.common.logging")
 @Data
-public class LoggingProperties {
+public class ModuleLoggerProperties {
     /**
      * 是否开启模块化日志
      */
