@@ -1,7 +1,7 @@
 package io.github.lvyahui8.example.resources;
 
+import feego.common.io.github.lvyahui8.example.SystemLogger;
 import io.github.lvyahui8.core.logging.LogSchema;
-import io.github.lvyahui8.core.logging.SystemLogger;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

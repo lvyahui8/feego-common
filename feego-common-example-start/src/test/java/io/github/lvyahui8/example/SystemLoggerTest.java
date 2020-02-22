@@ -1,7 +1,7 @@
 package io.github.lvyahui8.example;
 
+import feego.common.io.github.lvyahui8.example.SystemLogger;
 import io.github.lvyahui8.core.logging.LogSchema;
-import io.github.lvyahui8.core.logging.SystemLogger;
 import io.github.lvyahui8.core.utils.AsyncTaskExecutor;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -19,6 +19,12 @@ import java.util.concurrent.CountDownLatch;
 @SpringBootTest
 @Slf4j
 public class SystemLoggerTest {
+
+    @Test
+    public void testBasicFunction() throws Exception {
+        SystemLogger.status.info(LogSchema.empty().of("name","おおはしみく"));
+    }
+
     @Test
     public void testBenchmark() throws Exception {
         int n = Runtime.getRuntime().availableProcessors();

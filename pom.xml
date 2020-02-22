@@ -10,10 +10,11 @@
     <modules>
         <module>feego-common-web-core</module>
         <module>feego-common-service-core</module>
-        <module>feego-common-example</module>
+        <module>feego-common-example-start</module>
         <module>feego-common-service-starter</module>
         <module>feego-common-web-starter</module>
         <module>feego-common-configuration-processor</module>
+        <module>feego-common-example-service</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -74,7 +75,12 @@
             </dependency>
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
-                <artifactId>feego-common-example</artifactId>
+                <artifactId>feego-common-example-start</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.github.lvyahui8</groupId>
+                <artifactId>feego-common-example-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -89,6 +95,21 @@
                 <artifactId>commons-io</artifactId>
                 <version>2.6</version>
             </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.reflections/reflections -->
+            <dependency>
+                <groupId>org.reflections</groupId>
+                <artifactId>reflections</artifactId>
+                <version>0.9.11</version>
+            </dependency>
+
+            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>3.9</version>
+            </dependency>
+
 
         </dependencies>
     </dependencyManagement>

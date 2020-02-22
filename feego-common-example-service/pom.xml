@@ -9,9 +9,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>feego-common-service-starter</artifactId>
+    <artifactId>feego-common-example-service</artifactId>
 
-    <name>feego-common-service-starter</name>
+    <name>feego-common-example-service</name>
 
     <properties>
     </properties>
@@ -22,36 +22,18 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-        </dependency>
-
-
         <dependency>
             <groupId>io.github.lvyahui8</groupId>
-            <artifactId>feego-common-service-core</artifactId>
+            <artifactId>feego-common-service-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>io.github.lvyahui8</groupId>
-            <artifactId>feego-common-configuration-processor</artifactId>
+            <artifactId>feego-common-web-starter</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.reflections</groupId>
-            <artifactId>reflections</artifactId>
-        </dependency>
+
     </dependencies>
 
     <build>
-
     </build>
 </project>
