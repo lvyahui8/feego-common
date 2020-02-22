@@ -13,6 +13,6 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 @Data
 public class ServiceProperties {
     @NestedConfigurationProperty
-    ExecutorProperties executorProperties = new ExecutorProperties();
+    ExecutorProperties executor = new ExecutorProperties();
 }
 

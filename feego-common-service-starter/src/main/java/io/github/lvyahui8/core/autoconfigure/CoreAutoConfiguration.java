@@ -45,10 +45,10 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
 
 
     @Bean
-    @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX ,name =  "executor-properties.open")
+    @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX ,name =  "executor.open",matchIfMissing = true)
     Executor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
-        ExecutorProperties executorProperties = serviceProperties.getExecutorProperties();
+        ExecutorProperties executorProperties = serviceProperties.getExecutor();
         taskExecutor.setMaxPoolSize(executorProperties.getMaxPoolSize());
         taskExecutor.setCorePoolSize(executorProperties.getCorePoolSize());
         taskExecutor.setAllowCoreThreadTimeOut(executorProperties.isAllowCoreThreadTimeOut());
