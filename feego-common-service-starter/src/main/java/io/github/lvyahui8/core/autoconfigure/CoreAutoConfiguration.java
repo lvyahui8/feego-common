@@ -14,9 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.Executor;
 
 /**
@@ -29,20 +26,6 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
 
     @Autowired
     ServiceProperties serviceProperties;
-
-    private static final Map<String, String> SYSTEMS;
-
-    static {
-        Map<String, String> systems = new LinkedHashMap<>();
-        systems.put("ch.qos.logback.core.Appender",
-                "org.springframework.boot.logging.logback.LogbackLoggingSystem");
-        systems.put("org.apache.logging.log4j.core.impl.Log4jContextFactory",
-                "org.springframework.boot.logging.log4j2.Log4J2LoggingSystem");
-        /// systems.put("java.util.logging.LogManager",
-        ///        "org.springframework.boot.logging.java.JavaLoggingSystem");
-        SYSTEMS = Collections.unmodifiableMap(systems);
-    }
-
 
     @Bean
     @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX ,name =  "executor.open",matchIfMissing = true)

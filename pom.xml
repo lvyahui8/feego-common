@@ -28,6 +28,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <dubbo.version>2.7.5</dubbo.version>
+        <log4j2.version>2.11.0</log4j2.version>
     </properties>
 
     <parent>
@@ -129,7 +130,11 @@
                 <version>3.9</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>${log4j2.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
