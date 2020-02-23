@@ -29,7 +29,7 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
 
     @Bean
     @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX ,name =  "executor.open",matchIfMissing = true)
-    Executor taskExecutor() {
+    public Executor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
         ExecutorProperties executorProperties = serviceProperties.getExecutor();
         taskExecutor.setMaxPoolSize(executorProperties.getMaxPoolSize());

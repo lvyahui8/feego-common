@@ -46,7 +46,7 @@ public class Log4j2ModuleLoggerFactory implements ModuleLoggerFactory {
                 .withAppend(true)
                 .withLayout(layout)
                 .withPolicy(CompositeTriggeringPolicy.createPolicy(
-                        TimeBasedTriggeringPolicy.newBuilder().withInterval(loggingProperties.getMaxHistory()).withModulate(true).build(),
+                        TimeBasedTriggeringPolicy.newBuilder().withInterval(1).withModulate(true).build(),
                         SizeBasedTriggeringPolicy.createPolicy(loggingProperties.getMaxFileSize())
                 ))
                 .withStrategy(DefaultRolloverStrategy.newBuilder().withMax(loggingProperties.getMaxHistory().toString()).withConfig(configuration).build())
