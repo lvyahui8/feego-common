@@ -2,19 +2,25 @@ package io.github.lvyahui8.core.autoconfigure;
 
 
 import io.github.lvyahui8.core.constants.Constant;
+import io.github.lvyahui8.core.lock.LockFactory;
+import io.github.lvyahui8.core.lock.RedisLockFactory;
 import io.github.lvyahui8.core.properties.ExecutorProperties;
 import io.github.lvyahui8.core.properties.ServiceProperties;
 import io.github.lvyahui8.core.utils.AsyncTaskExecutorInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -40,6 +46,16 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
         AsyncTaskExecutorInitializer.initAsyncTaskExecutor(taskExecutor);
 
         return taskExecutor;
+    }
+
+    @Bean
+    public LockFactory lockFactory(@Qualifier("stringRedisTemplate") StringRedisTemplate  stringRedisTemplate) {
+        return new RedisLockFactory(stringRedisTemplate,30L, TimeUnit.SECONDS);
+    }
+
+    @Bean
+    public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        return new StringRedisTemplate(redisConnectionFactory);
     }
 
     @Override
