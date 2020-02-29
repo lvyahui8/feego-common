@@ -37,8 +37,15 @@ public class RedisDistributedLock implements DistributedLock {
     @Override
     public void lock() {
         while(true) {
-            if (tryLock()) {
-                return;
+            try {
+                if (tryLock()) {
+                    return;
+                }
+            } catch (Exception e) {
+                /* 忽略中断异常 */
+                if (searchInterruptedException(e) == null) {
+                    throw e;
+                }
             }
         }
     }
@@ -46,10 +53,20 @@ public class RedisDistributedLock implements DistributedLock {
     @Override
     public void lockInterruptibly() throws InterruptedException {
         while(true) {
-            if (tryLock()) {
-                return;
+            try {
+                if (tryLock()) {
+                    return;
+                }
+            } catch (Exception e) {
+                InterruptedException interruptedException = searchInterruptedException(e);
+                if (interruptedException != null) {
+                    /* 因中断引起的异常单独抛出中断异常 */
+                    throw interruptedException;
+                } else {
+                    throw e;
+                }
             }
-            if (Thread.interrupted()) {
+            if (Thread.currentThread().isInterrupted()) {
                 throw new InterruptedException();
             }
         }
@@ -74,11 +91,29 @@ public class RedisDistributedLock implements DistributedLock {
 
     @Override
     public void unlock() {
-        redisTemplate.execute((RedisCallback<Long>) connection -> {
-            byte[] keyBytes = key.getBytes();
-            byte[] valueBytes = ns.getBytes();
-            return  connection.eval(CAD_LUA, ReturnType.INTEGER,1,keyBytes,valueBytes);
-        });
+        try {
+            redisTemplate.execute((RedisCallback<Long>) connection -> {
+                byte[] keyBytes = key.getBytes();
+                byte[] valueBytes = ns.getBytes();
+                return  connection.eval(CAD_LUA, ReturnType.INTEGER,1,keyBytes,valueBytes);
+            });
+        } catch (Exception e) {
+            if (searchInterruptedException(e) == null) {
+                throw e;
+            }
+        }
+    }
+
+    private InterruptedException searchInterruptedException(Exception e) {
+        Throwable eNode = e;
+        InterruptedException interruptedException = null;
+        do {
+            if (eNode instanceof InterruptedException) {
+                interruptedException = (InterruptedException) eNode;
+                break;
+            }
+        } while ((eNode = eNode.getCause()) != null);
+        return interruptedException;
     }
 
     @Override
