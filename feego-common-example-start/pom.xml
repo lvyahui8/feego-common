@@ -11,7 +11,7 @@
 
     <artifactId>feego-common-example-start</artifactId>
 
-    <name>feego-common-example</name>
+    <name>feego-common-example-start</name>
 
     <properties>
         <skipTests>true</skipTests>
