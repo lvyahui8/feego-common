@@ -14,5 +14,10 @@ import org.springframework.boot.context.properties.NestedConfigurationProperty;
 public class ServiceProperties {
     @NestedConfigurationProperty
     ExecutorProperties executor = new ExecutorProperties();
+
+    /**
+     * redis 分布式失效时间， 单位秒（s）
+     */
+    Long distributeLockTimeout =  30L;
 }
 

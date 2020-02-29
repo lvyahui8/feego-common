@@ -9,6 +9,7 @@ import io.github.lvyahui8.core.properties.ServiceProperties;
 import io.github.lvyahui8.core.utils.AsyncTaskExecutorInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -49,11 +50,14 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
     }
 
     @Bean
+    @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX,name = "distribute.lock",matchIfMissing = true)
     public LockFactory lockFactory(@Qualifier("stringRedisTemplate") StringRedisTemplate  stringRedisTemplate) {
-        return new RedisLockFactory(stringRedisTemplate,30L, TimeUnit.SECONDS);
+        return new RedisLockFactory(stringRedisTemplate,serviceProperties.getDistributeLockTimeout(), TimeUnit.SECONDS);
     }
 
     @Bean
+    @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX,name = "distribute.lock",matchIfMissing = true)
+    @ConditionalOnMissingBean(StringRedisTemplate.class)
     public StringRedisTemplate stringRedisTemplate(RedisConnectionFactory redisConnectionFactory) {
         return new StringRedisTemplate(redisConnectionFactory);
     }
