@@ -52,10 +52,19 @@ public class RedisDistributedLock implements DistributedLock {
 
     @Override
     public void lockInterruptibly() throws InterruptedException {
+        tryLock(null,null);
+    }
+
+    @Override
+    public boolean tryLock(Long timeout, TimeUnit unit) throws InterruptedException {
+        long beginTime = System.nanoTime();
         while(true) {
+            if (timeout != null && unit != null && System.nanoTime() - beginTime > unit.toNanos(timeout)) {
+                return false;
+            }
             try {
                 if (tryLock()) {
-                    return;
+                    return true;
                 }
             } catch (Exception e) {
                 InterruptedException interruptedException = searchInterruptedException(e);
@@ -70,17 +79,6 @@ public class RedisDistributedLock implements DistributedLock {
                 throw new InterruptedException();
             }
         }
-    }
-
-    @Override
-    public boolean tryLock(long timeout, TimeUnit unit) {
-        long nanoTime = System.nanoTime();
-        while(System.nanoTime() - nanoTime > unit.toNanos(timeout)) {
-            if (tryLock()) {
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override
@@ -117,7 +115,7 @@ public class RedisDistributedLock implements DistributedLock {
     }
 
     @Override
-    public void setExpireTime(long timeout, TimeUnit timeUnit) {
+    public void setExpireTime(Long timeout, TimeUnit timeUnit) {
         this.expireTime = timeout;
         this.timeUnit = timeUnit;
     }

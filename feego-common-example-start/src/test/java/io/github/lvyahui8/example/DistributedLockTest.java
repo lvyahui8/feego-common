@@ -95,11 +95,14 @@ public class DistributedLockTest extends BasicTest {
             processALock.lock();
             /* threadB(模拟processBLock)在processALock没释放之前， 永远拿不到锁 */
             Thread threadB = new Thread(() -> {
-                if(processBLock.tryLock(4000, TimeUnit.MILLISECONDS)) {
-                    sb.append("locked");
-                    processBLock.unlock();
-                } else {
-                    sb.append("timeout");
+                try {
+                    if(processBLock.tryLock(4000L, TimeUnit.MILLISECONDS)) {
+                        sb.append("locked");
+                        processBLock.unlock();
+                    } else {
+                        sb.append("timeout");
+                    }
+                } catch (InterruptedException ignored) {
                 }
             });
             threadB.start();
@@ -113,23 +116,31 @@ public class DistributedLockTest extends BasicTest {
     @Test
     public void testLockInterruptibly() throws Exception {
         final CountDownLatch latch = new CountDownLatch(1);
-        Thread thread = new Thread(() -> {
-            DistributedLock lock = lockFactory.newDistributeLock("uid:234234", 623);
-            boolean interrupted = false;
-            latch.countDown();
-            try {
-                lock.lockInterruptibly();
-            } catch (InterruptedException e) {
-                interrupted = true;
-            } finally {
-                lock.unlock();
-            }
-            Assert.assertTrue(interrupted);
-        });
-        thread.start();
-        /* 等待子线程进入拿锁循环 */
-        latch.await();
-        thread.interrupt();
-        thread.join();
+        final String key = "uid:23423454";
+        DistributedLock mainProcessLock = lockFactory.newDistributeLock(key, 815);
+        try {
+            mainProcessLock.lock();
+            Thread thread = new Thread(() -> {
+                DistributedLock lock = lockFactory.newDistributeLock(key, 623);
+                boolean interrupted = false;
+                latch.countDown();
+                try {
+                    lock.lockInterruptibly();
+                } catch (InterruptedException e) {
+                    interrupted = true;
+                } finally {
+                    lock.unlock();
+                }
+                Assert.assertTrue(interrupted);
+            });
+            thread.start();
+            /* 等待子线程进入拿锁循环 */
+            latch.await();
+            thread.interrupt();
+            thread.join();
+        } finally {
+            mainProcessLock.unlock();
+        }
+
     }
 }

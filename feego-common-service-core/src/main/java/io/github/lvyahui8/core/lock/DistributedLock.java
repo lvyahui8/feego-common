@@ -32,7 +32,7 @@ public interface DistributedLock {
      * @param unit 超时时间单位
      * @return 是否拿到锁
      */
-    boolean tryLock(long timeout, TimeUnit unit);
+    boolean tryLock(Long timeout, TimeUnit unit) throws InterruptedException;
 
     /**
      * 释放分布式锁
@@ -45,5 +45,5 @@ public interface DistributedLock {
      * @param timeout 超时时间
      * @param timeUnit 超时时间单位
      */
-    void setExpireTime(long timeout, TimeUnit timeUnit);
+    void setExpireTime(Long timeout, TimeUnit timeUnit);
 }
