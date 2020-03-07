@@ -8,9 +8,26 @@ import org.slf4j.Marker;
  * @since 2020/2/20 22:08
  */
 public interface ModuleLogger extends Logger {
+    default void trace(LogSchema schema) {
+        ((ModuleLogger) getInnerLogger()).trace(schema);
+    }
+
+    default void debug(LogSchema schema) {
+        ((ModuleLogger) getInnerLogger()).debug(schema);
+    }
+
     default void info(LogSchema schema) {
         ((ModuleLogger) getInnerLogger()).info(schema);
     }
+
+    default void warn(LogSchema schema) {
+        ((ModuleLogger) getInnerLogger()).warn(schema);
+    }
+
+    default void error(LogSchema schema) {
+        ((ModuleLogger) getInnerLogger()).error(schema);
+    }
+
 
     @Override
     default String getName() {

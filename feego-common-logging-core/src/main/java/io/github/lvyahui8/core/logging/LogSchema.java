@@ -1,14 +1,14 @@
 package io.github.lvyahui8.core.logging;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.concurrent.ConcurrentSkipListMap;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/22 0:12
  */
 public class LogSchema {
-    private Map<String,Object> items = new ConcurrentSkipListMap<>();
+    private Map<String,Object> items = new LinkedHashMap<>();
 
     private LogSchema() {
     }
@@ -17,6 +17,9 @@ public class LogSchema {
         return new LogSchema();
     }
 
+    public static LogSchema biz(String biz) {
+        return empty().of("biz",biz);
+    }
 
     public LogSchema of(String key,Object value) {
         items.put(key,value);

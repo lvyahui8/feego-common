@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2020/2/22 10:44
  */
 @Configuration
-@ModuleLoggerAutoGeneration({"member"})
+@ModuleLoggerAutoGeneration({"member","rebate","item"})
 public class BeanConfiguration {
     @Bean
     public UserService userService() {

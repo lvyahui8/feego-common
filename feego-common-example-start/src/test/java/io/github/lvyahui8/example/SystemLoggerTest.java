@@ -22,7 +22,9 @@ public class SystemLoggerTest {
 
     @Test
     public void testBasicFunction() throws Exception {
-        SystemLogger.status.info(LogSchema.empty().of("name","おおはしみく"));
+        SystemLogger.campaign.info(
+                LogSchema.empty().of("id",1).of("begin",20200307).of("end",20200310).of("status",1)
+        );
     }
 
     @Test
@@ -33,7 +35,7 @@ public class SystemLoggerTest {
             AsyncTaskExecutor.submit(() -> {
                try {
                    for (int j = 0 ; j < 10000000 ; j ++) {
-                       SystemLogger.status.info(LogSchema.empty().of("name","feego").of("age",26));
+                       SystemLogger.campaign.info(LogSchema.empty().of("name","feego").of("age",26));
                    }
                } finally {
                    latch.countDown();

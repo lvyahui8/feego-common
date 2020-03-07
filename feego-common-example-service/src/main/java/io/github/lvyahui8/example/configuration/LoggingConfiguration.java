@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
  * @since 2020/2/22 10:58
  */
 @Configuration
-@ModuleLoggerAutoGeneration({"logging"})
+@ModuleLoggerAutoGeneration({"promotion"})
 public class LoggingConfiguration {
 
 }
