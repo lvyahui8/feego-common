@@ -35,7 +35,7 @@ public class LoggingConfiguration {
 
 ### 2.2 用法
 
-**编译时期将自动生成一个SystemLogger枚举类，老王老李们可以通过这么枚举类来记录日志**， 我们可以在注解所在模块的编译目录`target\generated-sources` 下找到它，内容如下：
+**编译时期将自动生成一个SystemLogger枚举类，老王老李们可以通过这个枚举类来记录日志**， 我们可以在注解所在模块的编译目录`target\generated-sources` 下找到它，内容如下：
 
 ```java
 public enum SystemLogger implements ModuleLogger { 
