@@ -44,4 +44,21 @@ public class SystemLoggerTest {
         }
         latch.await();
     }
+
+    @Test
+    public void testError() throws Exception {
+        SystemLogger.campaign.error("fk u {}","dq");
+        SystemLogger.campaign.error(LogSchema.empty().of("x",System.nanoTime()));
+        SystemLogger.campaign.error(LogSchema.empty().of("t",System.currentTimeMillis()),new RuntimeException("unknown exception!"));
+        SystemLogger.campaign.error(LogSchema.empty().of("t",System.currentTimeMillis()).of("d",20200309),new RuntimeException("unknown exception!"));
+    }
+
+
+    @Test
+    public void testWarn() throws Exception {
+        SystemLogger.campaign.warn("fk x {}","mm");
+        SystemLogger.campaign.warn("issue rebate",new RuntimeException("system busy"));
+        SystemLogger.campaign.warn(LogSchema.biz("rebate").of("t",System.currentTimeMillis()),new RuntimeException("system busy"));
+        SystemLogger.campaign.warn(LogSchema.empty().of("x",System.nanoTime()),new RuntimeException("system busy"));
+    }
 }

@@ -31,9 +31,13 @@ public class LogSchema {
         return this;
     }
 
-    public Detail build(String sp) {
+    public Detail buildDetail(String sp) {
+        return buildDetail(sp,false);
+    }
+
+    public Detail buildDetail(String sp,boolean reserved) {
         Detail detail  = new Detail();
-        detail.args = new Object[items.size()];
+        detail.args = new Object[reserved ? items.size() + 1 : items.size()];
         StringBuilder sb = new StringBuilder();
         int i = 0 ;
         for (Map.Entry<String,Object> item : items.entrySet()) {
@@ -55,5 +59,6 @@ public class LogSchema {
         public String getPattern() {
             return pattern;
         }
+
     }
 }

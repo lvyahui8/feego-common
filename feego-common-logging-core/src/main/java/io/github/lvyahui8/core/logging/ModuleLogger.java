@@ -24,10 +24,17 @@ public interface ModuleLogger extends Logger {
         ((ModuleLogger) getInnerLogger()).warn(schema);
     }
 
+    default void warn(LogSchema schema,Throwable t) {
+        ((ModuleLogger) getInnerLogger()).warn(schema,t);
+    }
+
     default void error(LogSchema schema) {
         ((ModuleLogger) getInnerLogger()).error(schema);
     }
 
+    default void error(LogSchema schema,Throwable t) {
+        ((ModuleLogger) getInnerLogger()).error(schema,t);
+    }
 
     @Override
     default String getName() {
