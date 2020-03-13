@@ -3,6 +3,7 @@ package io.github.lvyahui8.web.properties;
 import io.github.lvyahui8.core.constants.Constant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -15,8 +16,7 @@ public class WebProperties {
      * 格式化响应
      */
     boolean formatResponse =  true;
-    /**
-     * 启用自动加签验签
-     */
-    boolean enableSignature = true;
+
+    @NestedConfigurationProperty
+    SecurityProperties security;
 }

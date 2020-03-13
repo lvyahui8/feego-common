@@ -35,7 +35,7 @@ public class CryptologySecurityUtils {
     }
 
     public static String getKeyAlgorithm(String signAlgorithm) {
-        /**
+        /*
          * MD2withRSA,SHA1withRSA,SHA256withRSA,SHA384withRSA,SHA512withRSA....
          * SHA1withDSA,SHA256withDSA,SHA512withDSA...
          */
