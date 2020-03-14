@@ -1,8 +1,8 @@
 package io.github.lvyahui8.web.properties;
 
+import io.github.lvyahui8.web.signature.SignatureSettings;
 import lombok.Data;
-
-import java.util.List;
+import org.springframework.boot.context.properties.NestedConfigurationProperty;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -10,24 +10,6 @@ import java.util.List;
  */
 @Data
 public class SecurityProperties {
-    Signature signature;
-
-    @Data
-    public static class Signature {
-        Boolean open = false;
-
-        String signResponsePrivateKey;
-
-        List<ClientApplication> clients;
-
-        String algorithm = "SHA1withRSA";
-
-        String defaultVerifyRequestPublicKey;
-
-        @Data
-        public static class ClientApplication {
-            String appId;
-            String verifyRequestPublicKey;
-        }
-    }
+    @NestedConfigurationProperty
+    SignatureSettings signature;
 }
