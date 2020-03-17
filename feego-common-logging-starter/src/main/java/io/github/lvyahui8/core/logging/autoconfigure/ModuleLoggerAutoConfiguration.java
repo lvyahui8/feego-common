@@ -37,7 +37,6 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
         Reflections reflections = new Reflections("feego.common.");
         Set<Class<? extends ModuleLogger>> allModuleLoggers = reflections.getSubTypesOf(ModuleLogger.class);
 
-        String pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} : %m%n";
 
         for (Class<? extends ModuleLogger> moduleEnumClass : allModuleLoggers) {
             for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
@@ -62,7 +61,7 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
                     throw new UnsupportedOperationException("Only logback and log4j2 are supported");
                 }
                 /* 使用代理类替换代理枚举实现 */
-                ModuleLogger moduleLogger = new DefaultModuleLoggerImpl(factory.getLogger(pattern, loggerName, loggerFactory, fileName, fileNamePattern),
+                ModuleLogger moduleLogger = new DefaultModuleLoggerImpl(factory.getLogger(loggingProperties.getPattern(), loggerName, loggerFactory, fileName, fileNamePattern),
                         loggingProperties.getFieldSeparator());
                 ModuleLoggerRepository.put(loggerName,moduleLogger);
             }

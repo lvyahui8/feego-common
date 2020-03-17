@@ -34,4 +34,8 @@ public class ModuleLoggerProperties {
      * 日志kv内容分隔符
      */
     String       fieldSeparator = "|#|";
+    /**
+     * 日志格式
+     */
+    String       pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] - %m%n";
 }
