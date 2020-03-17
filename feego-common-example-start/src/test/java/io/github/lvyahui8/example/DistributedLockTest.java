@@ -8,8 +8,10 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Random;
+import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -142,5 +144,44 @@ public class DistributedLockTest extends BasicTest {
             mainProcessLock.unlock();
         }
 
+    }
+
+    @Test
+    public void testReentry() throws Exception {
+        final DistributedLock lock = lockFactory.newDistributeLock("uid:234454", UUID.randomUUID().toString());
+
+        int n = 10;
+        for (int i = 0 ; i < n ; i ++) {
+            lock.lock();
+        }
+
+        for (int i = 0 ; i < n ; i ++) {
+            lock.unlock();
+        }
+
+        Function<Integer,Object> func =  new Function<Integer,Object>(){
+            DistributedLock lock;
+
+            Function<Integer,Object> setLock(DistributedLock lock) {
+                this.lock = lock;
+                return this;
+            }
+
+            @Override
+            public Object apply(Integer i) {
+                try {
+                    lock.lock();
+                    if (i < 100) {
+                        return i + (Integer) apply(i + 1);
+                    } else {
+                        return i;
+                    }
+                } finally {
+                    lock.unlock();
+                }
+            }
+        }.setLock(lock);
+
+        System.out.println(func.apply(1));
     }
 }

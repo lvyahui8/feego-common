@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -22,6 +23,9 @@ public class RedisDistributedLock implements DistributedLock {
 
     private TimeUnit timeUnit;
 
+    private AtomicInteger cnt;
+
+
     private static final byte [] CAD_LUA = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end".getBytes();
 
     RedisDistributedLock(StringRedisTemplate redisTemplate, String key, Object ns,
@@ -31,6 +35,7 @@ public class RedisDistributedLock implements DistributedLock {
         this.ns = ns.toString();
         this.expireTime = timeout;
         this.timeUnit = timeUnit;
+        this.cnt = new AtomicInteger(0);
     }
 
 
@@ -84,11 +89,25 @@ public class RedisDistributedLock implements DistributedLock {
     @Override
     public boolean tryLock() {
         Boolean res = redisTemplate.opsForValue().setIfAbsent(key, ns, expireTime, timeUnit);
-        return res != null && res;
+        boolean success = res != null && res;
+        if (! success) {
+            String val = redisTemplate.opsForValue().get(key);
+            if (ns.equals(val)) {
+                /* 允许重入 */
+                cnt.incrementAndGet();
+                return true;
+            }
+        } else {
+            cnt.incrementAndGet();
+        }
+        return success;
     }
 
     @Override
     public void unlock() {
+        if (cnt.decrementAndGet() != 0) {
+            return;
+        }
         try {
             redisTemplate.execute((RedisCallback<Long>) connection -> {
                 byte[] keyBytes = key.getBytes();
