@@ -1,7 +1,6 @@
 package io.github.lvyahui8.example;
 
 import io.github.lvyahui8.example.code.Code;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.text.DecimalFormat;
@@ -39,6 +38,10 @@ public class MsgCodeTest {
         System.out.println(Code.General.success.getMsg());
         System.out.println(Code.General.unknown.getCode());
         System.out.println(Code.General.unknown.getMsg());
+        System.out.println(Code.Client.no_permit.getCode());
+        System.out.println(Code.Client.no_permit.getMsg());
+        System.out.println(Code.Client.no_login_session.getCode());
+        System.out.println(Code.Client.no_login_session.getMsg());
     }
 
     @Test

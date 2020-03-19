@@ -1,6 +1,7 @@
 package io.github.lvyahui8.example.code;
 
 import io.github.lvyahui8.web.code.C;
+import io.github.lvyahui8.web.code.CodePrefix;
 import io.github.lvyahui8.web.code.MsgCode;
 
 /**
@@ -12,7 +13,23 @@ public interface Code {
         /**
          * 成功
          */
-        @C(code = 0) success,
-        @C(code = -1,msg = "unknown exception") unknown,
+        @C(0) success,
+        @C(value = -1,msg = "unknown exception") unknown,
+        ;
+    }
+
+    @CodePrefix("4")
+    enum Client implements MsgCode {
+        /**
+         * 客户端相关错误
+         */
+        no_permit,
+        @C(301) no_login_session,
+        ;
+    }
+
+    @CodePrefix("5")
+    enum Component implements MsgCode {
+
     }
 }

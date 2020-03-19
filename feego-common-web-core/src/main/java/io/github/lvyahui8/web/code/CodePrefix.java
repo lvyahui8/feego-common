@@ -7,11 +7,10 @@ import java.lang.annotation.Target;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
- * @since 2020/3/18 21:39
+ * @since 2020/3/19 21:48
  */
-@Target(ElementType.FIELD)
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface C {
-    int value();
-    String msg() default "";
+public @interface CodePrefix {
+    String value();
 }

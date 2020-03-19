@@ -12,8 +12,7 @@ public interface MsgCode {
      * @return
      */
     default String getMsg() {
-        C c = CodeRepository.get(this);
-        return c.msg().length() > 0 ? c.msg() : ((Enum<?>)this).name();
+        return CodeRepository.get(this).getMsg();
     }
 
     /**
@@ -21,7 +20,7 @@ public interface MsgCode {
      *
      * @return
      */
-    default Integer getCode() {
-        return CodeRepository.get(this).code();
+    default String getCode() {
+        return CodeRepository.get(this).getCode();
     }
 }
