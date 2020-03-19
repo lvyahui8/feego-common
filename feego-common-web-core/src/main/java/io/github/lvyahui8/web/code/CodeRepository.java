@@ -23,9 +23,9 @@ class CodeRepository {
             C c = object.getClass().getField(codeEnum.name()).getAnnotation(C.class);
             Code code = new Code();
             int cod = c != null ? c.value() : codeEnum.ordinal();
-
             code.setCode(codePrefix != null ? String.format("%s%0"+LEFT_PAD+"d", codePrefix.value(), cod)
                     : String.valueOf(cod));
+            code.setMsg(c != null && c.msg().length() > 0 ? c.msg() : codeEnum.name());
             CODE_MAP.put(object,code);
             return code;
         } catch (NoSuchFieldException e) {
