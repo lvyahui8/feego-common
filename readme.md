@@ -6,9 +6,9 @@
 
 ## 基础能力列表
 
-- [x] [模块化日志](/doc/logging.md)
+- [x] [模块化日志](/readme.assets/logging.md)
 - [x] 统一的异常处理/响应封装
-- [ ] [统一的加签验签](/doc/signature.md)
+- [ ] [统一的加签验签](/readme.assets/signature.md)
 - [x] 基于redis的分布式锁
 - [ ] Dubbo扩展
 - [ ] 基于注解的分级权限控制
