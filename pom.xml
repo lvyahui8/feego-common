@@ -24,13 +24,16 @@ limitations under the License.
     <modules>
         <module>feego-common-web-core</module>
         <module>feego-common-service-core</module>
-        <module>example/feego-common-example-start</module>
-        <module>example/feego-common-example-service</module>
         <module>feego-common-service-starter</module>
         <module>feego-common-web-starter</module>
         <module>feego-common-configuration-processor</module>
         <module>feego-common-logging-core</module>
         <module>feego-common-logging-starter</module>
+        <module>example/feego-common-example-api</module>
+        <module>example/feego-common-example-start</module>
+        <module>example/feego-common-example-service</module>
+        <module>example/feego-common-example-api-starter</module>
+        <module>example/feego-common-example-client</module>
     </modules>
     <packaging>pom</packaging>
 
