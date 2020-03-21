@@ -1,2 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  io.github.lvyahui8.core.autoconfigure.CoreAutoConfiguration
+  io.github.lvyahui8.core.autoconfigure.CoreAutoConfiguration,\
+  io.github.lvyahui8.core.autoconfigure.DistributeLockAutoConfiguration

@@ -15,6 +15,7 @@ public class ServiceProperties {
     @NestedConfigurationProperty
     ExecutorProperties executor = new ExecutorProperties();
 
+    Boolean distributeLockOpen = true;
     /**
      * redis 分布式失效时间， 单位秒（s）
      */

@@ -44,8 +44,8 @@ limitations under the License.
         <java.version>1.8</java.version>
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
-        <dubbo.version>2.7.5</dubbo.version>
         <log4j2.version>2.11.0</log4j2.version>
+        <dubbo.version>2.7.5</dubbo.version>
     </properties>
 
     <parent>
@@ -115,6 +115,18 @@ limitations under the License.
 
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
+                <artifactId>feego-common-example-api</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.lvyahui8</groupId>
+                <artifactId>feego-common-example-api-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.lvyahui8</groupId>
                 <artifactId>feego-common-example-service</artifactId>
                 <version>${project.version}</version>
             </dependency>
@@ -162,6 +174,19 @@ limitations under the License.
                 <groupId>org.apache.logging.log4j</groupId>
                 <artifactId>log4j-core</artifactId>
                 <version>${log4j2.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo</artifactId>
+                <version>${dubbo.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-dependencies-zookeeper</artifactId>
+                <version>${dubbo.version}</version>
+                <type>pom</type>
             </dependency>
         </dependencies>
     </dependencyManagement>
