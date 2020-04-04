@@ -1,6 +1,7 @@
 package io.github.lvyahui8.security;
 
 import io.github.lvyahui8.core.security.CryptologySecurityUtils;
+import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -31,7 +32,7 @@ public class CryptologySecurityUtilsTest
     public void testSignature() throws Exception {
         String text = "hello, world";
         byte[] sign = CryptologySecurityUtils.sign(text.getBytes(), keyPair.getPrivate().getEncoded(), SIGNATURE_ALGORITHM);
-        System.out.println(new BASE64Encoder().encode(sign));
+        System.out.println(new String(new Base64().encode(sign)));
         Assert.assertTrue(CryptologySecurityUtils.verify(text.getBytes(),sign,keyPair.getPublic().getEncoded(),SIGNATURE_ALGORITHM));
         Assert.assertFalse(CryptologySecurityUtils.verify(text.substring(1).getBytes(), sign, keyPair.getPublic().getEncoded(), SIGNATURE_ALGORITHM));
     }

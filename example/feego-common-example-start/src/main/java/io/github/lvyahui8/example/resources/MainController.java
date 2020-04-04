@@ -4,7 +4,11 @@ import feego.common.io.github.lvyahui8.example.SystemLogger;
 import io.github.lvyahui8.core.lock.DistributedLock;
 import io.github.lvyahui8.core.lock.LockFactory;
 import io.github.lvyahui8.core.logging.LogSchema;
+import io.github.lvyahui8.example.dto.UserDTO;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,6 +20,7 @@ import java.util.UUID;
  */
 @RequestMapping("/")
 @RestController
+@Slf4j
 public class MainController {
     private static int n = 0 ;
 
@@ -45,5 +50,11 @@ public class MainController {
     public Object status() {
         SystemLogger.status.info(LogSchema.empty().of("status","ok"));
         return "ok";
+    }
+
+    @PostMapping("/save")
+    public Object save(@RequestBody UserDTO userDTO) {
+        log.info(userDTO.toString());
+        return "success";
     }
 }
