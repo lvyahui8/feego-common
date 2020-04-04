@@ -5,9 +5,12 @@ import io.github.lvyahui8.web.properties.WebProperties;
 import io.github.lvyahui8.web.response.RestResponseFormatter;
 import io.github.lvyahui8.web.signature.SignatureService;
 import io.github.lvyahui8.web.signature.impl.SignatureServiceImpl;
+import io.github.lvyahui8.web.wrapper.SignatureFilter;
+import org.aspectj.weaver.SignatureUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -38,5 +41,14 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
     @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX,name = ".web.security.signature.open",matchIfMissing = false)
     public SignatureService signatureService() {
         return new SignatureServiceImpl(webProperties.getSecurity().getSignature());
+    }
+
+    @Bean
+    public FilterRegistrationBean filterRegistrationBean(SignatureService signatureService) {
+        FilterRegistrationBean<SignatureFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new SignatureFilter(signatureService));
+        registrationBean.setName("feegoSignatureFilter");
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
     }
 }
