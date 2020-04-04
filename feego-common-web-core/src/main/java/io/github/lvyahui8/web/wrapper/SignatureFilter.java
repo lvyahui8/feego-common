@@ -58,7 +58,6 @@ public class SignatureFilter implements Filter {
                 try {
                     validSignature = signatureService.verifyRequest(text, encodedSignature);
                 } catch (Exception ignored) {
-                    log.error("verifyRequest failed",ignored);
                 }
             }
             if (validSignature) {
