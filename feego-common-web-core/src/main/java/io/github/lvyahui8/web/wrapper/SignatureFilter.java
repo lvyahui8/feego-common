@@ -1,20 +1,20 @@
 package io.github.lvyahui8.web.wrapper;
 
+import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import io.github.lvyahui8.web.constant.WebConstant;
 import io.github.lvyahui8.web.signature.SignatureService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.RequestFacade;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.security.SignatureException;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.logging.LogRecord;
 
 /**
  * @author yahui.lv lvyahui8@gmail.com
@@ -33,12 +33,13 @@ public class SignatureFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
             throws IOException, ServletException {
         ResettableHttpServletRequest wrappedRequest = new ResettableHttpServletRequest((HttpServletRequest) servletRequest);
+        TeeHttpServletResponse copiedResponse = new TeeHttpServletResponse((HttpServletResponse) servletResponse);
         String signatureHeadValue = wrappedRequest.getHeader(WebConstant.HttpHeader.X_SIGNATURE.getKey());
         String httpBody = wrappedRequest.getHttpBody();
         String queryString = wrappedRequest.getQueryString();
         boolean noData = StringUtils.isBlank(queryString) && StringUtils.isBlank(httpBody);
         if (noData && StringUtils.isBlank(signatureHeadValue)) {
-            filterChain.doFilter(wrappedRequest,servletResponse);
+            filterChain.doFilter(wrappedRequest,copiedResponse);
         } else if (StringUtils.isNotBlank(signatureHeadValue)) {
             Iterator<String> trimResults = Splitter.on(',').omitEmptyStrings().trimResults().split(signatureHeadValue).iterator();
             Map<String, String> signatureParams = new LinkedHashMap<>();
@@ -61,12 +62,17 @@ public class SignatureFilter implements Filter {
                 }
             }
             if (validSignature) {
-                filterChain.doFilter(wrappedRequest,servletResponse);
+                filterChain.doFilter(wrappedRequest,copiedResponse);
             } else {
                 throw new SecurityException("Illegal signature");
             }
         } else {
             throw new SecurityException("Illegal signature");
         }
+        String responseHttpBody = copiedResponse.getHttpBody();
+        log.info("resp:{}" ,responseHttpBody);
+        copiedResponse.addHeader(WebConstant.HttpHeader.X_SIGNATURE.getKey(), Joiner.on(',')
+                .withKeyValueSeparator('=').join(Collections.singletonMap(WebConstant.SignatureHeaderKey.SIGNATURE,
+                        signatureService.signResponse(responseHttpBody))));
     }
 }

@@ -18,17 +18,24 @@ public class SignatureServiceImpl implements SignatureService {
 
     private byte [] verifyRequestKey ;
 
+    private byte [] signResponseKey;
+
     Base64 base64 ;
 
     public SignatureServiceImpl(SignatureSettings signatureSettings) {
         this.signatureSettings = signatureSettings;
         this.base64 = new Base64();
         verifyRequestKey = base64.decode(signatureSettings.getDefaultVerifyRequestPublicKey());
+        signResponseKey = base64.decode(signatureSettings.getDefaultSignResponsePrivateKey());
     }
 
     @Override
     public String signResponse(String text) {
-        return null;
+        try {
+            return base64.encodeAsString(CryptologySecurityUtils.sign(text.getBytes(),signResponseKey,signatureSettings.getAlgorithm()));
+        } catch (GeneralSecurityException e) {
+            return null;
+        }
     }
 
     @Override
@@ -36,7 +43,6 @@ public class SignatureServiceImpl implements SignatureService {
         try {
             return CryptologySecurityUtils.verify(text.getBytes(),base64.decode(encodedSignature),verifyRequestKey,signatureSettings.getAlgorithm());
         } catch (GeneralSecurityException e) {
-            e.printStackTrace();
             return false;
         }
     }
