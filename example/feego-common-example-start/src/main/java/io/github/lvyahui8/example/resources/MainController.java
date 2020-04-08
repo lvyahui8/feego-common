@@ -7,10 +7,8 @@ import io.github.lvyahui8.core.logging.LogSchema;
 import io.github.lvyahui8.example.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
@@ -26,6 +24,10 @@ public class MainController {
 
     @Autowired
     LockFactory lockFactory;
+
+    @Autowired
+    StringRedisTemplate redisTemplate;
+
 
     @RequestMapping("/update")
     public Object update() {
@@ -56,5 +58,11 @@ public class MainController {
     public Object save(@RequestBody UserDTO userDTO) {
         log.info(userDTO.toString());
         return "success";
+    }
+
+    @GetMapping("/query")
+    public Object query() {
+        /// log.info("query");
+        return redisTemplate.opsForValue().get("main");
     }
 }

@@ -65,12 +65,14 @@ public class ClientApplication {
         byte[] decodeKey = base64.decode(key);
         HttpClient httpClient = HttpClientBuilder.create().build();
         HttpPost httpPost = new HttpPost("http://127.0.0.1:8080/save");
+        String headerKey = "X-Feego-Signature";
         httpPost.setHeader(HttpHeaderNames.CONTENT_TYPE.toString(), HttpHeaderValues.APPLICATION_JSON.toString());
-        httpPost.setHeader("X-Feego-Signature", "signature=" + base64.encodeAsString(CryptologySecurityUtils.sign(('.' + httpBody).getBytes(),decodeKey,"SHA1withRSA")));
+        httpPost.setHeader(headerKey, "signature=" + base64.encodeAsString(CryptologySecurityUtils.sign(('.' + httpBody).getBytes(),decodeKey,"SHA1withRSA")));
         httpPost.setEntity(new StringEntity(httpBody));
         for (int i = 0; i < 100; i++) {
             HttpResponse response = httpClient.execute(httpPost);
             log.info("status:{}",response.getStatusLine());
+            log.info("sign header:{}",response.getFirstHeader(headerKey).getValue());
             log.info(IOUtils.toString(response.getEntity().getContent(), StandardCharsets.UTF_8));
         }
     }

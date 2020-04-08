@@ -43,7 +43,7 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         return new SignatureServiceImpl(webProperties.getSecurity().getSignature());
     }
 
-    @Bean
+    /// @Bean
     public FilterRegistrationBean filterRegistrationBean(SignatureService signatureService) {
         FilterRegistrationBean<SignatureFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new SignatureFilter(signatureService));

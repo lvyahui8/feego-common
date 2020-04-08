@@ -6,6 +6,8 @@ import io.github.lvyahui8.web.constant.WebConstant;
 import io.github.lvyahui8.web.signature.SignatureService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +23,7 @@ import java.util.Map;
  * @date 2020/4/4 23:06
  */
 @Slf4j
+@Order(Ordered.LOWEST_PRECEDENCE)
 public class SignatureFilter implements Filter {
 
     SignatureService signatureService;
