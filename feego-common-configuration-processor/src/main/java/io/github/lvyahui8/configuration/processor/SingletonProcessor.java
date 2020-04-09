@@ -35,6 +35,7 @@ import java.util.Set;
  * 编译器修改的语法树，Intellij idea识别不出来，会飘红
  * https://stackoverflow.com/questions/15357362/can-i-modify-the-ast-before-the-java-compiler-compiling-the-ast-to-class-file
  * https://stackoverflow.com/questions/48605327/intellij-cannot-recognize-classes-modified-by-annotation-processor-in-target-cla
+ * https://www.jianshu.com/p/554c5491bea6
  *
  * @author yahui.lv lvyahui8@gmail.com
  * @date 2020/4/8 21:05
