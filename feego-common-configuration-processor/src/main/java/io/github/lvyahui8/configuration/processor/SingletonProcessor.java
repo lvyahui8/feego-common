@@ -31,11 +31,13 @@ import java.util.Set;
  * - https://www.cnblogs.com/kanyun/p/11541826.html
  * - http://www.javaet.com/blog/136.htm
  * - https://blog.csdn.net/A_zhenzhen/article/details/86065063
+ * - https://tech.meituan.com/2019/09/05/java-bytecode-enhancement.html
  *
  * 编译器修改的语法树，Intellij idea识别不出来，会飘红
  * https://stackoverflow.com/questions/15357362/can-i-modify-the-ast-before-the-java-compiler-compiling-the-ast-to-class-file
  * https://stackoverflow.com/questions/48605327/intellij-cannot-recognize-classes-modified-by-annotation-processor-in-target-cla
  * https://www.jianshu.com/p/554c5491bea6
+ * https://github.com/nyle1995/study/blob/master/%E5%85%B6%E4%BB%96/lombok/lombok%E5%AE%9E%E7%8E%B0%E5%8E%9F%E7%90%86%E5%8F%8A%E4%BB%A3%E7%A0%81demo.md
  *
  * @author yahui.lv lvyahui8@gmail.com
  * @date 2020/4/8 21:05
@@ -76,13 +78,13 @@ public class SingletonProcessor extends AbstractProcessor {
                             List.nil(),
                             null
                     );
-                    classDecl.defs = classDecl.defs.append(treeMaker.VarDef(treeMaker.Modifiers(Flags.STATIC + Flags.PRIVATE),
+                    classDecl.defs = classDecl.defs.prepend(treeMaker.VarDef(treeMaker.Modifiers(Flags.STATIC + Flags.PRIVATE),
                             names.fromString(staticFieldName),treeMaker.Ident(names.fromString(className)),jcNewClass));
                     ListBuffer<JCTree.JCStatement> methodBlockStatements = new ListBuffer<>();
                     JCTree.JCReturn jcReturn = treeMaker.Return(treeMaker.Ident(names.fromString(staticFieldName)));
                     methodBlockStatements.add(jcReturn);
                     JCTree.JCBlock methodBlock = treeMaker.Block(0,methodBlockStatements.toList());
-                    classDecl.defs = classDecl.defs.append(treeMaker.MethodDef(treeMaker.Modifiers(Flags.PUBLIC + Flags.STATIC),
+                    classDecl.defs = classDecl.defs.prepend(treeMaker.MethodDef(treeMaker.Modifiers(Flags.PUBLIC + Flags.STATIC),
                             names.fromString("getInstance"),
                             treeMaker.Ident(names.fromString(className)),
                             List.nil(),
