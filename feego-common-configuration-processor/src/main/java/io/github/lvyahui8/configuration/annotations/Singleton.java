@@ -7,7 +7,7 @@ import java.lang.annotation.*;
  * @date 2020/4/8 21:02
  */
 @Target({ElementType.TYPE})
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.SOURCE)
 @Documented
 public @interface Singleton {
 

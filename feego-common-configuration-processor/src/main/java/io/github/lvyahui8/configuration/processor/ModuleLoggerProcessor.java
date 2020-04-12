@@ -1,6 +1,7 @@
 package io.github.lvyahui8.configuration.processor;
 
 import io.github.lvyahui8.configuration.annotations.ModuleLoggerAutoGeneration;
+import io.github.lvyahui8.configuration.utils.BuildUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.processing.*;
@@ -27,14 +28,12 @@ public class ModuleLoggerProcessor extends AbstractProcessor {
 
     private Messager messager;
     private Filer    filer;
-    private Elements elementUtils;
 
     @Override
     public synchronized void init(ProcessingEnvironment processingEnv) {
         super.init(processingEnv);
         messager = processingEnv.getMessager();
         filer = processingEnv.getFiler();
-        this.elementUtils = processingEnv.getElementUtils();
     }
 
     @Override
@@ -43,23 +42,7 @@ public class ModuleLoggerProcessor extends AbstractProcessor {
                 ModuleLoggerAutoGeneration.class);
         messager.printMessage(Diagnostic.Kind.NOTE, "process module loggers, size:" + elements.size());
         if (!elements.isEmpty()) {
-
-            List<String> classes = new LinkedList<>();
-            for (Element element : elements) {
-                Element enclosing = element;
-                while (enclosing.getKind() != ElementKind.PACKAGE) {
-                    enclosing = enclosing.getEnclosingElement();
-                }
-                PackageElement packageElement = (PackageElement) enclosing;
-
-                messager.printMessage(Diagnostic.Kind.NOTE, "logger config class name:" + packageElement.getQualifiedName());
-                classes.add(packageElement.getQualifiedName().toString());
-            }
-
-            String [] items  = new String[classes.size()];
-            classes.toArray(items);
-            String packageName = "feego.common." + StringUtils.getCommonPrefix(items);
-
+            String packageName = "feego.common." + BuildUtils.getPackageCommonPrefix(elements);
 
             JavaFileObject sourceFile;
             Writer writer;
