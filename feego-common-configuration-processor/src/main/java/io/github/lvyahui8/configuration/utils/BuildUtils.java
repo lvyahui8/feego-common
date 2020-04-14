@@ -24,7 +24,7 @@ public class BuildUtils {
         return packageElement.getQualifiedName().toString();
     }
 
-    public static String getPackageCommonPrefix(Set<? extends Element> elements) {
+    public static String getCommonPackagePrefix(Set<? extends Element> elements) {
         List<String> classes = new LinkedList<>();
         for (Element element : elements) {
             classes.add(getPackageName(element));

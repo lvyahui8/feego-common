@@ -2,15 +2,11 @@ package io.github.lvyahui8.configuration.processor;
 
 import io.github.lvyahui8.configuration.annotations.ModuleLoggerAutoGeneration;
 import io.github.lvyahui8.configuration.utils.BuildUtils;
-import org.apache.commons.lang3.StringUtils;
 
 import javax.annotation.processing.*;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.ElementKind;
-import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
-import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 import javax.tools.JavaFileObject;
 import java.io.IOException;
@@ -42,7 +38,7 @@ public class ModuleLoggerProcessor extends AbstractProcessor {
                 ModuleLoggerAutoGeneration.class);
         messager.printMessage(Diagnostic.Kind.NOTE, "process module loggers, size:" + elements.size());
         if (!elements.isEmpty()) {
-            String packageName = "feego.common." + BuildUtils.getPackageCommonPrefix(elements);
+            String packageName = "feego.common." + BuildUtils.getCommonPackagePrefix(elements);
 
             JavaFileObject sourceFile;
             Writer writer;
