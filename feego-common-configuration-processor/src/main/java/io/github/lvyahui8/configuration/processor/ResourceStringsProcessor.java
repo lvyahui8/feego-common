@@ -81,6 +81,9 @@ public class ResourceStringsProcessor extends AbstractProcessor {
                     writer.write("  public String getContent() {\n");
                     writer.write("      try{return IOUtils.toString(getClass().getClassLoader().getResourceAsStream(rootPath + file),StandardCharsets.UTF_8.name());}catch(Exception e){return null;}\n");
                     writer.write("  }\n");
+                    writer.write("  @Override public String toString() {\n");
+                    writer.write("      return getContent();\n");
+                    writer.write("  }\n");
                     writer.write("}\n");
                 } catch (Exception e) {
                     messager.printMessage(Diagnostic.Kind.ERROR,"write source code failed. eMsg:" + e.getMessage());

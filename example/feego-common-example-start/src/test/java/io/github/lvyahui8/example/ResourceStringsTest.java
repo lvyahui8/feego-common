@@ -17,5 +17,6 @@ public class ResourceStringsTest {
     @Test
     public void testBasic() throws Exception {
         System.out.println(MultipleLienStrings.homepage_json.getContent());
+        System.out.println(MultipleLienStrings.member_account_json);
     }
 }
