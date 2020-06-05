@@ -16,8 +16,8 @@ import org.springframework.context.annotation.PropertySource;
 @EnableDubbo(scanBasePackages = "io.github.lvyahui8.example")
 @PropertySource("classpath:dubbo-provider.properties")
 @ResourceStrings("strings/")
-public class Application {
+public class ServerApplication {
     public static void main(String[] args) throws Exception {
-        SpringApplication.run(Application.class,args);
+        SpringApplication.run(ServerApplication.class,args);
     }
 }

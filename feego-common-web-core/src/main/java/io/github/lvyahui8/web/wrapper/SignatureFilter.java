@@ -74,6 +74,7 @@ public class SignatureFilter implements Filter {
         }
         String responseHttpBody = copiedResponse.getHttpBody();
         log.info("resp:{}" ,responseHttpBody);
+        // - too later
         copiedResponse.addHeader(WebConstant.HttpHeader.X_SIGNATURE.getKey(), Joiner.on(',')
                 .withKeyValueSeparator('=').join(Collections.singletonMap(WebConstant.SignatureHeaderKey.SIGNATURE,
                         signatureService.signResponse(responseHttpBody))));
