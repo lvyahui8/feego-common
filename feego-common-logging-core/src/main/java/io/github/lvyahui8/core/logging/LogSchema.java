@@ -1,5 +1,8 @@
 package io.github.lvyahui8.core.logging;
 
+import org.apache.commons.collections4.map.ListOrderedMap;
+
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -8,7 +11,8 @@ import java.util.Map;
  * @since 2020/2/22 0:12
  */
 public class LogSchema {
-    private Map<String,Object> items = new LinkedHashMap<>();
+    /// private Map<String,Object> items = Collections.synchronizedMap(new ListOrderedMap<>());
+    private ListOrderedMap<String,Object> items = new ListOrderedMap<>();
 
     private LogSchema() {
     }
@@ -23,6 +27,11 @@ public class LogSchema {
 
     public LogSchema of(String key,Object value) {
         items.put(key,value);
+        return this;
+    }
+
+    public LogSchema prepend(String key,Object value) {
+        items.put(0,key,value);
         return this;
     }
 
