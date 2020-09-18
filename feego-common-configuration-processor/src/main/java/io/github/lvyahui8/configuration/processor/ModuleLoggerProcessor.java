@@ -53,11 +53,10 @@ public class ModuleLoggerProcessor extends AbstractProcessor {
 
             try {
                 writer.write("package " + packageName + ";\n\n");
-                writer.write("import io.github.lvyahui8.core.logging.ModuleLogger;\n");
+                writer.write("import io.github.lvyahui8.core.logging.EnumModuleLogger;\n");
                 writer.write("import org.slf4j.Logger;\n");
-                writer.write("import io.github.lvyahui8.core.logging.ModuleLoggerRepository;\n");
                 writer.write("import java.util.*;\n\n");
-                writer.write("public enum SystemLogger implements ModuleLogger { \n");
+                writer.write("public enum SystemLogger implements EnumModuleLogger { \n");
                 for (Element element : elements) {
                     ModuleLoggerAutoGeneration moduleLoggerAutoGeneration = element.getAnnotation(ModuleLoggerAutoGeneration.class);
                     List<String> moduleNames = Arrays.asList(moduleLoggerAutoGeneration.value());
@@ -66,10 +65,6 @@ public class ModuleLoggerProcessor extends AbstractProcessor {
                     }
                 }
                 writer.write("  ;\n\n");
-                writer.write("  @Override\n");
-                writer.write("  public Logger getInnerLogger() {\n");
-                writer.write("    return ModuleLoggerRepository.getModuleLogger(this.name());\n");
-                writer.write("  }\n");
                 writer.write("}\n");
                 writer.flush();
             } catch (Exception e) {

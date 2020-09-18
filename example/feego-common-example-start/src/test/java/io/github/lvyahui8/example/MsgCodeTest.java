@@ -32,6 +32,16 @@ public class MsgCodeTest {
         }
     }
 
+    enum Client {
+        reqest_illegal,
+        traffic_limmit,
+    }
+
+    enum TPB  {
+        member_system_err,
+
+    }
+
     @Test
     public void testBasic() throws Exception {
         System.out.println(Code.General.success.getCode());
