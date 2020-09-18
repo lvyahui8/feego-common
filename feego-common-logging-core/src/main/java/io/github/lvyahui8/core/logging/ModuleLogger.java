@@ -8,6 +8,8 @@ import org.slf4j.Marker;
  * @since 2020/2/20 22:08
  */
 public interface ModuleLogger extends Logger {
+    default void monitor(LogSchema schema) { ((ModuleLogger) getInnerLogger()).monitor(schema); }
+
     default void trace(LogSchema schema) {
         ((ModuleLogger) getInnerLogger()).trace(schema);
     }

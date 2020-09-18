@@ -38,4 +38,9 @@ public class ModuleLoggerProperties {
      * 日志格式
      */
     String       pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] - %m%n";
+
+    String       monitorLogPattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %m%n";
+
+
+    String       filePattern = ".%d{yyyy-MM-dd}.%i";
 }

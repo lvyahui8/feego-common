@@ -13,15 +13,24 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     private String separator;
 
+    private Logger monitorLogger;
 
-    public DefaultModuleLoggerImpl(Logger logger, String separator) {
+    public DefaultModuleLoggerImpl(Logger logger, Logger monitorLogger ,String separator) {
         this.logger = logger;
         this.separator = separator;
+        this.monitorLogger = monitorLogger;
     }
 
     @Override
     public Logger getInnerLogger() {
         return logger;
+    }
+
+
+    @Override
+    public void monitor(LogSchema schema) {
+        LogSchema.Detail detail =  schema.buildDetail(separator);
+        monitorLogger.info(detail.getPattern(),detail.getArgs());
     }
 
     @Override

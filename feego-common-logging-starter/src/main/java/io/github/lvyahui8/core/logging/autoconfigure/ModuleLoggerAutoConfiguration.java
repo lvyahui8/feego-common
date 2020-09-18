@@ -8,6 +8,7 @@ import io.github.lvyahui8.core.logging.factory.ModuleLoggerFactory;
 import io.github.lvyahui8.core.logging.impl.DefaultModuleLoggerImpl;
 import org.reflections.Reflections;
 import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -31,27 +32,21 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
-        String storagePath = (loggingProperties.getStoragePath() == null ? System.getProperty("user.home") : loggingProperties.getStoragePath())
-                + File.separator + "logs";
+        String storagePath = (loggingProperties.getStoragePath() == null ?
+                System.getProperty("user.home") : loggingProperties.getStoragePath()) + File.separator + "logs";
 
         Reflections reflections = new Reflections("feego.common.");
         Set<Class<? extends ModuleLogger>> allModuleLoggers = reflections.getSubTypesOf(ModuleLogger.class);
 
 
         for (Class<? extends ModuleLogger> moduleEnumClass : allModuleLoggers) {
+            if (! moduleEnumClass.isEnum()) {
+                continue;
+            }
             for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
                 Enum<?> em  = (Enum<?>) enumInstance;
-
-                String loggerName = em.name();
-
                 ILoggerFactory loggerFactory = LoggerFactory.getILoggerFactory();
-                String fileName = storagePath + File.separator + loggerName + ".log";
 
-                File file = new File(fileName);
-                if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
-                    throw new RuntimeException("No permission to create log path!");
-                }
-                String fileNamePattern = fileName + ".%d{yyyy-MM-dd}.%i";
                 ModuleLoggerFactory factory ;
                 if ("ch.qos.logback.classic.LoggerContext".equals(loggerFactory.getClass().getName())) {
                     factory = new LogbackModuleLoggerFactory(loggingProperties);
@@ -61,12 +56,26 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
                     throw new UnsupportedOperationException("Only logback and log4j2 are supported");
                 }
                 /* 使用代理类替换代理枚举实现 */
-                ModuleLogger moduleLogger = new DefaultModuleLoggerImpl(factory.getLogger(loggingProperties.getPattern(), loggerName, loggerFactory, fileName, fileNamePattern),
+                ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
+                        createLogger(factory,loggerFactory,storagePath, em.name(),loggingProperties.getPattern()),
+                        createLogger(factory,loggerFactory,storagePath, em.name() + "-monitor",loggingProperties.getMonitorLogPattern()),
                         loggingProperties.getFieldSeparator());
-                ModuleLoggerRepository.put(loggerName,moduleLogger);
+                ModuleLoggerRepository.put(em.name(), realModuleLogger);
             }
         }
 
+    }
+
+    private Logger createLogger(ModuleLoggerFactory factory,ILoggerFactory loggerFactory,String storagePath,String loggerName,String logPattern) {
+        String fileName = storagePath + File.separator + loggerName + ".log";
+        String fileNamePattern = fileName + loggingProperties.getFilePattern();
+
+        File file = new File(fileName);
+        if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
+            throw new RuntimeException("No permission to create log path!");
+        }
+
+        return factory.getLogger(logPattern, loggerName, loggerFactory, fileName, fileNamePattern);
     }
 
 }

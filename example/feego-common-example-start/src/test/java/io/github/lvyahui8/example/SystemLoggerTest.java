@@ -25,6 +25,9 @@ public class SystemLoggerTest {
         SystemLogger.campaign.info(
                 LogSchema.empty().of("id",1).of("begin",20200307).of("end",20200310).of("status",1)
         );
+        SystemLogger.campaign.monitor(
+                LogSchema.biz("createOrder").of("orderId","234324324234234").of("amount",19999)
+        );
     }
 
     @Test
