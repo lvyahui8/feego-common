@@ -38,9 +38,16 @@ public class ModuleLoggerProperties {
      * 日志格式
      */
     String       pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] - %m%n";
-
+    /**
+     * monitor 日志格式。去掉了日志级别。
+     */
     String       monitorLogPattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} %m%n";
-
-
-    String       filePattern = ".%d{yyyy-MM-dd}.%i";
+    /**
+     * 文件名滚动规则
+     */
+    String      fileRollingPattern = ".%d{yyyy-MM-dd}.%i";
+    /**
+     * 文件存放规则
+     */
+    String      fileName = "$logType/$module";
 }

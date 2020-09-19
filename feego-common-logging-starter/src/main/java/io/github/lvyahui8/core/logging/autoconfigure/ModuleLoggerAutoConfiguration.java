@@ -57,8 +57,8 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
                 }
                 /* 使用代理类替换代理枚举实现 */
                 ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
-                        createLogger(factory,loggerFactory,storagePath, em.name(),loggingProperties.getPattern()),
-                        createLogger(factory,loggerFactory,storagePath, em.name() + "-monitor",loggingProperties.getMonitorLogPattern()),
+                        createLogger(factory,loggerFactory,storagePath, em.name(), "general",loggingProperties.getPattern()),
+                        createLogger(factory,loggerFactory,storagePath, em.name() ,"monitor",loggingProperties.getMonitorLogPattern()),
                         loggingProperties.getFieldSeparator());
                 ModuleLoggerRepository.put(em.name(), realModuleLogger);
             }
@@ -66,16 +66,20 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
 
     }
 
-    private Logger createLogger(ModuleLoggerFactory factory,ILoggerFactory loggerFactory,String storagePath,String loggerName,String logPattern) {
-        String fileName = storagePath + File.separator + loggerName + ".log";
-        String fileNamePattern = fileName + loggingProperties.getFilePattern();
+    private Logger createLogger(ModuleLoggerFactory factory,ILoggerFactory loggerFactory,String storagePath,String moduleName,String logType,String logPattern) {
+        if (! loggingProperties.getFileName().contains("$module") || ! loggingProperties.getFileName().contains("$logType")) {
+            throw new RuntimeException("Illegal file name declaration :" + loggingProperties.getFileName());
+        }
+        String fileName = storagePath + File.separator +
+                loggingProperties.getFileName().replaceAll("\\$module", moduleName).replaceAll("\\$logType",logType) + ".log";
+        String fileNamePattern = fileName + loggingProperties.getFileRollingPattern();
 
         File file = new File(fileName);
         if (!file.getParentFile().exists() && !file.getParentFile().mkdirs()) {
             throw new RuntimeException("No permission to create log path!");
         }
 
-        return factory.getLogger(logPattern, loggerName, loggerFactory, fileName, fileNamePattern);
+        return factory.getLogger(logPattern, moduleName + '-' + logType, loggerFactory, fileName, fileNamePattern);
     }
 
 }
