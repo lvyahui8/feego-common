@@ -29,6 +29,9 @@ limitations under the License.
         <module>feego-common-configuration-processor</module>
         <module>feego-common-logging/feego-common-logging-core</module>
         <module>feego-common-logging/feego-common-logging-starter</module>
+        <module>feego-common-logging/feego-common-logging-autoconfigure</module>
+
+
         <module>example/feego-common-example-api</module>
         <module>example/feego-common-example-start</module>
         <module>example/feego-common-example-service</module>
@@ -134,6 +137,12 @@ limitations under the License.
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
                 <artifactId>feego-common-logging-core</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.lvyahui8</groupId>
+                <artifactId>feego-common-logging-autoconfigure</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
