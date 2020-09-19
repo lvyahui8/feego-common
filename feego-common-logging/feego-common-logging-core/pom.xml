@@ -6,12 +6,13 @@
         <artifactId>feego-common</artifactId>
         <groupId>io.github.lvyahui8</groupId>
         <version>1.1.0</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>feego-common-web-starter</artifactId>
+    <artifactId>feego-common-logging-core</artifactId>
 
-    <name>feego-common-web-starter</name>
+    <name>feego-common-logging-core</name>
 
     <properties>
     </properties>
@@ -24,19 +25,13 @@
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-configuration-processor</artifactId>
-            <optional>true</optional>
-        </dependency>
-
-        <dependency>
-            <groupId>io.github.lvyahui8</groupId>
-            <artifactId>feego-common-web-core</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
         </dependency>
     </dependencies>
 

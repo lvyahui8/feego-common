@@ -22,13 +22,13 @@ limitations under the License.
     <artifactId>feego-common</artifactId>
     <version>1.1.0</version>
     <modules>
-        <module>feego-common-web-core</module>
-        <module>feego-common-service-core</module>
-        <module>feego-common-service-starter</module>
-        <module>feego-common-web-starter</module>
+        <module>feego-common-web/feego-common-web-core</module>
+        <module>feego-common-service/feego-common-service-core</module>
+        <module>feego-common-service/feego-common-service-starter</module>
+        <module>feego-common-web/feego-common-web-starter</module>
         <module>feego-common-configuration-processor</module>
-        <module>feego-common-logging-core</module>
-        <module>feego-common-logging-starter</module>
+        <module>feego-common-logging/feego-common-logging-core</module>
+        <module>feego-common-logging/feego-common-logging-starter</module>
         <module>example/feego-common-example-api</module>
         <module>example/feego-common-example-start</module>
         <module>example/feego-common-example-service</module>
