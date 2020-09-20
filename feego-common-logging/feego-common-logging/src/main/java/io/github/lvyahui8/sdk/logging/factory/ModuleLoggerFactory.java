@@ -1,5 +1,7 @@
 package io.github.lvyahui8.sdk.logging.factory;
 
+import io.github.lvyahui8.sdk.logging.configuration.AbstractLogConfiguration;
+import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import org.slf4j.ILoggerFactory;
 
 /**
@@ -7,5 +9,5 @@ import org.slf4j.ILoggerFactory;
  * @since 2020/2/22 13:01
  */
 public interface ModuleLoggerFactory {
-    org.slf4j.Logger getLogger(String pattern, String loggerName, ILoggerFactory loggerFactory, String fileName, String fileNamePattern);
+    ModuleLogger initModuleLogger(Enum<?> loggerEnum);
 }

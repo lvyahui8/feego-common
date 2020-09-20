@@ -1,7 +1,7 @@
 package io.github.lvyahui8.sdk.logging.factory;
 
-import io.github.lvyahui8.sdk.logging.configuration.Log4j2Configuration;
-import io.github.lvyahui8.sdk.logging.configuration.LogbackConfiguration;
+import io.github.lvyahui8.sdk.logging.configuration.AbstractLogConfiguration;
+import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.RollingRandomAccessFileAppender;
@@ -20,16 +20,16 @@ import org.slf4j.LoggerFactory;
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/23 19:24
  */
-public class Log4j2ModuleLoggerFactory implements ModuleLoggerFactory {
+public class Log4j2ModuleLoggerFactory extends AbstractLoggerFactory {
 
-    Log4j2Configuration configuration;
 
-    public Log4j2ModuleLoggerFactory(Log4j2Configuration configuration) {
-        this.configuration = configuration;
+
+    public Log4j2ModuleLoggerFactory(AbstractLogConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
-    public Logger getLogger(String pattern, String loggerName, ILoggerFactory loggerFactory, String fileName, String fileNamePattern) {
+    public Logger createSlf4jLogger0(String pattern, String loggerName, ILoggerFactory loggerFactory, String fileName, String fileNamePattern) {
         org.apache.logging.log4j.core.LoggerContext context = (LoggerContext) LogManager.getContext(false);
 
         org.apache.logging.log4j.core.config.Configuration configuration = context.getConfiguration();
@@ -67,4 +67,5 @@ public class Log4j2ModuleLoggerFactory implements ModuleLoggerFactory {
         context.updateLoggers();
         return LoggerFactory.getLogger(loggerName);
     }
+
 }

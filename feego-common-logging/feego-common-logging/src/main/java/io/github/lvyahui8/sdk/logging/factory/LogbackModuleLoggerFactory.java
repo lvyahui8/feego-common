@@ -6,7 +6,8 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
-import io.github.lvyahui8.sdk.logging.configuration.LogbackConfiguration;
+import io.github.lvyahui8.sdk.logging.configuration.AbstractLogConfiguration;
+import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
@@ -14,16 +15,14 @@ import org.slf4j.Logger;
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/23 19:24
  */
-public class LogbackModuleLoggerFactory implements ModuleLoggerFactory {
+public class LogbackModuleLoggerFactory extends AbstractLoggerFactory {
 
-    private LogbackConfiguration configuration;
-
-    public LogbackModuleLoggerFactory(LogbackConfiguration configuration) {
-        this.configuration = configuration;
+    public LogbackModuleLoggerFactory(AbstractLogConfiguration configuration) {
+        super(configuration);
     }
 
     @Override
-    public Logger getLogger(String pattern, String loggerName, ILoggerFactory loggerFactory, String fileName, String fileNamePattern) {
+    public Logger createSlf4jLogger0(String pattern, String loggerName, ILoggerFactory loggerFactory, String fileName, String fileNamePattern) {
         ch.qos.logback.classic.LoggerContext context = (ch.qos.logback.classic.LoggerContext)  loggerFactory;
 
         PatternLayoutEncoder patternLayoutEncoder = new PatternLayoutEncoder();
@@ -57,4 +56,6 @@ public class LogbackModuleLoggerFactory implements ModuleLoggerFactory {
         logger.addAppender(rollingFileAppender);
         return logger;
     }
+
+
 }
