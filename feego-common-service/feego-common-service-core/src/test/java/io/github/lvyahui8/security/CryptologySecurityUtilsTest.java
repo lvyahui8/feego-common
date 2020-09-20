@@ -1,11 +1,10 @@
 package io.github.lvyahui8.security;
 
-import io.github.lvyahui8.core.security.CryptologySecurityUtils;
+import io.github.lvyahui8.sdk.security.CryptologySecurityUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import sun.misc.BASE64Encoder;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;

@@ -1,6 +1,6 @@
 package io.github.lvyahui8.web.properties;
 
-import io.github.lvyahui8.core.constants.Constant;
+import io.github.lvyahui8.sdk.constants.Constant;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.context.properties.NestedConfigurationProperty;

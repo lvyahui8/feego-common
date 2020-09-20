@@ -1,8 +1,8 @@
 package io.github.lvyahui8.example;
 
-import io.github.lvyahui8.core.lock.DistributedLock;
-import io.github.lvyahui8.core.lock.LockFactory;
-import io.github.lvyahui8.core.utils.AsyncTaskExecutor;
+import io.github.lvyahui8.sdk.lock.DistributedLock;
+import io.github.lvyahui8.sdk.lock.LockFactory;
+import io.github.lvyahui8.sdk.utils.AsyncTaskExecutor;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;

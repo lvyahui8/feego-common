@@ -20,7 +20,7 @@ import java.util.*;
 @SuppressWarnings("unused")
 public class ModuleLoggerProcessor extends AbstractProcessor {
 
-    public static final String LOGGER_ENUM_CLASS = "io.github.lvyahui8.core.logging.SystemLogger";
+    public static final String LOGGER_ENUM_CLASS = "io.github.lvyahui8.sdk.logging.SystemLogger";
 
     private Messager messager;
     private Filer    filer;
@@ -53,7 +53,7 @@ public class ModuleLoggerProcessor extends AbstractProcessor {
 
             try {
                 writer.write("package " + packageName + ";\n\n");
-                writer.write("import io.github.lvyahui8.core.logging.EnumModuleLogger;\n");
+                writer.write("import io.github.lvyahui8.sdk.logging.logger.EnumModuleLogger;\n");
                 writer.write("import org.slf4j.Logger;\n");
                 writer.write("import java.util.*;\n\n");
                 writer.write("public enum SystemLogger implements EnumModuleLogger { \n");

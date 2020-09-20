@@ -280,7 +280,7 @@ logback和log4j2都支持动态创建logger和appender，这里使用工厂方�
 工厂接口：
 
 ```java
-package io.github.lvyahui8.core.logging.factory;
+package io.github.lvyahui8.sdk.logging.factory;
 
 import org.slf4j.ILoggerFactory;
 

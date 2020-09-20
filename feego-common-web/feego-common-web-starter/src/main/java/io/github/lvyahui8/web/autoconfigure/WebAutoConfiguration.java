@@ -1,12 +1,11 @@
 package io.github.lvyahui8.web.autoconfigure;
 
-import io.github.lvyahui8.core.constants.Constant;
+import io.github.lvyahui8.sdk.constants.Constant;
 import io.github.lvyahui8.web.properties.WebProperties;
 import io.github.lvyahui8.web.response.RestResponseFormatter;
 import io.github.lvyahui8.web.signature.SignatureService;
 import io.github.lvyahui8.web.signature.impl.SignatureServiceImpl;
 import io.github.lvyahui8.web.wrapper.SignatureFilter;
-import org.aspectj.weaver.SignatureUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
