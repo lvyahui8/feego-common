@@ -22,7 +22,7 @@ limitations under the License.
     <artifactId>feego-common</artifactId>
     <version>1.1.0</version>
     <modules>
-        <module>feego-common-web/feego-common-web-core</module>
+        <module>feego-common-web/feego-common-web</module>
         <module>feego-common-service/feego-common-service-core</module>
         <module>feego-common-service/feego-common-service-starter</module>
         <module>feego-common-web/feego-common-web-starter</module>
@@ -94,7 +94,7 @@ limitations under the License.
 
             <dependency>
                 <groupId>io.github.lvyahui8</groupId>
-                <artifactId>feego-common-web-core</artifactId>
+                <artifactId>feego-common-web</artifactId>
                 <version>${project.version}</version>
             </dependency>
 

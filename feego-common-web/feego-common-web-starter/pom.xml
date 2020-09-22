@@ -37,7 +37,7 @@
 
         <dependency>
             <groupId>io.github.lvyahui8</groupId>
-            <artifactId>feego-common-web-core</artifactId>
+            <artifactId>feego-common-web</artifactId>
         </dependency>
     </dependencies>
 

@@ -20,11 +20,11 @@
 ![image-20200321011604351](readme.assets/image-20200321011604351.png)
 
 - feego-common-configuration-processor ： 编译器相关的注解处理器
-- feego-common-logging-core ： 模块化日志核心
+- feego-common-logging ： 模块化日志核心
 - feego-common-logging-starter：模块化日志自动配置
-- feego-common-service-core
+- feego-common-service
 - feego-common-service-starter
-- feego-common-web-core：web http相关的通用能力核心
+- feego-common-web：web http相关的通用能力核心
 - feego-common-web-starter：web http相关通用能力自动配置
 
 测试模块

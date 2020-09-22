@@ -60,6 +60,11 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.lvyahui8</groupId>
+            <artifactId>feego-common-configuration-processor</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

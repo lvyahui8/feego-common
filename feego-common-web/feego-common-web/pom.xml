@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>feego-common-web-core</artifactId>
+    <artifactId>feego-common-web</artifactId>
 
-    <name>feego-common-web-core</name>
+    <name>feego-common-web</name>
 
     <properties>
     </properties>
@@ -36,6 +36,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
         </dependency>
     </dependencies>
 

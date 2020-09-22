@@ -61,6 +61,11 @@
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>io.github.lvyahui8</groupId>
+            <artifactId>feego-common-configuration-processor</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
