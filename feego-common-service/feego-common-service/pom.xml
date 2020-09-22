@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>feego-common-service-core</artifactId>
+    <artifactId>feego-common-service</artifactId>
 
-    <name>feego-common-service-core</name>
+    <name>feego-common-service</name>
 
     <properties>
     </properties>
