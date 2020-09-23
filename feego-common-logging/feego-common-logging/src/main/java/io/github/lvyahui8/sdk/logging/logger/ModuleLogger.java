@@ -39,14 +39,61 @@ public interface ModuleLogger extends Logger {
         ((ModuleLogger) getInnerLogger()).error(schema,t);
     }
 
-    @Override
-    default String getName() {
-        return getInnerLogger().getName();
-    }
 
     @Override
     default boolean isTraceEnabled() {
         return getInnerLogger().isTraceEnabled();
+    }
+
+    @Override
+    default boolean isTraceEnabled(Marker marker) {
+        return getInnerLogger().isTraceEnabled(marker);
+    }
+
+    @Override
+    default boolean isDebugEnabled() {
+        return getInnerLogger().isDebugEnabled();
+    }
+
+
+    @Override
+    default boolean isDebugEnabled(Marker marker) {
+        return getInnerLogger().isDebugEnabled(marker);
+    }
+
+    @Override
+    default boolean isInfoEnabled() {
+        return getInnerLogger().isInfoEnabled();
+    }
+
+    @Override
+    default boolean isInfoEnabled(Marker marker) {
+        return getInnerLogger().isInfoEnabled(marker);
+    }
+
+    @Override
+    default boolean isWarnEnabled() {
+        return getInnerLogger().isWarnEnabled();
+    }
+
+    @Override
+    default boolean isWarnEnabled(Marker marker) {
+        return getInnerLogger().isWarnEnabled(marker);
+    }
+
+    @Override
+    default boolean isErrorEnabled() {
+        return getInnerLogger().isErrorEnabled();
+    }
+
+    @Override
+    default boolean isErrorEnabled(Marker marker) {
+        return getInnerLogger().isErrorEnabled();
+    }
+
+    @Override
+    default String getName() {
+        return getInnerLogger().getName();
     }
 
     @Override
@@ -74,10 +121,6 @@ public interface ModuleLogger extends Logger {
         getInnerLogger().trace(msg,t);
     }
 
-    @Override
-    default boolean isTraceEnabled(Marker marker) {
-        return getInnerLogger().isTraceEnabled(marker);
-    }
 
     @Override
     default void trace(Marker marker, String msg) {
@@ -104,10 +147,6 @@ public interface ModuleLogger extends Logger {
         getInnerLogger().trace(marker,msg,t);
     }
 
-    @Override
-    default boolean isDebugEnabled() {
-        return getInnerLogger().isDebugEnabled();
-    }
 
     @Override
     default void debug(String msg) {
@@ -135,11 +174,6 @@ public interface ModuleLogger extends Logger {
     }
 
     @Override
-    default boolean isDebugEnabled(Marker marker) {
-        return getInnerLogger().isDebugEnabled(marker);
-    }
-
-    @Override
     default void debug(Marker marker, String msg) {
         getInnerLogger().debug(marker,msg);
     }
@@ -164,10 +198,6 @@ public interface ModuleLogger extends Logger {
         getInnerLogger().debug(marker, msg, t);
     }
 
-    @Override
-    default boolean isInfoEnabled() {
-        return getInnerLogger().isInfoEnabled();
-    }
 
     @Override
     default void info(String msg) {
@@ -195,11 +225,6 @@ public interface ModuleLogger extends Logger {
     }
 
     @Override
-    default boolean isInfoEnabled(Marker marker) {
-        return getInnerLogger().isInfoEnabled(marker);
-    }
-
-    @Override
     default void info(Marker marker, String msg) {
         getInnerLogger().info(marker, msg);
     }
@@ -224,10 +249,6 @@ public interface ModuleLogger extends Logger {
         getInnerLogger().info(marker, msg, t);
     }
 
-    @Override
-    default boolean isWarnEnabled() {
-        return getInnerLogger().isWarnEnabled();
-    }
 
     @Override
     default void warn(String msg) {
@@ -254,10 +275,6 @@ public interface ModuleLogger extends Logger {
         getInnerLogger().warn(msg,t);
     }
 
-    @Override
-    default boolean isWarnEnabled(Marker marker) {
-        return getInnerLogger().isWarnEnabled(marker);
-    }
 
     @Override
     default void warn(Marker marker, String msg) {
@@ -284,10 +301,6 @@ public interface ModuleLogger extends Logger {
         getInnerLogger().warn(marker, msg, t);
     }
 
-    @Override
-    default boolean isErrorEnabled() {
-        return getInnerLogger().isErrorEnabled();
-    }
 
     @Override
     default void error(String msg) {
@@ -314,10 +327,6 @@ public interface ModuleLogger extends Logger {
         getInnerLogger().error(msg,t);
     }
 
-    @Override
-    default boolean isErrorEnabled(Marker marker) {
-        return getInnerLogger().isErrorEnabled();
-    }
 
     @Override
     default void error(Marker marker, String msg) {
