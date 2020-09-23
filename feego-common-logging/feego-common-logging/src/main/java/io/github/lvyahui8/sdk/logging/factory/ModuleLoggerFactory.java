@@ -7,5 +7,5 @@ import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
  * @since 2020/2/22 13:01
  */
 public interface ModuleLoggerFactory {
-    void initModuleLogger(Class<? extends ModuleLogger> moduleEnumClass);
+    void initModuleLogger(Class<? extends ModuleLogger> ... moduleEnumClasses);
 }

@@ -11,8 +11,7 @@ import io.github.lvyahui8.sdk.logging.schema.LogSchema;
 public class RepeatModuleTestApplication {
     public static void main(String[] args) {
         LogbackModuleLoggerFactory factory = new LogbackModuleLoggerFactory(new DefaultLogConfiguration());
-        factory.initModuleLogger(TestLogger.class);
-        factory.initModuleLogger(TestLogger2.class);
+        factory.initModuleLogger(TestLogger.class,TestLogger2.class);
         TestLogger.db.info("from testLogger");
         TestLogger2.db.info("from testLogger2");
     }

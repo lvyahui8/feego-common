@@ -23,18 +23,22 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
     }
 
     @Override
-    public void initModuleLogger(Class<? extends ModuleLogger> moduleEnumClass) {
-        if (! moduleEnumClass.isEnum()) {
-            throw new RuntimeException("The log module class must be an enum.");
-        }
-        /* 使用代理类替换代理枚举实现 */
-        for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
-            Enum<?> loggerEnum  = (Enum<?>) enumInstance;
-            ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
-                    createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
-                    createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
-                    configuration.getFieldSeparator());
-            ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
+    @SafeVarargs
+    public final void initModuleLogger(Class<? extends ModuleLogger> ... moduleEnumClasses) {
+        for (Class<? extends ModuleLogger> moduleEnumClass : moduleEnumClasses) {
+            if (! moduleEnumClass.isEnum()) {
+                continue;
+                /// throw new RuntimeException("The log module class must be an enum.");
+            }
+            /* 使用代理类替换代理枚举实现 */
+            for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
+                Enum<?> loggerEnum  = (Enum<?>) enumInstance;
+                ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
+                        createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
+                        createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
+                        configuration.getFieldSeparator());
+                ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
+            }
         }
     }
 

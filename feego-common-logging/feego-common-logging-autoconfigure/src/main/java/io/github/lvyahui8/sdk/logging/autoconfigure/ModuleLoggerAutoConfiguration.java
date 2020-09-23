@@ -46,12 +46,7 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
         Reflections reflections = new Reflections("feego.common.");
         Set<Class<? extends ModuleLogger>> allModuleLoggers = reflections.getSubTypesOf(ModuleLogger.class);
         allModuleLoggers.addAll(loggingProperties.getModuleLoggerEnums());
-        for (Class<? extends ModuleLogger> moduleEnumClass : allModuleLoggers) {
-            if (! moduleEnumClass.isEnum()) {
-                continue;
-            }
-            factory.initModuleLogger(moduleEnumClass);
-        }
+        factory.initModuleLogger(allModuleLoggers.toArray(new Class[0]));
     }
 
 }
