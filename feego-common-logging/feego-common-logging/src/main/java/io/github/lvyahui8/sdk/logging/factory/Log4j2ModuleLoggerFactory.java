@@ -1,7 +1,6 @@
 package io.github.lvyahui8.sdk.logging.factory;
 
-import io.github.lvyahui8.sdk.logging.configuration.AbstractLogConfiguration;
-import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
+import io.github.lvyahui8.sdk.logging.configuration.DefaultLogConfiguration;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.core.LoggerContext;
 import org.apache.logging.log4j.core.appender.RollingRandomAccessFileAppender;
@@ -24,7 +23,7 @@ public class Log4j2ModuleLoggerFactory extends AbstractLoggerFactory {
 
 
 
-    public Log4j2ModuleLoggerFactory(AbstractLogConfiguration configuration) {
+    public Log4j2ModuleLoggerFactory(DefaultLogConfiguration configuration) {
         super(configuration);
     }
 

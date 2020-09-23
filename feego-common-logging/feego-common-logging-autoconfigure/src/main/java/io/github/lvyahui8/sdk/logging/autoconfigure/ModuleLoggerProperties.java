@@ -1,13 +1,12 @@
 package io.github.lvyahui8.sdk.logging.autoconfigure;
 
-import io.github.lvyahui8.sdk.logging.configuration.AbstractLogConfiguration;
+import io.github.lvyahui8.sdk.logging.configuration.DefaultLogConfiguration;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -17,7 +16,7 @@ import java.util.Set;
 @ConfigurationProperties(prefix = "feego.common.logging")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ModuleLoggerProperties extends AbstractLogConfiguration {
+public class ModuleLoggerProperties extends DefaultLogConfiguration {
     /**
      * 是否开启模块化日志
      */

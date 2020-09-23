@@ -6,8 +6,7 @@ import ch.qos.logback.classic.spi.ILoggingEvent;
 import ch.qos.logback.core.rolling.RollingFileAppender;
 import ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy;
 import ch.qos.logback.core.util.FileSize;
-import io.github.lvyahui8.sdk.logging.configuration.AbstractLogConfiguration;
-import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
+import io.github.lvyahui8.sdk.logging.configuration.DefaultLogConfiguration;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 
@@ -17,7 +16,7 @@ import org.slf4j.Logger;
  */
 public class LogbackModuleLoggerFactory extends AbstractLoggerFactory {
 
-    public LogbackModuleLoggerFactory(AbstractLogConfiguration configuration) {
+    public LogbackModuleLoggerFactory(DefaultLogConfiguration configuration) {
         super(configuration);
     }
 

@@ -1,6 +1,6 @@
 package io.github.lvyahui8.sdk.logging.factory;
 
-import io.github.lvyahui8.sdk.logging.configuration.AbstractLogConfiguration;
+import io.github.lvyahui8.sdk.logging.configuration.DefaultLogConfiguration;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLoggerRepository;
 import io.github.lvyahui8.sdk.logging.logger.impl.DefaultModuleLoggerImpl;
@@ -16,22 +16,26 @@ import java.io.File;
  */
 public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
 
-    protected AbstractLogConfiguration configuration;
+    protected DefaultLogConfiguration configuration;
 
-    public AbstractLoggerFactory(AbstractLogConfiguration configuration) {
+    public AbstractLoggerFactory(DefaultLogConfiguration configuration) {
         this.configuration = configuration;
     }
 
     @Override
-    public ModuleLogger initModuleLogger(Enum<?> loggerEnum) {
+    public void initModuleLogger(Class<? extends ModuleLogger> moduleEnumClass) {
+        if (! moduleEnumClass.isEnum()) {
+            throw new RuntimeException("The log module class must be an enum.");
+        }
         /* 使用代理类替换代理枚举实现 */
-        ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
-                createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
-                createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
-                configuration.getFieldSeparator());
-        ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
-
-        return realModuleLogger;
+        for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
+            Enum<?> loggerEnum  = (Enum<?>) enumInstance;
+            ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
+                    createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
+                    createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
+                    configuration.getFieldSeparator());
+            ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
+        }
     }
 
     private Logger createSlf4jLogger(String moduleName, String logType, String logPattern) {

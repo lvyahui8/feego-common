@@ -50,10 +50,7 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
             if (! moduleEnumClass.isEnum()) {
                 continue;
             }
-            for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
-                Enum<?> em  = (Enum<?>) enumInstance;
-                factory.initModuleLogger(em);
-            }
+            factory.initModuleLogger(moduleEnumClass);
         }
     }
 
