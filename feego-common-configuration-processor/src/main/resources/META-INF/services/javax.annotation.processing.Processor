@@ -1,4 +1,4 @@
 io.github.lvyahui8.configuration.processor.ModuleLoggerProcessor
 io.github.lvyahui8.configuration.processor.SingletonProcessor
-io.github.lvyahui8.configuration.processor.RuntimeConfigurationProcessor
+#io.github.lvyahui8.configuration.processor.RuntimeConfigurationProcessor
 io.github.lvyahui8.configuration.processor.ResourceStringsProcessor

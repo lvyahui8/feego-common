@@ -32,29 +32,29 @@ public class ModuleLoggerAutoConfiguration implements ApplicationListener<Applic
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent event) {
+        ILoggerFactory loggerFactory = LoggerFactory.getILoggerFactory();
+
+        ModuleLoggerFactory factory ;
+        if ("ch.qos.logback.classic.LoggerContext".equals(loggerFactory.getClass().getName())) {
+            factory = new LogbackModuleLoggerFactory(loggingProperties);
+        } else if ("org.apache.logging.slf4j.Log4jLoggerFactory".equals(loggerFactory.getClass().getName())){
+            factory = new Log4j2ModuleLoggerFactory(loggingProperties);
+        } else {
+            throw new UnsupportedOperationException("Only logback and log4j2 are supported");
+        }
+
         Reflections reflections = new Reflections("feego.common.");
         Set<Class<? extends ModuleLogger>> allModuleLoggers = reflections.getSubTypesOf(ModuleLogger.class);
-
+        allModuleLoggers.addAll(loggingProperties.getModuleLoggerEnums());
         for (Class<? extends ModuleLogger> moduleEnumClass : allModuleLoggers) {
             if (! moduleEnumClass.isEnum()) {
                 continue;
             }
             for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
                 Enum<?> em  = (Enum<?>) enumInstance;
-                ILoggerFactory loggerFactory = LoggerFactory.getILoggerFactory();
-
-                ModuleLoggerFactory factory ;
-                if ("ch.qos.logback.classic.LoggerContext".equals(loggerFactory.getClass().getName())) {
-                    factory = new LogbackModuleLoggerFactory(loggingProperties);
-                } else if ("org.apache.logging.slf4j.Log4jLoggerFactory".equals(loggerFactory.getClass().getName())){
-                    factory = new Log4j2ModuleLoggerFactory(loggingProperties);
-                } else {
-                    throw new UnsupportedOperationException("Only logback and log4j2 are supported");
-                }
                 factory.initModuleLogger(em);
             }
         }
-
     }
 
 }

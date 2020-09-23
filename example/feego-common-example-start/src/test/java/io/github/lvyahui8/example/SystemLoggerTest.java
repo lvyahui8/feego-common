@@ -1,6 +1,7 @@
 package io.github.lvyahui8.example;
 
 import feego.common.io.github.lvyahui8.example.SystemLogger;
+import io.github.lvyahui8.example.configuration.CustomLogger;
 import io.github.lvyahui8.sdk.logging.schema.LogSchema;
 import io.github.lvyahui8.sdk.utils.AsyncTaskExecutor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import sun.rmi.runtime.Log;
 
 import java.util.concurrent.CountDownLatch;
 
@@ -28,6 +30,7 @@ public class SystemLoggerTest {
         SystemLogger.campaign.monitor(
                 LogSchema.biz("createOrder").of("orderId","234324324234234").of("amount",19999)
         );
+        CustomLogger.uc.monitor(LogSchema.empty().of("c",1));
     }
 
     @Test
