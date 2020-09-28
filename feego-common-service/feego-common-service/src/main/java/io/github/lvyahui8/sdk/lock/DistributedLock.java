@@ -31,6 +31,7 @@ public interface DistributedLock {
      * @param timeout 超时时间
      * @param unit 超时时间单位
      * @return 是否拿到锁
+     * @throws InterruptedException 被中断
      */
     boolean tryLock(Long timeout, TimeUnit unit) throws InterruptedException;
 

@@ -9,7 +9,7 @@ public interface MsgCode {
     /**
      * 获取消息
      *
-     * @return
+     * @return msg
      */
     default String getMsg() {
         return CodeRepository.get(this).getMsg();
@@ -18,7 +18,7 @@ public interface MsgCode {
     /**
      * 获取code
      *
-     * @return
+     * @return code
      */
     default String getCode() {
         return CodeRepository.get(this).getCode();

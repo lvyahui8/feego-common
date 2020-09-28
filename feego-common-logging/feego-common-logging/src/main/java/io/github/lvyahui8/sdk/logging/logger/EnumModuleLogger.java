@@ -8,7 +8,7 @@ import org.slf4j.Logger;
  */
 public interface EnumModuleLogger extends ModuleLogger{
     @Override
-    default Logger getInnerLogger() {
+    default ModuleLogger getInnerLogger() {
         if (!(this instanceof Enum<?>)) {
             throw new UnsupportedOperationException("This interface must be implemented by Enum<?>.");
         }

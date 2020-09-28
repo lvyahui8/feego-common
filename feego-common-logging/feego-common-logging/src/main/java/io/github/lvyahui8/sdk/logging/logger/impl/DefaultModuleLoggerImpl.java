@@ -22,8 +22,8 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
     }
 
     @Override
-    public Logger getInnerLogger() {
-        return logger;
+    public ModuleLogger getInnerLogger() {
+        return this;
     }
 
     @Override
@@ -78,5 +78,155 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
         //   if (usedParams < argCount && this.throwable == null && params[argCount - 1] instanceof Throwable) {
         detail.getArgs()[detail.getArgs().length - 1] = t;
         getInnerLogger().error(detail.getPattern(),detail.getArgs());
+    }
+    
+    @Override
+    public boolean isTraceEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isDebugEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isInfoEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isWarnEnabled() {
+        return true;
+    }
+
+    @Override
+    public boolean isErrorEnabled() {
+        return true;
+    }
+
+    @Override
+    public void trace(String msg) {
+        logger.trace(msg);
+    }
+
+    @Override
+    public void trace(String format, Object arg) {
+        logger.trace(format, arg);
+    }
+
+    @Override
+    public void trace(String format, Object arg1, Object arg2) {
+        logger.trace(format, arg1, arg2);
+    }
+
+    @Override
+    public void trace(String format, Object... arguments) {
+        logger.trace(format, arguments);
+    }
+
+    @Override
+    public void trace(String msg, Throwable t) {
+        logger.trace(msg,t);
+    }
+
+    @Override
+    public void debug(String msg) {
+        logger.debug(msg);
+    }
+
+    @Override
+    public void debug(String format, Object arg) {
+        logger.debug(format, arg);
+    }
+
+    @Override
+    public void debug(String format, Object arg1, Object arg2) {
+        logger.debug(format, arg1, arg2);
+    }
+
+    @Override
+    public void debug(String format, Object... arguments) {
+        logger.debug(format, arguments);
+    }
+
+    @Override
+    public void debug(String msg, Throwable t) {
+        logger.debug(msg,t);
+    }
+
+    @Override
+    public void info(String msg) {
+        logger.info(msg);
+    }
+
+    @Override
+    public void info(String format, Object arg) {
+        logger.info(format, arg);
+    }
+
+    @Override
+    public void info(String format, Object arg1, Object arg2) {
+        logger.info(format, arg1, arg2);
+    }
+
+    @Override
+    public void info(String format, Object... arguments) {
+        logger.info(format, arguments);
+    }
+
+    @Override
+    public void info(String msg, Throwable t) {
+        logger.info(msg,t);
+    }
+
+    @Override
+    public void warn(String msg) {
+        logger.warn(msg);
+    }
+
+    @Override
+    public void warn(String format, Object arg) {
+        logger.warn(format, arg);
+    }
+
+    @Override
+    public void warn(String format, Object... arguments) {
+        logger.warn(format, arguments);
+    }
+
+    @Override
+    public void warn(String format, Object arg1, Object arg2) {
+        logger.warn(format, arg1, arg2);
+    }
+
+    @Override
+    public void warn(String msg, Throwable t) {
+        logger.warn(msg,t);
+    }
+
+    @Override
+    public void error(String msg) {
+        logger.error(msg);
+    }
+
+    @Override
+    public void error(String format, Object arg) {
+        logger.error(format, arg);
+    }
+
+    @Override
+    public void error(String format, Object arg1, Object arg2) {
+        logger.error(format, arg1, arg2);
+    }
+
+    @Override
+    public void error(String format, Object... arguments) {
+        logger.error(format, arguments);
+    }
+
+    @Override
+    public void error(String msg, Throwable t) {
+        logger.error(msg,t);
     }
 }
