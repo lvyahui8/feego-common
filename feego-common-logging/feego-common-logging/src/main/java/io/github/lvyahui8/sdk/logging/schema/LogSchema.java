@@ -10,9 +10,13 @@ import java.util.Map;
  */
 public class LogSchema {
     /// private Map<String,Object> items = Collections.synchronizedMap(new ListOrderedMap<>());
-    private ListOrderedMap<String,Object> items = new ListOrderedMap<>();
+    private final ListOrderedMap<String,Object> items = new ListOrderedMap<>();
 
     private LogSchema() {
+        init();
+    }
+
+    public void init() {
     }
 
     public static LogSchema empty() {
