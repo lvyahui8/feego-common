@@ -6,6 +6,7 @@ import io.github.lvyahui8.web.response.RestResponseFormatter;
 import io.github.lvyahui8.web.signature.SignatureService;
 import io.github.lvyahui8.web.signature.impl.SignatureServiceImpl;
 import io.github.lvyahui8.web.wrapper.SignatureFilter;
+import io.github.lvyahui8.web.wrapper.TraceFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -47,6 +48,15 @@ public class WebAutoConfiguration implements WebMvcConfigurer {
         FilterRegistrationBean<SignatureFilter> registrationBean = new FilterRegistrationBean<>();
         registrationBean.setFilter(new SignatureFilter(signatureService));
         registrationBean.setName("feegoSignatureFilter");
+        registrationBean.addUrlPatterns("/*");
+        return registrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean  traceFilter() {
+        FilterRegistrationBean<TraceFilter> registrationBean = new FilterRegistrationBean<>();
+        registrationBean.setFilter(new TraceFilter());
+        registrationBean.setName("traceFilter");
         registrationBean.addUrlPatterns("/*");
         return registrationBean;
     }
