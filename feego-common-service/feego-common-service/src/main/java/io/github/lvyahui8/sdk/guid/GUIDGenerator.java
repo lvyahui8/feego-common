@@ -1,80 +1,63 @@
 package io.github.lvyahui8.sdk.guid;
 
-import io.github.lvyahui8.sdk.utils.AsyncTaskExecutor;
+import io.github.lvyahui8.sdk.utils.SystemUtils;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.Random;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicLong;
 
 /**
  *
  *
- * String 类型 guid (32 * 4)： 44位时间戳 + 19位随机值 | 32位IP地址 + 31位ms内递增值
  *
  * @author feego lvyahui8@gmail.com
  * @date 2020/10/1
  */
 public class GUIDGenerator {
 
-    public static final long IP_OPPOSITE_SHIFT = getLocalIpBits()  << 31;
+    private static final String HEX_IPV4_ADDR = getHexIpV4Addr();
 
-    public static final Long RANDOM_SEED = getRandomSeed();
+    private static final String RANDOM_SEED = getHexRandomSeed();
 
-    public static final int RANDOM_SEED_BITS = 19;
+    private static final long MAX_SEQUENCE = 0xEFFFF;
 
-    public static AtomicInteger count = new AtomicInteger(0);
+    private static final long MIN_SEQUENCE = 0x10000;
 
-    public static long latestTimestamp = System.currentTimeMillis();
+    private static final AtomicLong counter = new AtomicLong(MIN_SEQUENCE);
 
-    private static long getRandomSeed() {
+    private static String getHexRandomSeed() {
         Random r = new Random(System.nanoTime());
-        return r.nextInt(~(-1 << RANDOM_SEED_BITS));
+        return Integer.toHexString( r.nextInt(0xEFF)  + 0x100);
     }
 
-    private static long getLocalIpBits() {
-        try {
-            long ipBits = 0;
-            String hostAddress = InetAddress.getLocalHost().getHostAddress();
-            String[] items = hostAddress.split("\\.");
-            for (int i = 0; i < items.length; i++) {
-                ipBits = ipBits | (Long.parseLong(items[i]) << (i << 3));
+    private static String getHexIpV4Addr() {
+        long ipBits = 0;
+        String hostAddress = SystemUtils.getLocalAddress().getHostAddress();
+        String[] items = hostAddress.split("\\.");
+        for (int i = 0; i < items.length; i++) {
+            ipBits = ipBits | (Long.parseLong(items[i]) << (24 - (i << 3)));
+        }
+        String hexIpAddr = Long.toHexString(ipBits);
+        if (hexIpAddr.length() != 8) {
+            return "0" + hexIpAddr;
+        }
+        return hexIpAddr;
+    }
+
+    private static String hexCycleSequence() {
+        while(true) {
+            long current = counter.get();
+            long update = current + 1;
+            if (update > MAX_SEQUENCE) {
+                update = MIN_SEQUENCE;
             }
-            return ipBits;
-        } catch (UnknownHostException e) {
-            return 0;
+            if (counter.compareAndSet(current,update)) {
+                return Long.toHexString(current);
+            }
         }
     }
 
-    public static String createGUID() {
-        long now = System.currentTimeMillis();
-        long seq ;
-        if (now == latestTimestamp) {
-            seq = count.incrementAndGet();
-        } else {
-            count.set(0);
-            seq = 0;
-            latestTimestamp = now;
-        }
-        long be = System.currentTimeMillis() << RANDOM_SEED_BITS | RANDOM_SEED;
-        long se = IP_OPPOSITE_SHIFT |  seq;
-        long hh = 1L << 63;
-        return Long.toHexString(hh | (be & (hh -1))) + Long.toHexString(hh | (se & (hh -1)));
+    public static String createStringTypeGUID() {
+        return HEX_IPV4_ADDR + RANDOM_SEED + Long.toHexString(System.currentTimeMillis()) + hexCycleSequence();
     }
 
-    public static void main(String[] args) {
-        System.out.println(Long.toHexString(IP_OPPOSITE_SHIFT));
-        System.out.println(Long.toBinaryString(IP_OPPOSITE_SHIFT));
-        System.out.println(Long.toBinaryString(RANDOM_SEED));
-        System.out.println(Long.toBinaryString(0x80000000));
-        ExecutorService pool = Executors.newFixedThreadPool(16);
-        for (int i = 0 ; i < 10000000; i ++) {
-            pool.submit(() -> {
-                System.out.println(createGUID());
-            });
-        }
-
-    }
 }
