@@ -14,6 +14,7 @@
 - [ ] 基于注解的分级权限控制
 - [ ] JWT颁发与验证
 - [ ] HTTP与RPC接口Mock能力
+- [x] GUID Generator
 
 ## 模块说明
 
