@@ -1,6 +1,7 @@
 package io.github.lvyahui8.sdk.guid;
 
 import com.sun.corba.se.spi.orbutil.threadpool.Work;
+import io.github.lvyahui8.sdk.utils.SystemUtils;
 import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
@@ -59,6 +60,13 @@ public class GUIDGeneratorTest {
         CountDownLatch latch = new CountDownLatch(n);
         long target = 10000000;
         long begin = System.currentTimeMillis();
+        // 单线程 1千万
+        for (int i = 0; i < target * 10; i++) {
+            GUIDGenerator.createStringTypeGUID();
+        }
+        System.out.println("cost time:" + (System.currentTimeMillis() - begin) + " ms");
+        // 多线程
+        begin = System.currentTimeMillis();
         for (int i = 0 ; i < n ; i++) {
             Worker worker = new Worker(latch,target);
             worker.start();
