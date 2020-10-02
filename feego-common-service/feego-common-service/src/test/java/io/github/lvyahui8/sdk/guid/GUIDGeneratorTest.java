@@ -48,6 +48,9 @@ public class GUIDGeneratorTest {
 
     @Test
     public void testCreateStringTypeGUIDBasic() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(GUIDGenerator.createStringTypeGUID());
+        }
         int n = Runtime.getRuntime().availableProcessors() * 3;
         CountDownLatch latch = new CountDownLatch(n);
         long target = 10000000;
