@@ -18,7 +18,7 @@ public class GUIDGenerator {
 
     private static final String RANDOM_SEED = getHexRandomSeed();
 
-    private static final long MAX_SEQUENCE = 0xEFFFF;
+    private static final long MAX_SEQUENCE = 0xFFFFF;
 
     private static final long MIN_SEQUENCE = 0x10000;
 
