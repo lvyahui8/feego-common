@@ -18,11 +18,11 @@ public class GUIDGenerator {
 
     private static final String RANDOM_SEED = getHexRandomSeed();
 
-    private static final long MAX_SEQUENCE = 0xFFFFF;
+    private static final long STR_GUID_MAX_SEQUENCE = 0xFFFFF;
 
-    private static final long MIN_SEQUENCE = 0x10000;
+    private static final long STR_GUID_MIN_SEQUENCE = 0x10000;
 
-    private static final AtomicLong counter = new AtomicLong(MIN_SEQUENCE);
+    private static final AtomicLong counter = new AtomicLong(STR_GUID_MIN_SEQUENCE);
 
     private static String getHexRandomSeed() {
         Random r = new Random(System.nanoTime());
@@ -30,25 +30,29 @@ public class GUIDGenerator {
     }
 
     private static String getHexIpV4Addr() {
-        long ipBits = 0;
-        String hostAddress = SystemUtils.getLocalAddress().getHostAddress();
-        String[] items = hostAddress.split("\\.");
-        for (int i = 0; i < items.length; i++) {
-            ipBits = ipBits | (Long.parseLong(items[i]) << (24 - (i << 3)));
-        }
-        String hexIpAddr = Long.toHexString(ipBits);
+        String hexIpAddr = Long.toHexString(getIpBits());
         if (hexIpAddr.length() != 8) {
             return "0" + hexIpAddr;
         }
         return hexIpAddr;
     }
 
+    private static long getIpBits() {
+        long ipBits = 0;
+        String hostAddress = SystemUtils.getLocalAddress().getHostAddress();
+        String [] items = hostAddress.split("\\.");
+        for (int i = 0; i < items.length; i++) {
+            ipBits = ipBits | (Long.parseLong(items[i]) << (24 - (i << 3)));
+        }
+        return ipBits;
+    }
+
     private static String hexCycleSequence() {
         while(true) {
             long current = counter.get();
             long update = current + 1;
-            if (update > MAX_SEQUENCE) {
-                update = MIN_SEQUENCE;
+            if (update > STR_GUID_MAX_SEQUENCE) {
+                update = STR_GUID_MIN_SEQUENCE;
             }
             if (counter.compareAndSet(current,update)) {
                 return Long.toHexString(current);
