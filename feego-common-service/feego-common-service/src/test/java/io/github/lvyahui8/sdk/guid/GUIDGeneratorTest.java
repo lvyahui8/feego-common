@@ -51,10 +51,30 @@ public class GUIDGeneratorTest {
         for (int i = 0; i < 10; i++) {
             System.out.println(GUIDGenerator.createStringTypeGUID());
         }
-        int n = Runtime.getRuntime().availableProcessors() * 3;
-        CountDownLatch latch = new CountDownLatch(n);
-        long target = 10000000;
 
+        for (int i = 0; i < 0xFFFFF; i++) {
+            GUIDGenerator.createStringTypeGUID();
+        }
+    }
+
+    @Test
+    public void testCreateLongTypeGUIDBasic() throws Exception {
+        System.out.println(SystemUtils.getLocalAddress().getHostAddress());
+        for (int i = 0; i < 10; i++) {
+            long guid = GUIDGenerator.createLongTypeGUID();
+            System.out.println(Long.toBinaryString(guid) + ' ' + guid);
+        }
+        System.out.println();
+        for (int i = 0; i < 10; i++) {
+            System.out.println(Long.toBinaryString(GUIDGenerator.createLongTypeGUID(24)));
+        }
+        System.out.println();
+        for (int i = 0; i < 100; i++) {
+            /*
+             * 节点不多时，很可能节点ip的差异只在低16位，此时可以设置ipDigits为16位，递增值扩大到了
+             */
+            System.out.println(Long.toBinaryString(GUIDGenerator.createLongTypeGUID(16)));
+        }
     }
 
     @Test
