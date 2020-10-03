@@ -29,6 +29,8 @@ public class GUIDGenerator {
 
     private static final AtomicInteger longGuidCounter = new AtomicInteger(0);
 
+    private static final int SVR_ID_TYPE_GUID_MAX_SEQUENCE = ~(-1 << 12);
+
     private static String getHexRandomSeed() {
         Random r = new Random(System.nanoTime());
         return Integer.toHexString( r.nextInt(0xEFF)  + 0x100);
@@ -83,14 +85,14 @@ public class GUIDGenerator {
     }
 
     public static long createLongTypeGUID(){
-        return createLongTypeGUID(32,1);
+        return createLongTypeGUID(32);
     }
 
     public static long createLongTypeGUID(int ipDigits) {
         return createLongTypeGUID(ipDigits,33 - ipDigits);
     }
 
-    public static long createLongTypeGUID(int ipDigits,int seqDigits) {
+    private static long createLongTypeGUID(int ipDigits,int seqDigits) {
         if (ipDigits <= 0 || seqDigits <=0 ) {
             throw new IllegalArgumentException("param > 0");
         }
@@ -106,4 +108,12 @@ public class GUIDGenerator {
                 | cycleSequence(~(-1 << seqDigits));
     }
 
+
+    public static long createLongTypeGUIDBySvrId(int svrId) {
+        if (svrId >= 1024 || svrId < 0) {
+            throw new IllegalArgumentException("svrId >= 1024 || svrId < 0");
+        }
+
+        return (System.currentTimeMillis() << 22) | (svrId << 12) | cycleSequence(SVR_ID_TYPE_GUID_MAX_SEQUENCE);
+    }
 }

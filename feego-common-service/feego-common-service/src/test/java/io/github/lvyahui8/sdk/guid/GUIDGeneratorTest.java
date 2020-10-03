@@ -78,6 +78,14 @@ public class GUIDGeneratorTest {
     }
 
     @Test
+    public void testCreateLongTypeGUIDBySvrId() throws Exception {
+        for (int i = 0; i < 10; i++) {
+            System.out.println(Long.toHexString(GUIDGenerator.createLongTypeGUIDBySvrId(10)));
+            System.out.println(Long.toHexString(GUIDGenerator.createLongTypeGUIDBySvrId(23)));
+        }
+    }
+
+    @Test
     public void testCreateStringTypeGUIDPerformance() throws Exception {
         int n = Runtime.getRuntime().availableProcessors() * 3;
         CountDownLatch latch = new CountDownLatch(n);
