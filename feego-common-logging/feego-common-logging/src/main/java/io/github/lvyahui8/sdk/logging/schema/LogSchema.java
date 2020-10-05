@@ -43,12 +43,12 @@ public class LogSchema {
     }
 
     public Detail buildDetail(String sp) {
-        return buildDetail(sp,false);
+        return buildDetail(sp,0);
     }
 
-    public Detail buildDetail(String sp,boolean reserved) {
+    public Detail buildDetail(String sp,int reserved) {
         Detail detail  = new Detail();
-        detail.args = new Object[reserved ? items.size() + 1 : items.size()];
+        detail.args = new Object[items.size() + reserved ];
         StringBuilder sb = new StringBuilder();
         int i = 0 ;
         for (Map.Entry<String,Object> item : items.entrySet()) {

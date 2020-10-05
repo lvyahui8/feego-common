@@ -50,7 +50,7 @@ public class LogbackModuleLoggerFactory extends AbstractLoggerFactory {
 
         ch.qos.logback.classic.Logger logger = context.getLogger(loggerName);
         logger.setAdditive(false);
-        logger.setLevel(Level.DEBUG);
+        logger.setLevel(Level.TRACE);
 
         logger.addAppender(rollingFileAppender);
         return logger;

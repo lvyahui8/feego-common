@@ -5,6 +5,7 @@ import io.github.lvyahui8.example.configuration.CustomLogger;
 import io.github.lvyahui8.sdk.logging.schema.LogSchema;
 import io.github.lvyahui8.sdk.utils.AsyncTaskExecutor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -31,6 +32,10 @@ public class SystemLoggerTest {
                 LogSchema.biz("createOrder").of("orderId","234324324234234").of("amount",19999)
         );
         CustomLogger.uc.monitor(LogSchema.empty().of("c",1));
+        SystemLogger.campaign.trace("hello");
+        SystemLogger.campaign.trace("hello {}","dj");
+        SystemLogger.campaign.trace("hello {} {}","d,","j");
+        SystemLogger.campaign.trace("hello {} {} {} {}",'d','j','b','j');
     }
 
     @Test

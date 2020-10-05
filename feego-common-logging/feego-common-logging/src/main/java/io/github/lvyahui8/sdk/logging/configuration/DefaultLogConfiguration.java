@@ -28,7 +28,7 @@ public class DefaultLogConfiguration {
     /**
      * 日志格式
      */
-    String       pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%level] - %m%n";
+    String       pattern = "%d{yyyy-MM-dd HH:mm:ss.SSS} [%5level] - %m%n";
     /**
      * monitor 日志格式。去掉了日志级别。
      */

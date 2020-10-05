@@ -4,6 +4,9 @@ import io.github.lvyahui8.sdk.logging.schema.LogSchema;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import org.slf4j.Logger;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/20 22:27
@@ -35,49 +38,49 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
     @Override
     public void info(LogSchema schema) {
         LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
-        getInnerLogger().info(detail.getPattern(),detail.getArgs());
+        logger.info(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void warn(LogSchema schema) {
         LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
-        getInnerLogger().warn(detail.getPattern(),detail.getArgs());
+        logger.warn(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void warn(LogSchema schema, Throwable t) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator, true);
+        LogSchema.Detail detail = schema.buildDetail(fieldSeparator, 1);
         detail.getArgs()[detail.getArgs().length - 1] = t;
-        getInnerLogger().warn(detail.getPattern(),detail.getArgs());
+        logger.warn(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void debug(LogSchema schema) {
         LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
-        getInnerLogger().debug(detail.getPattern(),detail.getArgs());
+        logger.debug(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void trace(LogSchema schema) {
         LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
-        getInnerLogger().trace(detail.getPattern(),detail.getArgs());
+        logger.trace(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void error(LogSchema schema) {
         LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
-        getInnerLogger().error(detail.getPattern(),detail.getArgs());
+        logger.error(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void error(LogSchema schema, Throwable t) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator,true);
+        LogSchema.Detail detail = schema.buildDetail(fieldSeparator,1);
         // https://stackoverflow.com/questions/45054154/logger-format-and-throwable-slf4j-arguments/45054272#45054272
         // 关键代码：
         // org.apache.logging.log4j.message.ParameterizedMessage.initThrowable
         //   if (usedParams < argCount && this.throwable == null && params[argCount - 1] instanceof Throwable) {
         detail.getArgs()[detail.getArgs().length - 1] = t;
-        getInnerLogger().error(detail.getPattern(),detail.getArgs());
+        logger.error(detail.getPattern(),detail.getArgs());
     }
     
     @Override
@@ -107,22 +110,33 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void trace(String msg) {
-        logger.trace(msg);
+        trace(LogSchema.empty().of("msg",msg));
     }
 
     @Override
     public void trace(String format, Object arg) {
-        logger.trace(format, arg);
+        trace(format, new Object[]{arg});
     }
 
     @Override
     public void trace(String format, Object arg1, Object arg2) {
-        logger.trace(format, arg1, arg2);
+        trace(format, new Object[]{ arg1, arg2});
     }
 
     @Override
     public void trace(String format, Object... arguments) {
-        logger.trace(format, arguments);
+        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator,arguments != null ? arguments.length : 0);
+        String pattern = detail.getPattern() + "msg:" + format + fieldSeparator;
+        Object[] args ;
+        if (arguments != null && arguments.length > 0 ) {
+            args = new Object[detail.getArgs().length + arguments.length];
+            System.arraycopy(detail.getArgs(),0,args,0,detail.getArgs().length);
+            System.arraycopy(arguments,0,args,detail.getArgs().length,arguments.length);
+        } else {
+            args = detail.getArgs();
+        }
+
+        logger.trace(pattern,args);
     }
 
     @Override
