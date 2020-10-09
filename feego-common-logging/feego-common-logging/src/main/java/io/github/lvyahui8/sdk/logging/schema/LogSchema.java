@@ -60,7 +60,7 @@ public final class LogSchema {
     }
 
     public Detail buildDetail(String sp,String format,Object ... arguments) {
-        LogSchema.Detail detail = this.buildDetail(sp,arguments != null ? arguments.length : 0);
+        LogSchema.Detail detail = this.buildDetail(sp);
         String pattern = detail.getPattern() + "msg:" + format + sp;
         Object[] args ;
         if (arguments != null && arguments.length > 0 ) {

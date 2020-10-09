@@ -36,6 +36,28 @@ public class SystemLoggerTest {
         SystemLogger.campaign.trace("hello {}","dj");
         SystemLogger.campaign.trace("hello {} {}","d,","j");
         SystemLogger.campaign.trace("hello {} {} {} {}",'d','j','b','j');
+
+        SystemLogger.campaign.debug("hello");
+        SystemLogger.campaign.debug("hello {}","dj");
+        SystemLogger.campaign.debug("hello {} {}","d,","j");
+        SystemLogger.campaign.debug("hello {} {} {} {}",'d','j','b','j');
+
+        SystemLogger.campaign.info("hello");
+        SystemLogger.campaign.info("hello {}","dj");
+        SystemLogger.campaign.info("hello {} {}","d,","j");
+        SystemLogger.campaign.info("hello {} {} {} {}",'d','j','b','j');
+
+        SystemLogger.campaign.warn("hello");
+        SystemLogger.campaign.warn("hello {}","dj");
+        SystemLogger.campaign.warn("hello {} {}","d,","j");
+        SystemLogger.campaign.warn("hello {} {} {} {}",'d','j','b','j');
+        SystemLogger.campaign.warn("exp",new RuntimeException("fk"));
+
+        SystemLogger.campaign.error("hello");
+        SystemLogger.campaign.error("hello {}","dj");
+        SystemLogger.campaign.error("hello {} {}","d,","j");
+        SystemLogger.campaign.error("hello {} {} {} {}",'d','j','b','j');
+        SystemLogger.campaign.error("exp",new RuntimeException("fk"));
     }
 
     @Test
