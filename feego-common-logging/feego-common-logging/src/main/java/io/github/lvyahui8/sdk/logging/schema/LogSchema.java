@@ -8,7 +8,7 @@ import java.util.Map;
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/22 0:12
  */
-public class LogSchema {
+public final class LogSchema {
     /// private Map<String,Object> items = Collections.synchronizedMap(new ListOrderedMap<>());
     private final ListOrderedMap<String,Object> items = new ListOrderedMap<>();
 
