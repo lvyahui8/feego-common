@@ -59,6 +59,22 @@ public class LogSchema {
         return detail;
     }
 
+    public Detail buildDetail(String sp,String format,Object ... arguments) {
+        LogSchema.Detail detail = this.buildDetail(sp,arguments != null ? arguments.length : 0);
+        String pattern = detail.getPattern() + "msg:" + format + sp;
+        Object[] args ;
+        if (arguments != null && arguments.length > 0 ) {
+            args = new Object[detail.getArgs().length + arguments.length];
+            System.arraycopy(detail.getArgs(),0,args,0,detail.getArgs().length);
+            System.arraycopy(arguments,0,args,detail.getArgs().length,arguments.length);
+        } else {
+            args = detail.getArgs();
+        }
+        detail.pattern = pattern;
+        detail.args = args;
+        return detail;
+    }
+
     public static class Detail {
         String pattern;
         Object [] args;

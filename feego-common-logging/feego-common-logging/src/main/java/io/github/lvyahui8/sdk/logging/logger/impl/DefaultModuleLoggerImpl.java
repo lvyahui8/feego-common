@@ -125,93 +125,72 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void trace(String format, Object... arguments) {
-        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator,arguments != null ? arguments.length : 0);
-        String pattern = detail.getPattern() + "msg:" + format + fieldSeparator;
-        Object[] args ;
-        if (arguments != null && arguments.length > 0 ) {
-            args = new Object[detail.getArgs().length + arguments.length];
-            System.arraycopy(detail.getArgs(),0,args,0,detail.getArgs().length);
-            System.arraycopy(arguments,0,args,detail.getArgs().length,arguments.length);
-        } else {
-            args = detail.getArgs();
-        }
-
-        logger.trace(pattern,args);
+        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        logger.trace(detail.getPattern(),detail.getArgs());
     }
 
-    @Override
-    public void trace(String msg, Throwable t) {
-        logger.trace(msg,t);
-    }
 
     @Override
     public void debug(String msg) {
-        logger.debug(msg);
+        debug(LogSchema.empty().of("msg",msg));
     }
 
     @Override
     public void debug(String format, Object arg) {
-        logger.debug(format, arg);
+        debug(format, new Object[]{arg});
     }
 
     @Override
     public void debug(String format, Object arg1, Object arg2) {
-        logger.debug(format, arg1, arg2);
+        debug(format, new Object[]{arg1,arg2});
     }
 
     @Override
     public void debug(String format, Object... arguments) {
-        logger.debug(format, arguments);
-    }
-
-    @Override
-    public void debug(String msg, Throwable t) {
-        logger.debug(msg,t);
+        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        logger.debug(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void info(String msg) {
-        logger.info(msg);
+        info(LogSchema.empty().of("msg",msg));
     }
 
     @Override
     public void info(String format, Object arg) {
-        logger.info(format, arg);
+        info(format, new Object[]{arg});
     }
 
     @Override
     public void info(String format, Object arg1, Object arg2) {
-        logger.info(format, arg1, arg2);
+        info(format, new Object[]{arg1,arg2});
     }
 
     @Override
     public void info(String format, Object... arguments) {
-        logger.info(format, arguments);
-    }
-
-    @Override
-    public void info(String msg, Throwable t) {
-        logger.info(msg,t);
+        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        logger.info(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void warn(String msg) {
-        logger.warn(msg);
+        warn(LogSchema.empty().of("msg",msg));
     }
 
     @Override
     public void warn(String format, Object arg) {
-        logger.warn(format, arg);
-    }
-
-    @Override
-    public void warn(String format, Object... arguments) {
-        logger.warn(format, arguments);
+        warn(format, new Object[]{arg});
     }
 
     @Override
     public void warn(String format, Object arg1, Object arg2) {
-        logger.warn(format, arg1, arg2);
+        warn(format, new Object[]{arg1,arg2});
+    }
+
+    @Override
+    public void warn(String format, Object... arguments) {
+        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        logger.warn(detail.getPattern(),detail.getArgs());
     }
 
     @Override
@@ -221,22 +200,23 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void error(String msg) {
-        logger.error(msg);
+        error(LogSchema.empty().of("msg",msg));
     }
 
     @Override
     public void error(String format, Object arg) {
-        logger.error(format, arg);
+        error(format, new Object[]{arg});
     }
 
     @Override
     public void error(String format, Object arg1, Object arg2) {
-        logger.error(format, arg1, arg2);
+        error(format, new Object[]{arg1,arg2});
     }
 
     @Override
     public void error(String format, Object... arguments) {
-        logger.error(format, arguments);
+        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        logger.error(detail.getPattern(),detail.getArgs());
     }
 
     @Override
