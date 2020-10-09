@@ -1,6 +1,5 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
-import org.slf4j.Logger;
 
 /**
  * @author feego lvyahui8@gmail.com

@@ -1,8 +1,6 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
 import io.github.lvyahui8.sdk.logging.schema.LogSchema;
-import org.slf4j.Logger;
-import org.slf4j.Marker;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)

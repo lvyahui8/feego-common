@@ -1,27 +1,30 @@
 package io.github.lvyahui8.sdk.logging.logger.impl;
 
+import io.github.lvyahui8.sdk.logging.handler.DefaultSchemaHandler;
+import io.github.lvyahui8.sdk.logging.handler.SchemaHandler;
 import io.github.lvyahui8.sdk.logging.schema.LogSchema;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import org.slf4j.Logger;
 
-import java.lang.reflect.Array;
-import java.util.Arrays;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/20 22:27
  */
 public class DefaultModuleLoggerImpl implements ModuleLogger {
-    private Logger logger;
+    private final Logger logger;
 
-    private Logger monitorLogger;
+    private final Logger monitorLogger;
 
-    private String fieldSeparator;
+    private final String fieldSeparator;
 
-    public DefaultModuleLoggerImpl(Logger logger, Logger monitorLogger ,String fieldSeparator) {
+    private final SchemaHandler schemaHandler;
+
+    public DefaultModuleLoggerImpl(Logger logger, Logger monitorLogger ,String fieldSeparator,SchemaHandler schemaHandler) {
         this.logger = logger;
         this.fieldSeparator = fieldSeparator;
         this.monitorLogger = monitorLogger;
+        this.schemaHandler = schemaHandler == null ? new DefaultSchemaHandler() : schemaHandler;
     }
 
     @Override
@@ -31,50 +34,50 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void monitor(LogSchema schema) {
-        LogSchema.Detail detail =  schema.buildDetail(fieldSeparator);
+        LogSchema.Detail detail =  schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         monitorLogger.info(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void info(LogSchema schema) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.info(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void warn(LogSchema schema) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.warn(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void warn(LogSchema schema, Throwable t) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator, 1);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator, 1);
         detail.getArgs()[detail.getArgs().length - 1] = t;
         logger.warn(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void debug(LogSchema schema) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.debug(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void trace(LogSchema schema) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.trace(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void error(LogSchema schema) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.error(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void error(LogSchema schema, Throwable t) {
-        LogSchema.Detail detail = schema.buildDetail(fieldSeparator,1);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator,1);
         // https://stackoverflow.com/questions/45054154/logger-format-and-throwable-slf4j-arguments/45054272#45054272
         // 关键代码：
         // org.apache.logging.log4j.message.ParameterizedMessage.initThrowable
@@ -110,7 +113,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void trace(String msg) {
-        trace(LogSchema.empty().of("msg",msg));
+        trace(schemaHandler.beforeOutput(LogSchema.empty()).of("msg",msg));
     }
 
     @Override
@@ -125,7 +128,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void trace(String format, Object... arguments) {
-        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.trace(detail.getPattern(),detail.getArgs());
     }
 
@@ -147,7 +150,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void debug(String format, Object... arguments) {
-        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.debug(detail.getPattern(),detail.getArgs());
     }
 
@@ -168,7 +171,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void info(String format, Object... arguments) {
-        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.info(detail.getPattern(),detail.getArgs());
     }
 
@@ -189,7 +192,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void warn(String format, Object... arguments) {
-        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.warn(detail.getPattern(),detail.getArgs());
     }
 
@@ -215,7 +218,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void error(String format, Object... arguments) {
-        LogSchema.Detail detail = LogSchema.empty().buildDetail(fieldSeparator, format, arguments);
+        LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.error(detail.getPattern(),detail.getArgs());
     }
 

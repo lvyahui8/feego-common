@@ -1,6 +1,7 @@
 package io.github.lvyahui8.sdk.logging.factory;
 
 import io.github.lvyahui8.sdk.logging.configuration.DefaultLogConfiguration;
+import io.github.lvyahui8.sdk.logging.handler.SchemaHandler;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLoggerRepository;
 import io.github.lvyahui8.sdk.logging.logger.impl.DefaultModuleLoggerImpl;
@@ -30,13 +31,23 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
                 continue;
                 /// throw new RuntimeException("The log module class must be an enum.");
             }
+            SchemaHandler schemaHandler = null;
+            if (configuration.getSchemaHandler() != null) {
+                try {
+                    schemaHandler = configuration.getSchemaHandler().newInstance();
+                } catch (Exception e) {
+                    throw new RuntimeException("Failed to create SchemaHandler",e);
+                }
+            }
             /* 使用代理类替换代理枚举实现 */
             for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
                 Enum<?> loggerEnum  = (Enum<?>) enumInstance;
                 ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
                         createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
                         createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
-                        configuration.getFieldSeparator());
+                        configuration.getFieldSeparator(),
+                        schemaHandler
+                        );
                 ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
             }
         }

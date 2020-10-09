@@ -2,8 +2,10 @@ package io.github.lvyahui8.example;
 
 import feego.common.io.github.lvyahui8.example.SystemLogger;
 import io.github.lvyahui8.example.configuration.CustomLogger;
+import io.github.lvyahui8.sdk.guid.GUIDGenerator;
 import io.github.lvyahui8.sdk.logging.schema.LogSchema;
 import io.github.lvyahui8.sdk.utils.AsyncTaskExecutor;
+import io.github.lvyahui8.web.context.RequestContext;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.junit.Test;
@@ -25,6 +27,8 @@ public class SystemLoggerTest {
 
     @Test
     public void testBasicFunction() throws Exception {
+        RequestContext.setTraceId(GUIDGenerator.createStringTypeGUID());
+        
         SystemLogger.campaign.info(
                 LogSchema.empty().of("id",1).of("begin",20200307).of("end",20200310).of("status",1)
         );
