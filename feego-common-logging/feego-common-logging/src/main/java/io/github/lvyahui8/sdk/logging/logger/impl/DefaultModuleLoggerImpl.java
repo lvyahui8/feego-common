@@ -195,7 +195,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void warn(String msg, Throwable t) {
-        logger.warn(msg,t);
+        warn(LogSchema.empty().of("msg",msg),t);
     }
 
     @Override
@@ -221,6 +221,6 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     @Override
     public void error(String msg, Throwable t) {
-        logger.error(msg,t);
+        error(LogSchema.empty().of("msg",msg),t);
     }
 }
