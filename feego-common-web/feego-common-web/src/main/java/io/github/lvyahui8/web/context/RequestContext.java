@@ -5,17 +5,21 @@ package io.github.lvyahui8.web.context;
  * @date 2020/10/1
  */
 public class RequestContext {
-    public static final ThreadLocal<String> TRACE_ID = new ThreadLocal<>();
+    public static final ThreadLocal<RequestMessage> REQUEST_LOCAL = new ThreadLocal<>();
 
-    public static void setTraceId(String traceId) {
-        TRACE_ID.set(traceId);
+    public static void putRequest(RequestMessage message) {
+        REQUEST_LOCAL.set(message);
     }
 
     public static String getTraceId() {
-        return TRACE_ID.get();
+        return REQUEST_LOCAL.get().getTraceId();
+    }
+
+    public static boolean isStressTraffic() {
+        return REQUEST_LOCAL.get().isStressTraffic();
     }
 
     public static void clean() {
-        TRACE_ID.remove();
+        REQUEST_LOCAL.remove();
     }
 }

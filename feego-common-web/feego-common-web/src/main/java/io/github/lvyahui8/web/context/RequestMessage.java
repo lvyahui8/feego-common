@@ -6,5 +6,21 @@ package io.github.lvyahui8.web.context;
  */
 public class RequestMessage {
     String traceId;
-    Boolean stressTraffic;
+    boolean stressTraffic;
+
+    public String getTraceId() {
+        return traceId;
+    }
+
+    public void setTraceId(String traceId) {
+        this.traceId = traceId;
+    }
+
+    public boolean isStressTraffic() {
+        return stressTraffic;
+    }
+
+    public void setStressTraffic(boolean stressTraffic) {
+        this.stressTraffic = stressTraffic;
+    }
 }
