@@ -18,15 +18,17 @@
 
 ## 模块说明
 
-![image-20200321011604351](readme.assets/image-20200321011604351.png)
+![image-20201013232937970](readme.assets/image-20201013232937970.png)
 
 - feego-common-configuration-processor ： 编译器相关的注解处理器
 - feego-common-logging ： 模块化日志核心
-- feego-common-logging-starter：模块化日志自动配置
+  - feego-common-logging-starter：模块化日志自动配置
 - feego-common-service
-- feego-common-service-starter
-- feego-common-web：web http相关的通用能力核心
-- feego-common-web-starter：web http相关通用能力自动配置
+  - feego-common-service 
+  - feego-common-service-starter
+- feego-common-web
+  - feego-common-web：web http相关的通用能力核心
+  - feego-common-web-starter：web http相关通用能力自动配置
 
 测试模块
 
@@ -35,3 +37,26 @@
 - example/feego-common-example-service：测试服务核心代码
 - example/feego-common-example-start：测试服务启动类
 - example/feego-common-example-client：消费测试服务的客户端程序
+
+## Common Logging
+
+```java
+public enum CustomModuleLogger implements EnumModuleLogger { 
+  campaign,
+  status,
+  ;
+}
+
+CustomModuleLogger.campaign.debug("hello");
+CustomModuleLogger.campaign.debug("hello {}","dj");
+CustomModuleLogger.campaign.debug("hello {} {}","d,","j");
+CustomModuleLogger.campaign.debug("hello {} {} {} {}",'d','j','b','j');
+
+// output to file ${user.home}/logs/general/campaign.log
+2020-10-10 00:26:47.059 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello|#|
+2020-10-10 00:26:47.059 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello dj|#|
+2020-10-10 00:26:47.059 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello d, j|#|
+2020-10-10 00:26:47.060 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello d j b j|#|
+```
+
+![image-20201013232252806](readme.assets/image-20201013232252806.png)
