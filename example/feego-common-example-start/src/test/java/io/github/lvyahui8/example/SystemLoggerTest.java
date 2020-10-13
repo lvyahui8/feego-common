@@ -44,6 +44,7 @@ public class SystemLoggerTest {
         SystemLogger.campaign.trace("hello {} {}","d,","j");
         SystemLogger.campaign.trace("hello {} {} {} {}",'d','j','b','j');
 
+        SystemLogger.campaign.debug(LogSchema.biz("qrcode-pay").of("orderId",1234).of("amount",100).of("suc",'Y'));
         SystemLogger.campaign.debug("hello");
         SystemLogger.campaign.debug("hello {}","dj");
         SystemLogger.campaign.debug("hello {} {}","d,","j");

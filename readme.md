@@ -46,17 +46,19 @@ public enum CustomModuleLogger implements EnumModuleLogger {
   status,
   ;
 }
-
+CustomModuleLogger.campaign.debug(LogSchema.biz("qrcode-pay")
+          .of("orderId",1234).of("amount",100).of("suc",'Y'));
 CustomModuleLogger.campaign.debug("hello");
 CustomModuleLogger.campaign.debug("hello {}","dj");
 CustomModuleLogger.campaign.debug("hello {} {}","d,","j");
 CustomModuleLogger.campaign.debug("hello {} {} {} {}",'d','j','b','j');
 
 // output to file ${user.home}/logs/general/campaign.log
-2020-10-10 00:26:47.059 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello|#|
-2020-10-10 00:26:47.059 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello dj|#|
-2020-10-10 00:26:47.059 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello d, j|#|
-2020-10-10 00:26:47.060 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello d j b j|#|
+2020-10-13 23:38:20.505 [DEBUG] - tid:c0a8006b36b175229cc3c410000|#|biz:qrcode-pay|#|orderId:1234|#|amount:100|#|suc:Y|#|
+2020-10-13 23:38:20.505 [DEBUG] - tid:c0a8006b36b175229cc3c410000|#|msg:hello|#|
+2020-10-13 23:38:20.505 [DEBUG] - tid:c0a8006b36b175229cc3c410000|#|msg:hello dj|#|
+2020-10-13 23:38:20.505 [DEBUG] - tid:c0a8006b36b175229cc3c410000|#|msg:hello d, j|#|
+2020-10-13 23:38:20.505 [DEBUG] - tid:c0a8006b36b175229cc3c410000|#|msg:hello d j b j|#|
 ```
 
 ![image-20201013233502251](readme.assets/image-20201013233502251.png)
