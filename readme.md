@@ -59,4 +59,4 @@ CustomModuleLogger.campaign.debug("hello {} {} {} {}",'d','j','b','j');
 2020-10-10 00:26:47.060 [DEBUG] - tid:c0a8006b74c1750e2fad8a10000|#|msg:hello d j b j|#|
 ```
 
-![image-20201013232252806](readme.assets/image-20201013232252806.png)
+![image-20201013233502251](readme.assets/image-20201013233502251.png)
