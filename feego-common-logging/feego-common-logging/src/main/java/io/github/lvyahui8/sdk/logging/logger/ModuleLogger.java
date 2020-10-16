@@ -83,12 +83,6 @@ public interface ModuleLogger {
     }
 
     
-    default void trace(String msg, Throwable t) {
-        getInnerLogger().trace(msg,t);
-    }
-
-
-    
     default void debug(String msg) {
         getInnerLogger().debug(msg);
     }
@@ -108,11 +102,6 @@ public interface ModuleLogger {
         getInnerLogger().debug(format, arguments);
     }
 
-    
-    default void debug(String msg, Throwable t) {
-        getInnerLogger().debug(msg,t);
-    }
-    
 
     
     default void info(String msg) {
@@ -134,12 +123,7 @@ public interface ModuleLogger {
         getInnerLogger().info(format, arguments);
     }
 
-    
-    default void info(String msg, Throwable t) {
-        getInnerLogger().info(msg, t);
-    }
-    
-    
+
     default void warn(String msg) {
         getInnerLogger().warn(msg);
     }
