@@ -42,6 +42,10 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
             /* 使用代理类替换代理枚举实现 */
             for (Object enumInstance : moduleEnumClass.getEnumConstants()) {
                 Enum<?> loggerEnum  = (Enum<?>) enumInstance;
+                if (ModuleLoggerRepository.getModuleLogger(loggerEnum.name()) != null) {
+                    // 相同模块不重复创建logger
+                    continue;
+                }
                 ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
                         createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
                         createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
