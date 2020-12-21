@@ -21,8 +21,6 @@ import org.slf4j.LoggerFactory;
  */
 public class Log4j2ModuleLoggerFactory extends AbstractLoggerFactory {
 
-
-
     public Log4j2ModuleLoggerFactory(DefaultLogConfiguration configuration) {
         super(configuration);
     }

@@ -37,6 +37,11 @@ public final class LogSchema {
         return this;
     }
 
+    public LogSchema success(boolean  suc) {
+        items.put("suc",suc ? 'Y' : 'N');
+        return this;
+    }
+
     public LogSchema clear() {
         items.clear();
         return this;
