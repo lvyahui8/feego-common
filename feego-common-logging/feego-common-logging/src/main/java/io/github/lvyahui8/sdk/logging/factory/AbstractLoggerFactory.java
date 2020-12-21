@@ -4,7 +4,7 @@ import io.github.lvyahui8.sdk.logging.configuration.DefaultLogConfiguration;
 import io.github.lvyahui8.sdk.logging.handler.SchemaHandler;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLoggerRepository;
-import io.github.lvyahui8.sdk.logging.logger.impl.DefaultModuleLoggerImpl;
+import io.github.lvyahui8.sdk.logging.logger.DefaultModuleLogger;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,7 +46,7 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
                     // 相同模块不重复创建logger
                     continue;
                 }
-                ModuleLogger realModuleLogger = new DefaultModuleLoggerImpl(
+                ModuleLogger realModuleLogger = new DefaultModuleLogger(
                         createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
                         createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
                         configuration.getFieldSeparator(),

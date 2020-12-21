@@ -1,7 +1,5 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
-import io.github.lvyahui8.sdk.logging.schema.LogSchema;
-
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/20 22:08

@@ -2,7 +2,6 @@ package io.github.lvyahui8.sdk.logging;
 
 import io.github.lvyahui8.sdk.logging.configuration.DefaultLogConfiguration;
 import io.github.lvyahui8.sdk.logging.factory.LogbackModuleLoggerFactory;
-import io.github.lvyahui8.sdk.logging.schema.LogSchema;
 
 /**
  * @author feego lvyahui8@gmail.com

@@ -1,6 +1,6 @@
 package io.github.lvyahui8.sdk.logging.handler;
 
-import io.github.lvyahui8.sdk.logging.schema.LogSchema;
+import io.github.lvyahui8.sdk.logging.logger.LogSchema;
 
 /**
  * @author feego lvyahui8@gmail.com

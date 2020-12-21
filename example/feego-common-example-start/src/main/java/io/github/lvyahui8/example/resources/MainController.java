@@ -3,7 +3,7 @@ package io.github.lvyahui8.example.resources;
 import feego.common.io.github.lvyahui8.example.SystemLogger;
 import io.github.lvyahui8.sdk.lock.DistributedLock;
 import io.github.lvyahui8.sdk.lock.LockFactory;
-import io.github.lvyahui8.sdk.logging.schema.LogSchema;
+import io.github.lvyahui8.sdk.logging.logger.LogSchema;
 import io.github.lvyahui8.example.dto.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

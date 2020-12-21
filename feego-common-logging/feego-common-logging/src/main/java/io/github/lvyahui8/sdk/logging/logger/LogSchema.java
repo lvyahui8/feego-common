@@ -1,4 +1,4 @@
-package io.github.lvyahui8.sdk.logging.schema;
+package io.github.lvyahui8.sdk.logging.logger;
 
 import org.apache.commons.collections4.map.ListOrderedMap;
 
@@ -47,11 +47,11 @@ public final class LogSchema {
         return this;
     }
 
-    public Detail buildDetail(String sp) {
+    Detail buildDetail(String sp) {
         return buildDetail(sp,0);
     }
 
-    public Detail buildDetail(String sp,int reserved) {
+    Detail buildDetail(String sp,int reserved) {
         Detail detail  = new Detail();
         detail.args = new Object[items.size() + reserved ];
         StringBuilder sb = new StringBuilder();
@@ -64,7 +64,7 @@ public final class LogSchema {
         return detail;
     }
 
-    public Detail buildDetail(String sp,String format,Object ... arguments) {
+    Detail buildDetail(String sp,String format,Object ... arguments) {
         LogSchema.Detail detail = this.buildDetail(sp);
         String pattern = detail.getPattern() + "msg:" + format + sp;
         Object[] args ;
@@ -80,7 +80,7 @@ public final class LogSchema {
         return detail;
     }
 
-    public static class Detail {
+    static class Detail {
         String pattern;
         Object [] args;
 

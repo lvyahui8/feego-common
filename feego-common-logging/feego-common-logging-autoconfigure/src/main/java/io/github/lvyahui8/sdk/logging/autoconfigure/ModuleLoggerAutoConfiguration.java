@@ -1,14 +1,11 @@
 package io.github.lvyahui8.sdk.logging.autoconfigure;
 
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
-import io.github.lvyahui8.sdk.logging.logger.ModuleLoggerRepository;
 import io.github.lvyahui8.sdk.logging.factory.Log4j2ModuleLoggerFactory;
 import io.github.lvyahui8.sdk.logging.factory.LogbackModuleLoggerFactory;
 import io.github.lvyahui8.sdk.logging.factory.ModuleLoggerFactory;
-import io.github.lvyahui8.sdk.logging.logger.impl.DefaultModuleLoggerImpl;
 import org.reflections.Reflections;
 import org.slf4j.ILoggerFactory;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -16,7 +13,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Configuration;
 
-import java.io.File;
 import java.util.Set;
 
 /**

@@ -1,9 +1,7 @@
-package io.github.lvyahui8.sdk.logging.logger.impl;
+package io.github.lvyahui8.sdk.logging.logger;
 
 import io.github.lvyahui8.sdk.logging.handler.DefaultSchemaHandler;
 import io.github.lvyahui8.sdk.logging.handler.SchemaHandler;
-import io.github.lvyahui8.sdk.logging.schema.LogSchema;
-import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import org.slf4j.Logger;
 
 
@@ -11,7 +9,7 @@ import org.slf4j.Logger;
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/20 22:27
  */
-public class DefaultModuleLoggerImpl implements ModuleLogger {
+public class DefaultModuleLogger implements ModuleLogger {
     private final Logger logger;
 
     private final Logger monitorLogger;
@@ -20,7 +18,7 @@ public class DefaultModuleLoggerImpl implements ModuleLogger {
 
     private final SchemaHandler schemaHandler;
 
-    public DefaultModuleLoggerImpl(Logger logger, Logger monitorLogger ,String fieldSeparator,SchemaHandler schemaHandler) {
+    public DefaultModuleLogger(Logger logger, Logger monitorLogger , String fieldSeparator, SchemaHandler schemaHandler) {
         this.logger = logger;
         this.fieldSeparator = fieldSeparator;
         this.monitorLogger = monitorLogger;

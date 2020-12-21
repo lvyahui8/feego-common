@@ -1,7 +1,7 @@
 package io.github.lvyahui8.example.configuration;
 
 import io.github.lvyahui8.sdk.logging.handler.SchemaHandler;
-import io.github.lvyahui8.sdk.logging.schema.LogSchema;
+import io.github.lvyahui8.sdk.logging.logger.LogSchema;
 import io.github.lvyahui8.web.context.RequestContext;
 
 /**
