@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.concurrent.Executor;
@@ -27,7 +28,18 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
     @Autowired
     ServiceProperties serviceProperties;
 
-    @Bean
+
+    @Bean("applicationTaskExecutor")
+    public Executor applicationTaskExecutor(){
+        return taskExecutor();
+    }
+
+    @Bean("taskScheduler")
+    public Executor taskScheduler() {
+        return taskExecutor();
+    }
+
+    @Bean("taskExecutor")
     @ConditionalOnProperty(prefix = Constant.CONFIG_PREFIX ,name =  ".executor.open",matchIfMissing = true)
     public Executor taskExecutor() {
         ThreadPoolTaskExecutor taskExecutor = new ThreadPoolTaskExecutor();
@@ -37,6 +49,7 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
         taskExecutor.setAllowCoreThreadTimeOut(executorProperties.isAllowCoreThreadTimeOut());
         taskExecutor.setQueueCapacity(executorProperties.getQueueCapacity());
         taskExecutor.setKeepAliveSeconds(executorProperties.getKeepAliveSeconds());
+        taskExecutor.setThreadFactory(new CustomizableThreadFactory("tp_"));
         AsyncTaskExecutorInitializer.initAsyncTaskExecutor(taskExecutor);
 
         return taskExecutor;

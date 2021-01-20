@@ -6,6 +6,7 @@ import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -13,6 +14,7 @@ import org.springframework.context.annotation.PropertySource;
  */
 @SpringBootApplication
 @ModuleLoggerAutoGeneration({"campaign","status"})
+@EnableScheduling
 @EnableDubbo(scanBasePackages = "io.github.lvyahui8.example")
 @PropertySource("classpath:dubbo-provider.properties")
 @ResourceStrings("strings/")

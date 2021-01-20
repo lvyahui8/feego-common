@@ -1,5 +1,6 @@
 package io.github.lvyahui8.example.service.impl;
 
+import io.github.lvyahui8.example.api.dto.UserDTO;
 import io.github.lvyahui8.example.service.UserService;
 
 /**
@@ -8,8 +9,11 @@ import io.github.lvyahui8.example.service.UserService;
  */
 public class UserServiceImpl implements UserService {
     @Override
-    public Object getUser(Long id) {
-        
-        return new Object();
+    public UserDTO getUser(Long id) {
+        UserDTO userDTO = new UserDTO();
+        userDTO.setEmail("lvyahui8@gmai.com");
+        userDTO.setUsername("feego");
+        userDTO.setId(id);
+        return userDTO;
     }
 }

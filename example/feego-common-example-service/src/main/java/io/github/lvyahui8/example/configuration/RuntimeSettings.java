@@ -1,7 +1,7 @@
 package io.github.lvyahui8.example.configuration;
 
 import io.github.lvyahui8.configuration.annotations.RuntimeConfiguration;
-import io.github.lvyahui8.example.dto.UserDTO;
+import io.github.lvyahui8.example.api.dto.UserDTO;
 import lombok.Data;
 
 /**
