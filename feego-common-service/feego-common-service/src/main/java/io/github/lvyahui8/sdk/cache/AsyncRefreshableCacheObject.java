@@ -60,7 +60,7 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
         if (cacheValue == null) {
             cacheValue = loadObject(queryParam);
         } else if ((cacheValue.getExpiredTs() + getLogicTimeout()) >= System.currentTimeMillis()){
-            AsyncTaskExecutor.submit(() -> loadObject(queryParam));
+            AsyncTaskExecutor.execute(() -> loadObject(queryParam));
         }
 
         return cacheValue.getV();

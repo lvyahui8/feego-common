@@ -6,6 +6,8 @@ import lombok.Setter;
 
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executor;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -18,11 +20,17 @@ public class AsyncTaskExecutor {
     @Getter(AccessLevel.PACKAGE)
     private static Executor executor;
 
-    public static void submit(Runnable r) {
+    public static void execute(Runnable r) {
         executor.execute(r);
     }
 
-    public static <T> T execute(Callable<T> c) {
-        return execute(c);
+    public static <T> Future<T> submit(Callable<T> c) {
+        if (executor instanceof org.springframework.core.task.AsyncTaskExecutor) {
+            return ((org.springframework.core.task.AsyncTaskExecutor) executor).submit(c);
+        } else if (executor instanceof ExecutorService) {
+            return ((ExecutorService) executor).submit(c);
+        } else {
+            throw new UnsupportedOperationException("Tasks that return data in the future are not supported.");
+        }
     }
 }

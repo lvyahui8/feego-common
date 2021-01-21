@@ -28,7 +28,7 @@ public class DistributedLockTest extends BasicTest {
         final CountDownLatch latch = new CountDownLatch(n);
         for (int i = 0; i < n; i++) {
             final int k = i ;
-            AsyncTaskExecutor.submit(() -> {
+            AsyncTaskExecutor.execute(() -> {
                 try {
                     DistributedLock lock = lockFactory.newDistributeLock("uid:12345",k);
                     try {

@@ -71,7 +71,7 @@ public class SystemLoggerTest {
         int n = Runtime.getRuntime().availableProcessors();
         CountDownLatch latch = new CountDownLatch(n);
         for (int i = 0 ; i < n; i ++) {
-            AsyncTaskExecutor.submit(() -> {
+            AsyncTaskExecutor.execute(() -> {
                try {
                    for (int j = 0 ; j < 10000000 ; j ++) {
                        SystemLogger.campaign.info(LogSchema.empty().of("name","feego").of("age",26));
