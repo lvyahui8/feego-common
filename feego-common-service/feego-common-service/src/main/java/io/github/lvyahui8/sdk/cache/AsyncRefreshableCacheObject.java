@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
-    private static final long DEFAULT_KEY_MAX_TIMEOOUT_MS = 30 * 24 * 60 * 60 ;
+    private static final long DEFAULT_KEY_MAX_TIMEOUT_MS = 30 * 24 * 60 * 60 ;
 
     private static final Gson gson = new Gson();
 
@@ -70,7 +70,7 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
     }
 
     protected long getMaxTimeout() {
-        return DEFAULT_KEY_MAX_TIMEOOUT_MS;
+        return DEFAULT_KEY_MAX_TIMEOUT_MS;
     }
 
     protected abstract VAL_TYPE syncLoad(QUERY_PARAM queryParam);
