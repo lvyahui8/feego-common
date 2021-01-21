@@ -12,8 +12,11 @@ public class UserServiceImpl implements UserService {
     public UserDTO getUser(Long id) {
         UserDTO userDTO = new UserDTO();
         userDTO.setEmail("lvyahui8@gmai.com");
-        userDTO.setUsername("feego");
+        userDTO.setUsername("feego" + System.currentTimeMillis());
         userDTO.setId(id);
+        try {
+            Thread.sleep(1000L);
+        } catch (InterruptedException ignored) { }
         return userDTO;
     }
 }

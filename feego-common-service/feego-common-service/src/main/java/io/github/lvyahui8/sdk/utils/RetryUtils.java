@@ -21,7 +21,12 @@ public abstract class RetryUtils {
         throw new IllegalArgumentException("retryNum must be greater than 0");
     }
 
-    public static void retryDo(Runnable func,int retryNum) throws Exception {
-        retryGet(() -> {func.run(); return null;},retryNum);
+    public static void retryDo(Runnable func,int retryNum) {
+        try {
+            retryGet(() -> {func.run(); return null;},retryNum);
+        } catch (Exception e) {
+            // Runnable 只能抛出 RuntimeException
+            throw (RuntimeException) e;
+        }
     }
 }

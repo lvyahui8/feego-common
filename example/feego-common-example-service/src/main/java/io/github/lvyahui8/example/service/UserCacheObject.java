@@ -26,7 +26,7 @@ public class UserCacheObject extends AsyncRefreshableCacheObject<Long, UserDTO> 
     }
 
     @Override
-    protected String getKey(Long userId) {
+    protected String getRedisKey(Long userId) {
         return CacheKey.user_profile.getKey() + userId;
     }
 
