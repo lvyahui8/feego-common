@@ -24,12 +24,12 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
     private final StringRedisTemplate redisTemplate;
 
-    private final Type cacheValueTypeToken;
+    private final Type cacheValueType;
 
     public AsyncRefreshableCacheObject(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
         Type valType = ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
-        this.cacheValueTypeToken = TypeToken.getParameterized(CacheValue.class, valType).getType();
+        this.cacheValueType = TypeToken.getParameterized(CacheValue.class, valType).getType();
     }
 
     public VAL_TYPE get(final QUERY_PARAM queryParam) {
@@ -41,7 +41,7 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
         }
         CacheValue<VAL_TYPE> cacheValue = null;
         try{
-            cacheValue = gson.fromJson(data, cacheValueTypeToken);
+            cacheValue = gson.fromJson(data, cacheValueType);
         } catch (Exception ignored) { }
 
         if (cacheValue == null) {
