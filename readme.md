@@ -20,8 +20,6 @@
 
 ## 模块说明
 
-![image-20201013232937970](readme.assets/image-20201013232937970.png)
-
 - feego-common-configuration-processor ： 编译器相关的注解处理器
 - feego-common-logging ： 模块化日志核心
   - feego-common-logging-starter：模块化日志自动配置
