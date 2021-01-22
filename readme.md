@@ -24,8 +24,8 @@
 - feego-common-logging ： 模块化日志核心
   - feego-common-logging-starter：模块化日志自动配置
 - feego-common-service
-  - feego-common-service 
-  - feego-common-service-starter
+  - feego-common-service : 其它通用功能。代码量不足以独立成一个module的都放在这里面
+  - feego-common-service-starter : 相关的bean自动配置
 - feego-common-web
   - feego-common-web：web http相关的通用能力核心
   - feego-common-web-starter：web http相关通用能力自动配置
