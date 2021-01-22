@@ -4,14 +4,18 @@ package io.github.lvyahui8.sdk.autoconfigure;
 import io.github.lvyahui8.sdk.constants.Constant;
 import io.github.lvyahui8.sdk.properties.ExecutorProperties;
 import io.github.lvyahui8.sdk.properties.ServiceProperties;
+import io.github.lvyahui8.sdk.reddot.DefaultRedDotManager;
+import io.github.lvyahui8.sdk.reddot.RedDotManager;
 import io.github.lvyahui8.sdk.utils.AsyncTaskExecutorInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
@@ -53,6 +57,11 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
         AsyncTaskExecutorInitializer.initAsyncTaskExecutor(taskExecutor);
 
         return taskExecutor;
+    }
+
+    @Bean
+    public RedDotManager redDotManager(@Qualifier("stringRedisTemplate") StringRedisTemplate stringRedisTemplate) {
+        return new DefaultRedDotManager(stringRedisTemplate);
     }
 
     @Override
