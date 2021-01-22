@@ -15,6 +15,8 @@
 - [ ] JWT颁发与验证
 - [ ] HTTP与RPC接口Mock能力
 - [x] [GUID Generator](/readme.assets/guid.md)
+- [x] 异步Reload缓存
+- [x] 通用应用红点
 
 ## 模块说明
 

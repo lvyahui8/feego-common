@@ -6,6 +6,8 @@ package io.github.lvyahui8.sdk.reddot;
  * @date 2021/1/22
  */
 public interface RedDot {
+    String id();
+
     RedDot parent();
 
     boolean isLeaf();

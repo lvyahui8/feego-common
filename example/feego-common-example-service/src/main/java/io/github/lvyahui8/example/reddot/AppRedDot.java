@@ -26,6 +26,11 @@ public enum AppRedDot implements RedDot {
     }
 
     @Override
+    public String id() {
+        return  name();
+    }
+
+    @Override
     public RedDot parent() {
         return parent;
     }

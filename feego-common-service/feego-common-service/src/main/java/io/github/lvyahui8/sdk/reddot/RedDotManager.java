@@ -16,6 +16,15 @@ public interface RedDotManager {
     void enable(Object key, RedDot... redDots);
 
     /**
+     * 带版本号激活红点，只有版本号比记录的红点大才能激活红点
+     *
+     * @param key 红点维度
+     * @param redDot 红点
+     * @param version 版本号
+     */
+    void enable(Object key, RedDot redDot,Long version);
+
+    /**
      * 判断某个红点是否被激活
      *
      * @param key 红点维度
@@ -32,4 +41,12 @@ public interface RedDotManager {
      * @return 激活map
      */
     Map<RedDot,Boolean> isActiveMap(Object key, RedDot... redDots);
+
+    /**
+     * 消除红点
+     *
+     * @param key 红点维度
+     * @param redDots 红点列表
+     */
+    void disable(Object key, RedDot ... redDots);
 }
