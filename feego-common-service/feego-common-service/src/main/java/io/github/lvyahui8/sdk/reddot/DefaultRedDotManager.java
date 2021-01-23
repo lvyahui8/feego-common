@@ -1,8 +1,6 @@
 package io.github.lvyahui8.sdk.reddot;
 
-import org.springframework.data.redis.core.RedisKeyValueTemplate;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -34,7 +32,11 @@ public class DefaultRedDotManager implements RedDotManager {
         }
 
         if (version != null) {
-            RedDotInstance instance = redisTemplate.<String, RedDotInstance>opsForHash().get(key.toString(), redDot.id());
+            RedDotInstance instance = null;
+            try {
+                instance = redisTemplate.<String, RedDotInstance>opsForHash().get(key.toString(), redDot.id());
+            } catch (Exception ignored) {
+            }
             if (instance != null) {
                 if (instance.getV() != null && version <= instance.getV()) {
                     // 版本号低，不能激活
@@ -55,7 +57,7 @@ public class DefaultRedDotManager implements RedDotManager {
                 instance = instanceMap.get(redDotId);
             } else {
                 instance = new RedDotInstance();
-                instance.setCause(new LinkedList<>());
+                instance.setCause(new HashSet<>());
             }
             instance.setRid(redDotId);
             instance.setActive(true);
@@ -125,8 +127,12 @@ public class DefaultRedDotManager implements RedDotManager {
     }
 
     private List<RedDotInstance> queryInstances(String key,Collection<String> memberKeys) {
-        List<RedDotInstance> instances = redisTemplate.<String, RedDotInstance>opsForHash().multiGet(key, memberKeys);
-        instances.removeIf(Objects::isNull);
-        return instances;
+        try {
+            List<RedDotInstance> instances = redisTemplate.<String, RedDotInstance>opsForHash().multiGet(key, memberKeys);
+            instances.removeIf(Objects::isNull);
+            return instances;
+        } catch (Exception e) {
+            return Collections.emptyList();
+        }
     }
 }

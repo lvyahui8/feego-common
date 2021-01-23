@@ -1,6 +1,7 @@
 package io.github.lvyahui8.sdk.reddot;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @author feego lvyahui8@gmail.com
@@ -27,7 +28,7 @@ public class RedDotInstance {
     /**
      * 引起此红点激活的原因
      */
-    List<String> cause;
+    Set<String> cause;
 
     public Boolean getActive() {
         return active;
@@ -69,11 +70,11 @@ public class RedDotInstance {
         this.activatedTs = activatedTs;
     }
 
-    public List<String> getCause() {
+    public Set<String> getCause() {
         return cause;
     }
 
-    public void setCause(List<String> cause) {
+    public void setCause(Set<String> cause) {
         this.cause = cause;
     }
 }
