@@ -42,8 +42,8 @@ public class DefaultRedDotManager implements RedDotManager {
         }
         
         List<String> redDotLink = getRedDotLink(redDot);
-        List<RedDotInstance> redDotInstances = redisTemplate.<String, RedDotInstance>opsForHash().multiGet(key.toString(), redDotLink);
-        Map<String,RedDotInstance> instanceMap = redDotInstances.stream().collect(Collectors.toMap(RedDotInstance::getRid,a -> a));
+        List<RedDotInstance> instances = queryInstances(key.toString(),redDotLink);
+        Map<String,RedDotInstance> instanceMap = instances.stream().collect(Collectors.toMap(RedDotInstance::getRid,a -> a));
 
         for (int i = 0; i < redDotLink.size(); i++) {
             String redDotId = redDotLink.get(i);
@@ -87,8 +87,8 @@ public class DefaultRedDotManager implements RedDotManager {
     @Override
     public Map<String, Boolean> isActiveMap(Object key, RedDot... redDots) {
         Map<String, Boolean> activeMap = Arrays.stream(redDots).collect(Collectors.toMap(RedDot::id, a -> false));
-        List<RedDotInstance> redDotInstances = redisTemplate.<String, RedDotInstance>opsForHash().multiGet(key.toString(), activeMap.keySet());
-        for (RedDotInstance instance : redDotInstances) {
+        List<RedDotInstance> instances = queryInstances(key.toString(),activeMap.keySet());
+        for (RedDotInstance instance : instances) {
             if (Boolean.TRUE.equals(instance.getActive())) {
                 activeMap.put(instance.getRid(),true);
             }
@@ -98,7 +98,33 @@ public class DefaultRedDotManager implements RedDotManager {
 
     @Override
     public void disable(Object key, RedDot... redDots) {
+        Set<String> allRedDot = new HashSet<>();
+        Map<String,List<String>> linkMap = new HashMap<>();
+        for (RedDot redDot : redDots) {
+            List<String> link = getRedDotLink(redDot);
+            allRedDot.addAll(link);
+            linkMap.put(redDot.id(),link);
+        }
+        List<RedDotInstance> instances = queryInstances(key.toString(), allRedDot);
+        Map<String, RedDotInstance> instanceMap = instances.stream().collect(Collectors.toMap(RedDotInstance::getRid, instance -> instance));
+        for (Map.Entry<String, List<String>> entry : linkMap.entrySet()) {
+            for (String p : entry.getValue()) {
+                RedDotInstance instance = instanceMap.get(p);
+                if (instance.getCause() != null && instance.getCause().size() > 0) {
+                    instance.getCause().remove(entry.getKey());
+                }
+                if (instance.getCause() == null || instance.getCause().isEmpty()) {
+                    instance.setActive(false);
+                }
+            }
+        }
 
+        redisTemplate.<String,RedDotInstance>opsForHash().putAll(key.toString(),instanceMap);
     }
 
+    private List<RedDotInstance> queryInstances(String key,Collection<String> memberKeys) {
+        List<RedDotInstance> instances = redisTemplate.<String, RedDotInstance>opsForHash().multiGet(key, memberKeys);
+        instances.removeIf(Objects::isNull);
+        return instances;
+    }
 }

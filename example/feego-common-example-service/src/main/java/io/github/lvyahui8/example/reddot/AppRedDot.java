@@ -12,16 +12,21 @@ import java.util.List;
 @SuppressWarnings({"unused"})
 public enum AppRedDot implements RedDot {
     root(null),
+    hp(root),
+    channels(hp),
+    my_account(root),
+    profile(my_account),
+    asset(profile),
     ;
 
     AppRedDot parent;
 
-    List<AppRedDot> childs = new LinkedList<>();
+    List<AppRedDot> children = new LinkedList<>();
 
     AppRedDot(AppRedDot parent) {
         this.parent = parent;
         if (parent != null) {
-            parent.childs.add(this);
+            parent.children.add(this);
         }
     }
 
@@ -37,6 +42,6 @@ public enum AppRedDot implements RedDot {
 
     @Override
     public boolean isLeaf() {
-        return childs.isEmpty();
+        return children.isEmpty();
     }
 }
