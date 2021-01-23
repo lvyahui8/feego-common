@@ -40,7 +40,7 @@ public interface RedDotManager {
      * @param redDots 红点列表
      * @return 激活map
      */
-    Map<RedDot,Boolean> isActiveMap(Object key, RedDot... redDots);
+    Map<String,Boolean> isActiveMap(Object key, RedDot... redDots);
 
     /**
      * 消除红点

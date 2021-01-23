@@ -11,7 +11,7 @@ public class RedDotInstance {
     /**
      * dimension key
      */
-    String dKey;
+    String dimKey;
     /**
      * redDot id
      */
@@ -37,12 +37,12 @@ public class RedDotInstance {
         this.active = active;
     }
 
-    public String getdKey() {
-        return dKey;
+    public String getDimKey() {
+        return dimKey;
     }
 
-    public void setdKey(String dKey) {
-        this.dKey = dKey;
+    public void setDimKey(String dimKey) {
+        this.dimKey = dimKey;
     }
 
     public String getRid() {

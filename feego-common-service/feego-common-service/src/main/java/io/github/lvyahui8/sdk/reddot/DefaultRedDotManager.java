@@ -47,9 +47,24 @@ public class DefaultRedDotManager implements RedDotManager {
 
         for (int i = 0; i < redDotLink.size(); i++) {
             String redDotId = redDotLink.get(i);
-            if (instanceMap.containsKey(redDotId)) {
-                RedDotInstance instance = instanceMap.get(redDotId);
-                instance.setActive(true);
+            boolean containsKey = instanceMap.containsKey(redDotId);
+            RedDotInstance instance;
+            if (containsKey) {
+                instance = instanceMap.get(redDotId);
+            } else {
+                instance = new RedDotInstance();
+                instance.setCause(new LinkedList<>());
+            }
+            instance.setRid(redDotId);
+            instance.setActive(true);
+            instance.setActivatedTs(System.currentTimeMillis());
+            if (i == 0) {
+                instance.setV(version);
+            } else {
+                instance.getCause().add(redDotLink.get(0));
+            }
+            if (! containsKey) {
+                instanceMap.put(redDotId,instance);
             }
         }
 
@@ -66,18 +81,24 @@ public class DefaultRedDotManager implements RedDotManager {
 
     @Override
     public boolean isActive(Object key, RedDot redDot) {
-        return false;
+        return isActiveMap(key,redDot).get(redDot.id());
     }
 
     @Override
-    public Map<RedDot, Boolean> isActiveMap(Object key, RedDot... redDots) {
-        return null;
+    public Map<String, Boolean> isActiveMap(Object key, RedDot... redDots) {
+        Map<String, Boolean> activeMap = Arrays.stream(redDots).collect(Collectors.toMap(RedDot::id, a -> false));
+        List<RedDotInstance> redDotInstances = redisTemplate.<String, RedDotInstance>opsForHash().multiGet(key.toString(), activeMap.keySet());
+        for (RedDotInstance instance : redDotInstances) {
+            if (Boolean.TRUE.equals(instance.getActive())) {
+                activeMap.put(instance.getRid(),true);
+            }
+        }
+        return activeMap;
     }
 
     @Override
     public void disable(Object key, RedDot... redDots) {
 
     }
-
 
 }
