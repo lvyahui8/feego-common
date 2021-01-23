@@ -1,5 +1,7 @@
 package io.github.lvyahui8.sdk.reddot;
 
+import org.springframework.data.redis.core.RedisKeyValueTemplate;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.*;
@@ -11,9 +13,9 @@ import java.util.stream.Collectors;
  */
 public class DefaultRedDotManager implements RedDotManager {
 
-    public StringRedisTemplate redisTemplate;
+    public RedisTemplate<Object,Object> redisTemplate;
 
-    public DefaultRedDotManager(StringRedisTemplate redisTemplate) {
+    public DefaultRedDotManager(RedisTemplate<Object,Object> redisTemplate) {
         this.redisTemplate = redisTemplate;
     }
 
