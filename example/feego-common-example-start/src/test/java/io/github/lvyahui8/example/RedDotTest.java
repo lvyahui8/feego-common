@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Map;
@@ -25,9 +26,14 @@ public class RedDotTest {
     @Autowired
     RedDotManager redDotManager;
 
+    @Autowired
+    public RedisTemplate<Object,Object> redisTemplate;
+
     @Test
     public void testBasic() throws Exception {
         Object userId = 123L;
+        redisTemplate.delete(userId.toString());
+
         redDotManager.enable(userId, AppRedDot.asset);
         Map<String, Boolean> activeMap = redDotManager.isActiveMap(userId,
                 AppRedDot.asset, AppRedDot.profile, AppRedDot.my_account, AppRedDot.root);
