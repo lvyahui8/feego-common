@@ -1,8 +1,6 @@
 package io.github.lvyahui8.sdk.guid;
 
-import com.sun.corba.se.spi.orbutil.threadpool.Work;
 import io.github.lvyahui8.sdk.utils.SystemUtils;
-import junit.framework.TestCase;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
