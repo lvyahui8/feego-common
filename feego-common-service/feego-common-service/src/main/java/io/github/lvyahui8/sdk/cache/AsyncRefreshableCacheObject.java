@@ -9,7 +9,10 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author feego lvyahui8@gmail.com
@@ -25,6 +28,10 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
     private final StringRedisTemplate redisTemplate;
 
     private final Type cacheValueType;
+
+    private final ReentrantLock [] stripes = new ReentrantLock[1024];
+
+    private final Map<String, ReentrantLock> lockMap = new ConcurrentHashMap<>();
 
     public AsyncRefreshableCacheObject(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
@@ -46,13 +53,38 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
         if (cacheValue == null) {
             // 首次初始化必须同步加载
-            return load(queryParam);
+            return safelyLoad(queryParam);
         } else if (System.currentTimeMillis() > cacheValue.getExpiredTs()){
             AsyncTaskExecutor.execute(() -> load(queryParam));
         }
 
         return cacheValue.getV();
     }
+
+    private VAL_TYPE safelyLoad(QUERY_PARAM queryParam) {
+        String key = getRedisKey(queryParam);
+        ReentrantLock lock = lockMap.get(key);
+        if (lock == null) {
+            ReentrantLock sectionLock = stripes[Math.abs(key.hashCode() % stripes.length)];
+            sectionLock.lock();
+            try {
+                lock = lockMap.get(key);
+                if (lock == null) {
+                    lockMap.put(key,lock = new ReentrantLock());
+                }
+            } finally {
+                sectionLock.unlock();
+            }
+        }
+        lock.lock();
+        try {
+            return load(queryParam);
+        } finally {
+            lock.unlock();
+            lockMap.remove(key);
+        }
+    }
+
 
     public VAL_TYPE load(final QUERY_PARAM queryParam) {
         return refresh(queryParam,syncLoad(queryParam));
