@@ -10,10 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.ReentrantLock;
 
 /**
  * @author feego lvyahui8@gmail.com
