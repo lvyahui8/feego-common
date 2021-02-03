@@ -39,13 +39,17 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
         if (cacheValue == null) {
             // 首次初始化必须同步加载
-            try {
-                return NamedLockExecutor.execWithNamedLock( getRedisKey(queryParam),()-> {
-                    CacheValue<VAL_TYPE> innerCacheValue = getCacheValue(queryParam);
-                    return innerCacheValue == null ? null : innerCacheValue.getV();
-                },() -> load(queryParam));
-            } catch (Exception e) {
-                throw new RuntimeException("unknown exception",e);
+            if (preventBreakdown()) {
+                try {
+                    return NamedLockExecutor.execWithNamedLock( getRedisKey(queryParam),()-> {
+                        CacheValue<VAL_TYPE> innerCacheValue = getCacheValue(queryParam);
+                        return innerCacheValue == null ? null : innerCacheValue.getV();
+                    },() -> load(queryParam));
+                } catch (Exception e) {
+                    throw new RuntimeException("unknown exception",e);
+                }
+            } else {
+                return load(queryParam);
             }
         } else if (System.currentTimeMillis() > cacheValue.getExpiredTs()){
             AsyncTaskExecutor.execute(() -> load(queryParam));
@@ -85,6 +89,10 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
     protected long getMaxTimeout() {
         return DEFAULT_KEY_MAX_TIMEOUT_MS;
+    }
+
+    protected boolean preventBreakdown() {
+        return true;
     }
 
     protected abstract VAL_TYPE syncLoad(QUERY_PARAM queryParam);
