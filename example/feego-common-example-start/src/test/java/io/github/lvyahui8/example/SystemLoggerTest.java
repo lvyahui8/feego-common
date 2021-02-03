@@ -10,6 +10,7 @@ import io.github.lvyahui8.web.context.RequestMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.slf4j.event.Level;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -37,6 +38,8 @@ public class SystemLoggerTest {
                 LogSchema.biz("createOrder").of("orderId","234324324234234").of("amount",19999)
         );
         CustomLogger.uc.monitor(LogSchema.empty().of("c",1));
+        SystemLogger.campaign.trace("trace closed");
+        SystemLogger.campaign.setLevel(Level.TRACE);
         SystemLogger.campaign.trace("hello");
         SystemLogger.campaign.trace("hello {}","dj");
         SystemLogger.campaign.trace("hello {} {}","d,","j");
@@ -64,6 +67,7 @@ public class SystemLoggerTest {
         SystemLogger.campaign.error("hello {} {}","d,","j");
         SystemLogger.campaign.error("hello {} {} {} {}",'d','j','b','j');
         SystemLogger.campaign.error("exp",new RuntimeException("fk"));
+
     }
 
     @Test

@@ -1,5 +1,7 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
+import org.slf4j.event.Level;
+
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/20 22:08
@@ -172,6 +174,7 @@ public interface ModuleLogger {
         getInnerLogger().error(msg,t);
     }
 
+    default void setLevel(Level level) {getInnerLogger().setLevel(level);}
     /**
      * get actual logger
      * @return actual logger

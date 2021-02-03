@@ -3,6 +3,7 @@ package io.github.lvyahui8.sdk.logging.logger;
 import io.github.lvyahui8.sdk.logging.handler.DefaultSchemaHandler;
 import io.github.lvyahui8.sdk.logging.handler.SchemaHandler;
 import org.slf4j.Logger;
+import org.slf4j.event.Level;
 
 
 /**
@@ -18,11 +19,18 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     private final SchemaHandler schemaHandler;
 
+    private Level level = Level.INFO;
+
     public DefaultModuleLogger(Logger logger, Logger monitorLogger , String fieldSeparator, SchemaHandler schemaHandler) {
         this.logger = logger;
         this.fieldSeparator = fieldSeparator;
         this.monitorLogger = monitorLogger;
         this.schemaHandler = schemaHandler == null ? new DefaultSchemaHandler() : schemaHandler;
+    }
+
+    @Override
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     @Override
@@ -37,19 +45,47 @@ public class DefaultModuleLogger implements ModuleLogger {
     }
 
     @Override
+    public boolean isTraceEnabled() {
+        return level.toInt() <= Level.TRACE.toInt();
+    }
+
+    @Override
+    public boolean isDebugEnabled() {
+        return level.toInt() <= Level.DEBUG.toInt();
+    }
+
+    @Override
+    public boolean isInfoEnabled() {
+        return level.toInt() <= Level.INFO.toInt();
+    }
+
+    @Override
+    public boolean isWarnEnabled() {
+        return level.toInt() <= Level.WARN.toInt();
+    }
+
+    @Override
+    public boolean isErrorEnabled() {
+        return level.toInt() <= Level.ERROR.toInt();
+    }
+
+    @Override
     public void info(LogSchema schema) {
+        if (! isInfoEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.info(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void warn(LogSchema schema) {
+        if (! isWarnEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.warn(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void warn(LogSchema schema, Throwable t) {
+        if (! isWarnEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator, 1);
         detail.getArgs()[detail.getArgs().length - 1] = t;
         logger.warn(detail.getPattern(),detail.getArgs());
@@ -57,24 +93,28 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void debug(LogSchema schema) {
+        if (! isDebugEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.debug(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void trace(LogSchema schema) {
+        if (! isTraceEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.trace(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void error(LogSchema schema) {
+        if (! isErrorEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator);
         logger.error(detail.getPattern(),detail.getArgs());
     }
 
     @Override
     public void error(LogSchema schema, Throwable t) {
+        if (! isErrorEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(schema).buildDetail(fieldSeparator,1);
         // https://stackoverflow.com/questions/45054154/logger-format-and-throwable-slf4j-arguments/45054272#45054272
         // 关键代码：
@@ -82,31 +122,6 @@ public class DefaultModuleLogger implements ModuleLogger {
         //   if (usedParams < argCount && this.throwable == null && params[argCount - 1] instanceof Throwable) {
         detail.getArgs()[detail.getArgs().length - 1] = t;
         logger.error(detail.getPattern(),detail.getArgs());
-    }
-    
-    @Override
-    public boolean isTraceEnabled() {
-        return true;
-    }
-
-    @Override
-    public boolean isDebugEnabled() {
-        return true;
-    }
-
-    @Override
-    public boolean isInfoEnabled() {
-        return true;
-    }
-
-    @Override
-    public boolean isWarnEnabled() {
-        return true;
-    }
-
-    @Override
-    public boolean isErrorEnabled() {
-        return true;
     }
 
     @Override
@@ -126,6 +141,7 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void trace(String format, Object... arguments) {
+        if (! isTraceEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.trace(detail.getPattern(),detail.getArgs());
     }
@@ -148,6 +164,7 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void debug(String format, Object... arguments) {
+        if (! isDebugEnabled())  return ;
         LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.debug(detail.getPattern(),detail.getArgs());
     }
@@ -169,6 +186,7 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void info(String format, Object... arguments) {
+        if (! isInfoEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.info(detail.getPattern(),detail.getArgs());
     }
@@ -190,6 +208,7 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void warn(String format, Object... arguments) {
+        if (! isWarnEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.warn(detail.getPattern(),detail.getArgs());
     }
@@ -216,6 +235,7 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void error(String format, Object... arguments) {
+        if (! isErrorEnabled()) return;
         LogSchema.Detail detail = schemaHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
         logger.error(detail.getPattern(),detail.getArgs());
     }

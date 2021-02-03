@@ -1,6 +1,8 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
 
+import org.slf4j.event.Level;
+
 /**
  * @author feego lvyahui8@gmail.com
  * @date 2020/9/18

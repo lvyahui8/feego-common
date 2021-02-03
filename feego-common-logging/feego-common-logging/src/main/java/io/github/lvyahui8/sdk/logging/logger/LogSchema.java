@@ -65,7 +65,7 @@ public final class LogSchema {
         int i = 0 ;
         for (Map.Entry<String,Object> item : items.entrySet()) {
             sb.append(item.getKey()).append(":{}");
-            if (i < items.size() - 1) {
+            if (i < items.size() - 1 || reserved > 0) {
                 sb.append(sp);
             }
             detail.args[i++] = item.getValue();
