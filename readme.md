@@ -17,6 +17,7 @@
 - [x] [GUID Generator](/readme.assets/guid.md)
 - [x] 异步Reload缓存
 - [x] 通用应用红点
+- [x] Named Lock
 
 ## 模块说明
 

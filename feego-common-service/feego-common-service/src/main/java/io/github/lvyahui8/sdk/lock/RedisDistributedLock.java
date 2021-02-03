@@ -6,6 +6,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.locks.Condition;
 
 /**
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
@@ -13,18 +14,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class RedisDistributedLock implements DistributedLock {
 
-    private StringRedisTemplate redisTemplate;
+    private final StringRedisTemplate redisTemplate;
 
-    private String key;
+    private final String key;
 
-    private String ns;
+    private final String ns;
 
     private Long expireTime;
 
     private TimeUnit timeUnit;
 
-    private AtomicInteger cnt;
-
+    private final AtomicInteger cnt;
 
     private static final byte [] CAD_LUA = "if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end".getBytes();
 
@@ -57,14 +57,14 @@ public class RedisDistributedLock implements DistributedLock {
 
     @Override
     public void lockInterruptibly() throws InterruptedException {
-        tryLock(null,null);
+        tryLock(-1,null);
     }
 
     @Override
-    public boolean tryLock(Long timeout, TimeUnit unit) throws InterruptedException {
+    public boolean tryLock(long timeout, TimeUnit unit) throws InterruptedException {
         long beginTime = System.nanoTime();
         while(true) {
-            if (timeout != null && unit != null && System.nanoTime() - beginTime > unit.toNanos(timeout)) {
+            if (timeout > 0 && unit != null && System.nanoTime() - beginTime > unit.toNanos(timeout)) {
                 return false;
             }
             try {
@@ -121,6 +121,11 @@ public class RedisDistributedLock implements DistributedLock {
         }
     }
 
+    @Override
+    public Condition newCondition() {
+        throw new UnsupportedOperationException();
+    }
+
     private InterruptedException searchInterruptedException(Exception e) {
         Throwable eNode = e;
         InterruptedException interruptedException = null;
@@ -134,7 +139,7 @@ public class RedisDistributedLock implements DistributedLock {
     }
 
     @Override
-    public void setExpireTime(Long timeout, TimeUnit timeUnit) {
+    public void setExpireTime(long timeout, TimeUnit timeUnit) {
         this.expireTime = timeout;
         this.timeUnit = timeUnit;
     }

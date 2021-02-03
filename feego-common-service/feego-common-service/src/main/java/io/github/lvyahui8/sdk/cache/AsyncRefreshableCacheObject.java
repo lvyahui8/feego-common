@@ -2,6 +2,7 @@ package io.github.lvyahui8.sdk.cache;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import io.github.lvyahui8.sdk.lock.NamedLockExecutor;
 import io.github.lvyahui8.sdk.utils.AsyncTaskExecutor;
 import io.github.lvyahui8.sdk.utils.RetryUtils;
 import org.springframework.data.redis.RedisSystemException;
@@ -29,10 +30,6 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
     private final Type cacheValueType;
 
-    private final ReentrantLock [] stripes = new ReentrantLock[1024];
-
-    private final Map<String, ReentrantLock> lockMap = new ConcurrentHashMap<>();
-
     public AsyncRefreshableCacheObject(StringRedisTemplate redisTemplate) {
         this.redisTemplate = redisTemplate;
         Type valType = ((ParameterizedType) this.getClass().getGenericSuperclass()).getActualTypeArguments()[1];
@@ -41,19 +38,18 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
     public VAL_TYPE get(final QUERY_PARAM queryParam) {
         String data ;
-        try {
-            data = RetryUtils.retryGet(() -> redisTemplate.opsForValue().get(getRedisKey(queryParam)),3);
-        } catch (Exception e) {
-            throw new RedisSystemException("Failed to retry query data",e);
-        }
-        CacheValue<VAL_TYPE> cacheValue = null;
-        try{
-            cacheValue = gson.fromJson(data, cacheValueType);
-        } catch (Exception ignored) { }
+        CacheValue<VAL_TYPE> cacheValue = getCacheValue(queryParam);
 
         if (cacheValue == null) {
             // 首次初始化必须同步加载
-            return safelyLoad(queryParam);
+            try {
+                return NamedLockExecutor.execWithNamedLock( getRedisKey(queryParam),()-> {
+                    CacheValue<VAL_TYPE> innerCacheValue = getCacheValue(queryParam);
+                    return innerCacheValue == null ? null : innerCacheValue.getV();
+                },() -> load(queryParam));
+            } catch (Exception e) {
+                throw new RuntimeException("unknown exception",e);
+            }
         } else if (System.currentTimeMillis() > cacheValue.getExpiredTs()){
             AsyncTaskExecutor.execute(() -> load(queryParam));
         }
@@ -61,30 +57,19 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
         return cacheValue.getV();
     }
 
-    private VAL_TYPE safelyLoad(QUERY_PARAM queryParam) {
-        String key = getRedisKey(queryParam);
-        ReentrantLock lock = lockMap.get(key);
-        if (lock == null) {
-            ReentrantLock sectionLock = stripes[Math.abs(key.hashCode() % stripes.length)];
-            sectionLock.lock();
-            try {
-                lock = lockMap.get(key);
-                if (lock == null) {
-                    lockMap.put(key,lock = new ReentrantLock());
-                }
-            } finally {
-                sectionLock.unlock();
-            }
-        }
-        lock.lock();
+    private CacheValue<VAL_TYPE> getCacheValue(QUERY_PARAM queryParam) {
+        String data;
         try {
-            return load(queryParam);
-        } finally {
-            lock.unlock();
-            lockMap.remove(key);
+            data = RetryUtils.retryGet(() -> redisTemplate.opsForValue().get( getRedisKey(queryParam)),3);
+        } catch (Exception e) {
+            throw new RedisSystemException("Failed to retry query data",e);
         }
+        CacheValue<VAL_TYPE> cacheValue = null;
+        try{
+            cacheValue = gson.fromJson(data, cacheValueType);
+        } catch (Exception ignored) { }
+        return cacheValue;
     }
-
 
     public VAL_TYPE load(final QUERY_PARAM queryParam) {
         return refresh(queryParam,syncLoad(queryParam));
