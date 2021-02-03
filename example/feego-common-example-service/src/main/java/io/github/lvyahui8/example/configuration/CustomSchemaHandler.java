@@ -11,7 +11,8 @@ import io.github.lvyahui8.web.context.RequestContext;
 public class CustomSchemaHandler implements SchemaHandler {
     @Override
     public LogSchema beforeOutput(LogSchema logSchema) {
-        logSchema.prepend("tid", RequestContext.getTraceId());
+        logSchema.prepend("tid",Thread.currentThread().getId())
+                .prepend("rid", RequestContext.getTraceId());
         return logSchema;
     }
 }

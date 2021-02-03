@@ -8,6 +8,7 @@ import java.util.Map;
  * @author lvyahui (lvyahui8@gmail.com,lvyahui8@126.com)
  * @since 2020/2/22 0:12
  */
+@SuppressWarnings({"unused"})
 public final class LogSchema {
     /// private Map<String,Object> items = Collections.synchronizedMap(new ListOrderedMap<>());
     private final ListOrderedMap<String,Object> items = new ListOrderedMap<>();
@@ -28,23 +29,29 @@ public final class LogSchema {
     }
 
     public LogSchema of(String key,Object value) {
-        items.put(key,value);
+        items.put(key,simplifyValue(value));
         return this;
     }
 
     public LogSchema prepend(String key,Object value) {
-        items.put(0,key,value);
+        items.put(0,key,simplifyValue(value));
         return this;
     }
 
     public LogSchema success(boolean  suc) {
-        items.put("suc",suc ? 'Y' : 'N');
-        return this;
+        return of("suc",suc);
     }
 
     public LogSchema clear() {
         items.clear();
         return this;
+    }
+
+    private Object simplifyValue(Object value) {
+        if (value instanceof Boolean) {
+            return ((Boolean)  value) ? 'Y' : 'N' ;
+        }
+        return value;
     }
 
     Detail buildDetail(String sp) {
@@ -57,7 +64,10 @@ public final class LogSchema {
         StringBuilder sb = new StringBuilder();
         int i = 0 ;
         for (Map.Entry<String,Object> item : items.entrySet()) {
-            sb.append(item.getKey()).append(":{}").append(sp);
+            sb.append(item.getKey()).append(":{}");
+            if (i < items.size() - 1) {
+                sb.append(sp);
+            }
             detail.args[i++] = item.getValue();
         }
         detail.pattern = sb.toString();
@@ -66,7 +76,7 @@ public final class LogSchema {
 
     Detail buildDetail(String sp,String format,Object ... arguments) {
         LogSchema.Detail detail = this.buildDetail(sp);
-        String pattern = detail.getPattern() + "msg:" + format + sp;
+        String pattern = detail.getPattern() + sp + "msg:" + format;
         Object[] args ;
         if (arguments != null && arguments.length > 0 ) {
             args = new Object[detail.getArgs().length + arguments.length];
