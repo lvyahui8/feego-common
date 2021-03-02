@@ -2,33 +2,46 @@ package io.github.lvyahui8.example;
 
 import io.github.lvyahui8.sdk.lock.NamedLock;
 import io.github.lvyahui8.sdk.lock.NamedLockExecutor;
+import lombok.Data;
+import org.junit.Assert;
 import org.junit.Test;
 
+import java.math.BigInteger;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * @author feego lvyahui8@gmail.com
  * @date 2021/2/3
  */
 public class NamedLockExecutorTest {
+    @Data
+    class Resource {
+        int state = 0;
+    }
     @Test
     public void testExec() throws Exception {
-        List<Integer> list = new ArrayList<>();
         ExecutorService service = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+
+        Resource resource = new Resource();
+        AtomicBoolean flag = new AtomicBoolean(true);
         for (int i = 0; i < 10; i++) {
             service.submit(() -> {
-                while(true) {
+                while(flag.get()) {
                     try {
-                        int k = NamedLockExecutor.exec("1",() -> list.isEmpty() ? null : list.get(0),() -> {
-                            int a = 1;
-                            list.add(a);
-                            return a;
+                        Resource k = NamedLockExecutor.exec(new String("" + (101 % 100)),() -> {
+                            // 访问资源
+                            // System.out.println("access");
+                            return resource.state <= 0 ? null : resource;
+                        }  ,() -> {
+                            // 加载资源
+                            resource.state += 1;
+                            System.out.println("reloaded");
+                            return resource;
                         });
-                        if (k != 1 || list.size() != 1) {
-                            System.out.println("k = " + k + ", size:" + list.size());
-                        }
+                        Assert.assertEquals(k.state,1);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -37,8 +50,10 @@ public class NamedLockExecutorTest {
         }
         for (int i = 0; i < 100; i++) {
             Thread.sleep(1000);
-            list.clear();
+            // 将资源失效掉 (过期)
+            resource.state = 0;
         }
+        flag.set(false);
         service.shutdownNow();
     }
 }
