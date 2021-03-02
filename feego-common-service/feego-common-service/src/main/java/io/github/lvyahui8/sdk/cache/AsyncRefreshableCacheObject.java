@@ -39,18 +39,7 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
         if (cacheValue == null) {
             // 首次初始化必须同步加载
-            if (preventBreakdown()) {
-                try {
-                    return NamedLockExecutor.execWithNamedLock( getRedisKey(queryParam),()-> {
-                        CacheValue<VAL_TYPE> innerCacheValue = getCacheValue(queryParam);
-                        return innerCacheValue == null ? null : innerCacheValue.getV();
-                    },() -> load(queryParam));
-                } catch (Exception e) {
-                    throw new RuntimeException("unknown exception",e);
-                }
-            } else {
-                return load(queryParam);
-            }
+            load(queryParam);
         } else if (System.currentTimeMillis() > cacheValue.getExpiredTs()){
             AsyncTaskExecutor.execute(() -> load(queryParam));
         }
@@ -73,7 +62,20 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
     }
 
     public VAL_TYPE load(final QUERY_PARAM queryParam) {
-        return refresh(queryParam,syncLoad(queryParam));
+        VAL_TYPE value;
+        if (preventBreakdown()) {
+            try {
+                value = NamedLockExecutor.execWithNamedLock(getRedisKey(queryParam), () -> {
+                    CacheValue<VAL_TYPE> innerCacheValue = getCacheValue(queryParam);
+                    return innerCacheValue == null ? null : innerCacheValue.getV();
+                }, () -> syncLoad(queryParam));
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        } else  {
+            value = syncLoad(queryParam);
+        }
+        return refresh(queryParam, value);
     }
 
     public VAL_TYPE refresh(final QUERY_PARAM queryParam,final VAL_TYPE value) {
@@ -91,8 +93,13 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
         return DEFAULT_KEY_MAX_TIMEOUT_MS;
     }
 
+    /**
+     * 是否防止击穿
+     *
+     * @return 默认未false
+     */
     protected boolean preventBreakdown() {
-        return true;
+        return false;
     }
 
     protected abstract VAL_TYPE syncLoad(QUERY_PARAM queryParam);

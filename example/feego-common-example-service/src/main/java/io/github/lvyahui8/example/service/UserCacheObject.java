@@ -26,6 +26,11 @@ public class UserCacheObject extends AsyncRefreshableCacheObject<Long, UserDTO> 
     }
 
     @Override
+    protected boolean preventBreakdown() {
+        return true;
+    }
+
+    @Override
     protected String getRedisKey(Long userId) {
         return CacheKey.user_profile.getKey() + userId;
     }
