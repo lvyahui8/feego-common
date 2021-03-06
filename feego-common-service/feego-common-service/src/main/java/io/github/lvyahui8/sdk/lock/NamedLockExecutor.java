@@ -21,21 +21,36 @@ public class NamedLockExecutor {
         }
     }
 
-    static Lock getLock(final String key) {
+    private static Lock getKeyLock(final String key) {
         ReentrantLock lock = lockMap.get(key);
         if (lock == null) {
-            ReentrantLock stripe = stripes[key.hashCode() % stripes.length];
-            stripe.lock();
+            ReentrantLock stripeLock = getStripeLock(key);
+            stripeLock.lock();
             try {
                 lock = lockMap.get(key);
                 if (lock == null) {
                     lockMap.put(key,lock = new ReentrantLock());
                 }
             } finally {
-                stripe.unlock();
+                stripeLock.unlock();
             }
         }
         return lock;
+    }
+
+    private static void releaseKeyLock(final String key) {
+        ReentrantLock stripeLock = getStripeLock(key);
+        stripeLock.lock();
+        try {
+            lockMap.remove(key);
+        } finally {
+            stripeLock.unlock();
+        }
+    }
+
+
+    private static ReentrantLock getStripeLock(String key) {
+        return stripes[key.hashCode() % stripes.length];
     }
 
     public static <RET> RET exec(String key, Callable<RET> accessFunc,Callable<RET> loadFunc) throws Exception {
@@ -48,7 +63,7 @@ public class NamedLockExecutor {
 
     public static <RET> RET execWithNamedLock(String key, Callable<RET> accessFunc, Callable<RET> loadFunc) throws Exception {
         RET ret;
-        Lock lock = getLock(key);
+        Lock lock = getKeyLock(key);
         lock.lock();
         try {
             ret = accessFunc.call();
@@ -56,8 +71,8 @@ public class NamedLockExecutor {
                 ret = loadFunc.call();
             }
         } finally {
-            lockMap.remove(key);
             lock.unlock();
+            releaseKeyLock(key);
         }
         return ret;
     }
