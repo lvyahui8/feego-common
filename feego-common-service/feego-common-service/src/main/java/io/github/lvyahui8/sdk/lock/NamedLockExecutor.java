@@ -50,7 +50,7 @@ public class NamedLockExecutor {
 
 
     private static ReentrantLock getStripeLock(String key) {
-        return stripes[key.hashCode() % stripes.length];
+        return stripes[Math.abs(key.hashCode()) % stripes.length];
     }
 
     public static <RET> RET exec(String key, Callable<RET> accessFunc,Callable<RET> loadFunc) throws Exception {
