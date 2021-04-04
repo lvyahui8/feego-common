@@ -1,13 +1,10 @@
 package io.github.lvyahui8.example;
 
-import io.github.lvyahui8.sdk.lock.NamedLock;
 import io.github.lvyahui8.sdk.lock.NamedLockExecutor;
 import lombok.Data;
 import org.junit.Assert;
 import org.junit.Test;
 
-import java.math.BigInteger;
-import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -38,7 +35,7 @@ public class NamedLockExecutorTest {
                     try {
                         Resource k = NamedLockExecutor.exec("" + (101 % 100),() -> {
                             // 访问资源
-                            System.out.println("state=" + resource.state);
+                            // System.out.println("state=" + resource.state);
                             accessCount.incrementAndGet();
                             return resource.state <= 0 ? null : resource;
                         }  ,() -> {
