@@ -19,18 +19,14 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     private final SchemaHandler schemaHandler;
 
-    private Level level = Level.INFO;
+    private final String enumLoggerName;
 
-    public DefaultModuleLogger(Logger logger, Logger monitorLogger , String fieldSeparator, SchemaHandler schemaHandler) {
+    public DefaultModuleLogger(String enumLoggerName,Logger logger, Logger monitorLogger , String fieldSeparator, SchemaHandler schemaHandler) {
+        this.enumLoggerName = enumLoggerName;
         this.logger = logger;
         this.fieldSeparator = fieldSeparator;
         this.monitorLogger = monitorLogger;
         this.schemaHandler = schemaHandler == null ? new DefaultSchemaHandler() : schemaHandler;
-    }
-
-    @Override
-    public void setLevel(Level level) {
-        this.level = level;
     }
 
     @Override
@@ -44,29 +40,33 @@ public class DefaultModuleLogger implements ModuleLogger {
         monitorLogger.info(detail.getPattern(),detail.getArgs());
     }
 
+    private Level getRuntimeLevel() {
+        return schemaHandler.runtimeLevel(enumLoggerName);
+    }
+
     @Override
     public boolean isTraceEnabled() {
-        return level.toInt() <= Level.TRACE.toInt();
+        return getRuntimeLevel().toInt() <= Level.TRACE.toInt();
     }
 
     @Override
     public boolean isDebugEnabled() {
-        return level.toInt() <= Level.DEBUG.toInt();
+        return getRuntimeLevel().toInt() <= Level.DEBUG.toInt();
     }
 
     @Override
     public boolean isInfoEnabled() {
-        return level.toInt() <= Level.INFO.toInt();
+        return getRuntimeLevel().toInt() <= Level.INFO.toInt();
     }
 
     @Override
     public boolean isWarnEnabled() {
-        return level.toInt() <= Level.WARN.toInt();
+        return getRuntimeLevel().toInt() <= Level.WARN.toInt();
     }
 
     @Override
     public boolean isErrorEnabled() {
-        return level.toInt() <= Level.ERROR.toInt();
+        return getRuntimeLevel().toInt() <= Level.ERROR.toInt();
     }
 
     @Override

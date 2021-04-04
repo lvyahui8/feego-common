@@ -70,10 +70,10 @@ public class NamedLockExecutor {
             if (ret == null) {
                 ret = loadFunc.call();
             }
+            return ret;
         } finally {
             lock.unlock();
             releaseKeyLock(key);
         }
-        return ret;
     }
 }

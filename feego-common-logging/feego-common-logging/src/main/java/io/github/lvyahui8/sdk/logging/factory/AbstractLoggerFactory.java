@@ -47,6 +47,7 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
                     continue;
                 }
                 ModuleLogger realModuleLogger = new DefaultModuleLogger(
+                        loggerEnum.name(),
                         createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
                         createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
                         configuration.getFieldSeparator(),

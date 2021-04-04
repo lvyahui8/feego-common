@@ -174,7 +174,6 @@ public interface ModuleLogger {
         getInnerLogger().error(msg,t);
     }
 
-    default void setLevel(Level level) {getInnerLogger().setLevel(level);}
     /**
      * get actual logger
      * @return actual logger

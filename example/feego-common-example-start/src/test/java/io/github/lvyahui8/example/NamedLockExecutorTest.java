@@ -38,7 +38,7 @@ public class NamedLockExecutorTest {
                     try {
                         Resource k = NamedLockExecutor.exec("" + (101 % 100),() -> {
                             // 访问资源
-                            /// System.out.println("state=" + resource.state);
+                            System.out.println("state=" + resource.state);
                             accessCount.incrementAndGet();
                             return resource.state <= 0 ? null : resource;
                         }  ,() -> {
@@ -60,6 +60,10 @@ public class NamedLockExecutorTest {
             // 将资源失效掉 (过期)
             resource.state = 0;
         }
+        System.out.printf("refresh done, cost:%dms\n",System.currentTimeMillis() - begin);
+
+
+
         flag.set(false);
         service.shutdownNow();
         System.out.printf("access cnt:%d,reload cnt:%d, cost:%dms%n",
