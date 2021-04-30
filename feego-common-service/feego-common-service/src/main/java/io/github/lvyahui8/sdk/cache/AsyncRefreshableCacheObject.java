@@ -39,7 +39,8 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
         if (cacheValue == null) {
             // 首次初始化必须同步加载
-            load(queryParam);
+            cacheValue = new CacheValue<>();
+            cacheValue.setV(load(queryParam));
         } else if (System.currentTimeMillis() > cacheValue.getExpiredTs()){
             AsyncTaskExecutor.execute(() -> load(queryParam));
         }
@@ -81,7 +82,7 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
     public VAL_TYPE refresh(final QUERY_PARAM queryParam,final VAL_TYPE value) {
         CacheValue<VAL_TYPE> cacheValue = new CacheValue<>();
         cacheValue.setV(value);
-        cacheValue.setExpiredTs(System.currentTimeMillis() + getLogicTimeout());
+        cacheValue.setExpiredTs((System.currentTimeMillis() / 1000) + getLogicTimeoutSecond());
         RetryUtils.retryDo(
                 () -> redisTemplate.opsForValue().set(getRedisKey(queryParam),gson.toJson(cacheValue),getMaxTimeout(),
                         TimeUnit.MILLISECONDS),
@@ -104,7 +105,7 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
     protected abstract VAL_TYPE syncLoad(QUERY_PARAM queryParam);
     protected abstract String getRedisKey(QUERY_PARAM queryParam);
-    protected abstract long getLogicTimeout();
+    protected abstract int getLogicTimeoutSecond();
 
     protected static class CacheValue<VAL>  {
         /*

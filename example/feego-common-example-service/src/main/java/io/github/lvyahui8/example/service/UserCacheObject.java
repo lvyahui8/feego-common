@@ -36,7 +36,7 @@ public class UserCacheObject extends AsyncRefreshableCacheObject<Long, UserDTO> 
     }
 
     @Override
-    protected long getLogicTimeout() {
-        return 20;
+    protected int getLogicTimeoutSecond() {
+        return 1;
     }
 }
