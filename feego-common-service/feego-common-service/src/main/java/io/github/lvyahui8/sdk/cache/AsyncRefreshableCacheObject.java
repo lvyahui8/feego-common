@@ -19,7 +19,10 @@ import java.util.concurrent.TimeUnit;
 @SuppressWarnings({"unused","WeakerAccess"})
 public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
 
-    private static final long DEFAULT_KEY_MAX_TIMEOUT_MS = 30 * 24 * 60 * 60 ;
+    /**
+     * 默认最多1个月 key在物理上过期
+     */
+    private static final int DEFAULT_KEY_MAX_TIMEOUT_SECOND = 30 * 24 * 60 * 60 ;
 
     private static final Gson gson = new Gson();
 
@@ -84,14 +87,14 @@ public abstract class AsyncRefreshableCacheObject<QUERY_PARAM, VAL_TYPE> {
         cacheValue.setV(value);
         cacheValue.setExpiredTs((System.currentTimeMillis() / 1000) + getLogicTimeoutSecond());
         RetryUtils.retryDo(
-                () -> redisTemplate.opsForValue().set(getRedisKey(queryParam),gson.toJson(cacheValue),getMaxTimeout(),
-                        TimeUnit.MILLISECONDS),
+                () -> redisTemplate.opsForValue().set(getRedisKey(queryParam),gson.toJson(cacheValue), getActualTimeoutSecond(),
+                        TimeUnit.SECONDS),
                 3);
         return value;
     }
 
-    protected long getMaxTimeout() {
-        return DEFAULT_KEY_MAX_TIMEOUT_MS;
+    protected int getActualTimeoutSecond() {
+        return DEFAULT_KEY_MAX_TIMEOUT_SECOND;
     }
 
     /**
