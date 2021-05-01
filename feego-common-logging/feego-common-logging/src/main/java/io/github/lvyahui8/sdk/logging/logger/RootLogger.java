@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class RootLogger extends DefaultModuleLogger {
     private RootLogger(String enumLoggerName, Logger logger, Logger monitorLogger,
                        String fieldSeparator, LogHandler logHandler) {
-        super(enumLoggerName, logger, monitorLogger, fieldSeparator, logHandler);
+        super(enumLoggerName, logger,logger, monitorLogger, fieldSeparator, logHandler);
     }
 
     private static RootLogger instance ;
