@@ -42,7 +42,8 @@ public class DefaultModuleLogger implements ModuleLogger {
     }
 
     private Level getRuntimeLevel() {
-        return logHandler.runtimeLevel(enumLoggerName);
+        Level level = logHandler.runtimeLevel(enumLoggerName);
+        return level != null ? level : Level.INFO;
     }
 
     @Override
