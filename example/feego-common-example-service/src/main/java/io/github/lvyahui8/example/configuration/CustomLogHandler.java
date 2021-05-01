@@ -1,5 +1,6 @@
 package io.github.lvyahui8.example.configuration;
 
+import io.github.lvyahui8.sdk.logging.handler.AbstractLogHandler;
 import io.github.lvyahui8.sdk.logging.handler.DefaultLogHandler;
 import io.github.lvyahui8.sdk.logging.logger.LogSchema;
 import io.github.lvyahui8.web.context.RequestContext;
@@ -36,9 +37,9 @@ public class CustomLogHandler extends DefaultLogHandler {
     }
 
     @Override
-    public LogSchema beforeOutput(LogSchema logSchema) {
+    public LogSchema innerBeforeOutput(LogSchema logSchema) {
         logSchema.prepend("tid",Thread.currentThread().getId())
                 .prepend("rid", RequestContext.getTraceId());
-        return logSchema;
+        return super.innerBeforeOutput(logSchema);
     }
 }

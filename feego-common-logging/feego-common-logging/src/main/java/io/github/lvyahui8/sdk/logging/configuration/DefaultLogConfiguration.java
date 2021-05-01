@@ -1,5 +1,6 @@
 package io.github.lvyahui8.sdk.logging.configuration;
 
+import io.github.lvyahui8.sdk.logging.handler.AbstractLogHandler;
 import io.github.lvyahui8.sdk.logging.handler.LogHandler;
 
 /**
@@ -46,7 +47,7 @@ public class DefaultLogConfiguration {
     /**
      * 日志处理工具
      */
-    Class<? extends LogHandler> logHandler;
+    Class<? extends AbstractLogHandler> logHandler;
 
     public String getMaxFileSize() {
         return maxFileSize;
@@ -120,11 +121,11 @@ public class DefaultLogConfiguration {
         this.fileName = fileName;
     }
 
-    public Class<? extends LogHandler> getLogHandler() {
+    public Class<? extends AbstractLogHandler> getLogHandler() {
         return logHandler;
     }
 
-    public void setLogHandler(Class<? extends LogHandler> logHandler) {
+    public void setLogHandler(Class<? extends AbstractLogHandler> logHandler) {
         this.logHandler = logHandler;
     }
 }

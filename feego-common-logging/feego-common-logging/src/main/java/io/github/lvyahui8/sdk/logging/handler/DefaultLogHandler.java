@@ -1,20 +1,15 @@
 package io.github.lvyahui8.sdk.logging.handler;
 
 import io.github.lvyahui8.sdk.logging.logger.LogSchema;
-import org.slf4j.event.Level;
 
 /**
  * @author feego lvyahui8@gmail.com
- * @date 2020/10/10
+ * @date 2021/5/1
  */
-public class DefaultLogHandler implements LogHandler {
-    @Override
-    public Level runtimeLevel(String enumLoggerName) {
-        return Level.INFO;
-    }
+public class DefaultLogHandler extends AbstractLogHandler {
 
     @Override
-    public LogSchema beforeOutput(LogSchema logSchema) {
+    public LogSchema innerBeforeOutput(LogSchema logSchema) {
         return logSchema;
     }
 }
