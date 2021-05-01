@@ -7,7 +7,7 @@ import org.slf4j.event.Level;
  * @author feego lvyahui8@gmail.com
  * @date 2020/10/10
  */
-public class DefaultSchemaHandler implements SchemaHandler {
+public class DefaultLogHandler implements LogHandler {
     @Override
     public Level runtimeLevel(String enumLoggerName) {
         return Level.INFO;

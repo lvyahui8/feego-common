@@ -7,7 +7,7 @@ import org.slf4j.event.Level;
  * @author feego lvyahui8@gmail.com
  * @date 2020/10/9
  */
-public interface SchemaHandler {
+public interface LogHandler {
     Level runtimeLevel(String enumLoggerName);
     LogSchema beforeOutput(LogSchema logSchema);
 }

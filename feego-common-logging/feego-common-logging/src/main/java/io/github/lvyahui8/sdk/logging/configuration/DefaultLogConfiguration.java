@@ -1,6 +1,6 @@
 package io.github.lvyahui8.sdk.logging.configuration;
 
-import io.github.lvyahui8.sdk.logging.handler.SchemaHandler;
+import io.github.lvyahui8.sdk.logging.handler.LogHandler;
 
 /**
  * @author feego lvyahui8@gmail.com
@@ -46,7 +46,7 @@ public class DefaultLogConfiguration {
     /**
      * 日志处理工具
      */
-    Class<? extends SchemaHandler> schemaHandler;
+    Class<? extends LogHandler> logHandler;
 
     public String getMaxFileSize() {
         return maxFileSize;
@@ -120,11 +120,11 @@ public class DefaultLogConfiguration {
         this.fileName = fileName;
     }
 
-    public Class<? extends SchemaHandler> getSchemaHandler() {
-        return schemaHandler;
+    public Class<? extends LogHandler> getLogHandler() {
+        return logHandler;
     }
 
-    public void setSchemaHandler(Class<? extends SchemaHandler> schemaHandler) {
-        this.schemaHandler = schemaHandler;
+    public void setLogHandler(Class<? extends LogHandler> logHandler) {
+        this.logHandler = logHandler;
     }
 }

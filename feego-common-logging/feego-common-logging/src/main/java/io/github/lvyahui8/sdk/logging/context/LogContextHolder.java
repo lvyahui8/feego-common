@@ -1,6 +1,5 @@
 package io.github.lvyahui8.sdk.logging.context;
 
-import com.sun.istack.internal.Nullable;
 
 /**
  * @author feego lvyahui8@gmail.com
@@ -21,7 +20,6 @@ public class LogContextHolder {
         }
     }
 
-    @Nullable
     public static LogContext getLogContext() {
         return contextHolder.get();
     }
