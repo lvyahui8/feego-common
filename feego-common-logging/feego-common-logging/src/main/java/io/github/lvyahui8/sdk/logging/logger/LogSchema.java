@@ -1,5 +1,6 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
+import io.github.lvyahui8.sdk.logging.configuration.LogConstants;
 import org.apache.commons.collections4.map.ListOrderedMap;
 
 import java.util.Map;
@@ -25,7 +26,7 @@ public final class LogSchema {
     }
 
     public static LogSchema biz(String biz) {
-        return empty().of("biz",biz);
+        return empty().of(LogConstants.ReversedKey.BUSINESS,biz);
     }
 
     public LogSchema of(String key,Object value) {
@@ -39,7 +40,7 @@ public final class LogSchema {
     }
 
     public LogSchema success(boolean  suc) {
-        return of("suc",suc);
+        return of(LogConstants.ReversedKey.SUCCESS,suc);
     }
 
     public LogSchema clear() {
@@ -76,7 +77,7 @@ public final class LogSchema {
 
     Detail buildDetail(String sp,String format,Object ... arguments) {
         LogSchema.Detail detail = this.buildDetail(sp);
-        String pattern = detail.getPattern() + sp + "msg:" + format;
+        String pattern = detail.getPattern() + sp + LogConstants.ReversedKey.MESSAGE + ":" + format;
         Object[] args ;
         if (arguments != null && arguments.length > 0 ) {
             args = new Object[detail.getArgs().length + arguments.length];
