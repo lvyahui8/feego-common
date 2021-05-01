@@ -34,6 +34,10 @@ public final class LogSchema {
         return this;
     }
 
+    public LogSchema traceId(String traceId) {
+        return of(LogConstants.ReversedKey.TRACE_ID,traceId);
+    }
+
     public LogSchema prepend(String key,Object value) {
         items.put(0,key,simplifyValue(value));
         return this;
