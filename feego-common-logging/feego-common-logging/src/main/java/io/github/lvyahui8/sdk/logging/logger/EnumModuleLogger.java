@@ -14,6 +14,7 @@ public interface EnumModuleLogger extends ModuleLogger{
             throw new UnsupportedOperationException("This interface must be implemented by Enum<?>.");
         }
         Enum<?> em = (Enum<?>) this;
-        return ModuleLoggerRepository.getModuleLogger(em.name());
+        ModuleLogger moduleLogger = ModuleLoggerRepository.getModuleLogger(em.name());
+        return moduleLogger != null ? moduleLogger : RootLogger.getInstance();
     }
 }

@@ -11,4 +11,8 @@ public interface LogConstants {
         String MESSAGE = "msg";
         String SUCCESS = "suc";
     }
+
+    interface Config {
+        String FIELD_SP = "|#|";
+    }
 }

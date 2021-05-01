@@ -27,7 +27,7 @@ public class DefaultLogConfiguration {
     /**
      * 日志kv内容分隔符
      */
-    String       fieldSeparator = "|#|";
+    String       fieldSeparator =  LogConstants.Config.FIELD_SP;
     /**
      * 日志格式
      */
