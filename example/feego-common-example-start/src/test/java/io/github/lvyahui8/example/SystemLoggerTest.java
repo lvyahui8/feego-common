@@ -39,7 +39,6 @@ public class SystemLoggerTest {
         );
         CustomLogger.uc.monitor(LogSchema.empty().of("c",1));
         SystemLogger.campaign.trace("trace closed");
-        SystemLogger.campaign.setLevel(Level.TRACE);
         SystemLogger.campaign.trace("hello");
         SystemLogger.campaign.trace("hello {}","dj");
         SystemLogger.campaign.trace("hello {} {}","d,","j");
