@@ -45,7 +45,7 @@ public class DefaultLogConfiguration {
      */
     String      fileName = "$logType/$module";
     /**
-     * 日志文件单独输出
+     * 日志文件单独输出error、warn级别的日志
      */
     boolean     separateErrorLog = false;
     /**

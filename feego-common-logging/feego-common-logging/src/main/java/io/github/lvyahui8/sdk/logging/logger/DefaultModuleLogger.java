@@ -1,6 +1,5 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
-import io.github.lvyahui8.sdk.logging.handler.AbstractLogHandler;
 import io.github.lvyahui8.sdk.logging.handler.DefaultLogHandler;
 import io.github.lvyahui8.sdk.logging.handler.LogHandler;
 import org.slf4j.Logger;
@@ -113,7 +112,7 @@ public class DefaultModuleLogger implements ModuleLogger {
     public void error(LogSchema schema) {
         if (! isErrorEnabled()) return;
         LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator);
-        logger.error(detail.getPattern(),detail.getArgs());
+        errorLogger.error(detail.getPattern(),detail.getArgs());
     }
 
     @Override
@@ -125,7 +124,7 @@ public class DefaultModuleLogger implements ModuleLogger {
         // org.apache.logging.log4j.message.ParameterizedMessage.initThrowable
         //   if (usedParams < argCount && this.throwable == null && params[argCount - 1] instanceof Throwable) {
         detail.getArgs()[detail.getArgs().length - 1] = t;
-        logger.error(detail.getPattern(),detail.getArgs());
+        errorLogger.error(detail.getPattern(),detail.getArgs());
     }
 
     @Override
@@ -214,7 +213,7 @@ public class DefaultModuleLogger implements ModuleLogger {
     public void warn(String format, Object... arguments) {
         if (! isWarnEnabled()) return;
         LogSchema.Detail detail = logHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
-        logger.warn(detail.getPattern(),detail.getArgs());
+        errorLogger.warn(detail.getPattern(),detail.getArgs());
     }
 
     @Override
@@ -241,7 +240,7 @@ public class DefaultModuleLogger implements ModuleLogger {
     public void error(String format, Object... arguments) {
         if (! isErrorEnabled()) return;
         LogSchema.Detail detail = logHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
-        logger.error(detail.getPattern(),detail.getArgs());
+        errorLogger.error(detail.getPattern(),detail.getArgs());
     }
 
     @Override
