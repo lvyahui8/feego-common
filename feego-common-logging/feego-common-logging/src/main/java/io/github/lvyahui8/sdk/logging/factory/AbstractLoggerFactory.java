@@ -46,13 +46,20 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
                     // 相同模块不重复创建logger
                     continue;
                 }
+                Logger generalLogger = createSlf4jLogger(loggerEnum.name(), "general", configuration.getGeneralLogPattern());
+                Logger monitorLogger = createSlf4jLogger(loggerEnum.name(), "monitor", configuration.getMonitorLogPattern());
+                Logger errorLogger = generalLogger;
+                if (configuration.isSeparateErrorLog()) {
+                    errorLogger = createSlf4jLogger(loggerEnum.name(), "error", configuration.getMonitorLogPattern());
+                }
                 ModuleLogger realModuleLogger = new DefaultModuleLogger(
                         loggerEnum.name(),
-                        createSlf4jLogger(loggerEnum.name(), "general",configuration.getGeneralLogPattern()),
-                        createSlf4jLogger(loggerEnum.name() ,"monitor",configuration.getMonitorLogPattern()),
+                        generalLogger,
+                        errorLogger,
+                        monitorLogger,
                         configuration.getFieldSeparator(),
                         logHandler
-                        );
+                );
                 ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
             }
         }

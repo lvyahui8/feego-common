@@ -45,6 +45,10 @@ public class DefaultLogConfiguration {
      */
     String      fileName = "$logType/$module";
     /**
+     * 日志文件单独输出
+     */
+    boolean     separateErrorLog = false;
+    /**
      * 日志处理工具
      */
     Class<? extends AbstractLogHandler> logHandler;
@@ -127,5 +131,17 @@ public class DefaultLogConfiguration {
 
     public void setLogHandler(Class<? extends AbstractLogHandler> logHandler) {
         this.logHandler = logHandler;
+    }
+
+    public String getPattern() {
+        return pattern;
+    }
+
+    public boolean isSeparateErrorLog() {
+        return separateErrorLog;
+    }
+
+    public void setSeparateErrorLog(boolean separateErrorLog) {
+        this.separateErrorLog = separateErrorLog;
     }
 }

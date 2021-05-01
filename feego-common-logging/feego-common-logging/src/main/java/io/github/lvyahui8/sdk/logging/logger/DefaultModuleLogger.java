@@ -16,17 +16,19 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     private final Logger monitorLogger;
 
-    private final String fieldSeparator;
+    private final Logger errorLogger;
 
+    private final String fieldSeparator;
     private final LogHandler logHandler;
 
     private final String enumLoggerName;
 
-    public DefaultModuleLogger(String enumLoggerName,Logger logger, Logger monitorLogger , String fieldSeparator, LogHandler logHandler) {
+    public DefaultModuleLogger(String enumLoggerName,Logger logger,Logger errorLogger, Logger monitorLogger , String fieldSeparator, LogHandler logHandler) {
         this.enumLoggerName = enumLoggerName;
         this.logger = logger;
         this.fieldSeparator = fieldSeparator;
         this.monitorLogger = monitorLogger;
+        this.errorLogger = errorLogger;
         this.logHandler = logHandler == null ? new DefaultLogHandler() : logHandler;
     }
 
