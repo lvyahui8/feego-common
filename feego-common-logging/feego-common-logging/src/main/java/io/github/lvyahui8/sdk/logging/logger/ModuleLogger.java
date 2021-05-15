@@ -56,11 +56,6 @@ public interface ModuleLogger {
     default boolean isWarnEnabled() {
         return getInnerLogger().isWarnEnabled();
     }
-    
-    
-    default boolean isErrorEnabled() {
-        return getInnerLogger().isErrorEnabled();
-    }
 
     
     default void trace(String msg) {

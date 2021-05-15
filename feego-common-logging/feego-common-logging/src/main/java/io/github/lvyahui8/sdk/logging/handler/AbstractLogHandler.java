@@ -13,9 +13,15 @@ import org.slf4j.event.Level;
  */
 public abstract class AbstractLogHandler implements LogHandler {
     @Override
-    public Level runtimeLevel(String enumLoggerName) {
-        return Level.INFO;
+    public final Level runtimeLevel(String enumLoggerName) {
+        Level level = LogContextHolder.getLevel();
+        if (level != null) {
+            return level;
+        }
+        return innerRuntimeLevel(enumLoggerName);
     }
+
+    public abstract Level innerRuntimeLevel(String enumLoggerName);
 
     @Override
     public final LogSchema beforeOutput(LogSchema logSchema) {

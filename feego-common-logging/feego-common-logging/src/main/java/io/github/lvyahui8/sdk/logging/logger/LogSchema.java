@@ -14,6 +14,12 @@ public final class LogSchema {
     /// private Map<String,Object> items = Collections.synchronizedMap(new ListOrderedMap<>());
     private final ListOrderedMap<String,Object> items = new ListOrderedMap<>();
 
+    private String fieldSeparator;
+
+    private String msgPattern;
+
+    private Object [] msgArgs;
+
     private LogSchema() {
         init();
     }
@@ -59,11 +65,24 @@ public final class LogSchema {
         return value;
     }
 
+    LogSchema msgPattern(String msgPattern) {
+        this.msgPattern = msgPattern;
+        return this;
+    }
+
+    LogSchema msgArgs(Object ... msgArgs) {
+        this.msgArgs = msgArgs;
+        return this;
+    }
+
     Detail buildDetail(String sp) {
         return buildDetail(sp,0);
     }
 
     Detail buildDetail(String sp,int reserved) {
+        if (sp == null) {
+            sp = fieldSeparator;
+        }
         Detail detail  = new Detail();
         detail.args = new Object[items.size() + reserved ];
         StringBuilder sb = new StringBuilder();
@@ -76,23 +95,25 @@ public final class LogSchema {
             detail.args[i++] = item.getValue();
         }
         detail.pattern = sb.toString();
+        if (this.msgPattern != null) {
+            String pattern = detail.getPattern() + sp + LogConstants.ReversedKey.MESSAGE + ":" + msgPattern;
+            Object[] args ;
+            if (msgArgs != null && msgArgs.length > 0 ) {
+                args = new Object[detail.getArgs().length + msgArgs.length];
+                System.arraycopy(detail.getArgs(),0,args,0,detail.getArgs().length);
+                System.arraycopy(msgArgs,0,args,detail.getArgs().length,msgArgs.length);
+            } else {
+                args = detail.getArgs();
+            }
+            detail.pattern = pattern;
+            detail.args = args;
+        }
         return detail;
     }
 
-    Detail buildDetail(String sp,String format,Object ... arguments) {
-        LogSchema.Detail detail = this.buildDetail(sp);
-        String pattern = detail.getPattern() + sp + LogConstants.ReversedKey.MESSAGE + ":" + format;
-        Object[] args ;
-        if (arguments != null && arguments.length > 0 ) {
-            args = new Object[detail.getArgs().length + arguments.length];
-            System.arraycopy(detail.getArgs(),0,args,0,detail.getArgs().length);
-            System.arraycopy(arguments,0,args,detail.getArgs().length,arguments.length);
-        } else {
-            args = detail.getArgs();
-        }
-        detail.pattern = pattern;
-        detail.args = args;
-        return detail;
+    LogSchema setFieldSeparator(String fieldSeparator) {
+        this.fieldSeparator = fieldSeparator;
+        return this;
     }
 
     static class Detail {

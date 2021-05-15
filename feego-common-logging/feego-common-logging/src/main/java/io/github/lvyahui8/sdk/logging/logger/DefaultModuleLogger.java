@@ -1,7 +1,10 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
+import io.github.lvyahui8.sdk.logging.context.LogContextHolder;
+import io.github.lvyahui8.sdk.logging.event.LogEvent;
 import io.github.lvyahui8.sdk.logging.handler.DefaultLogHandler;
 import io.github.lvyahui8.sdk.logging.handler.LogHandler;
+import org.apache.logging.log4j.core.config.LoggerConfig;
 import org.slf4j.Logger;
 import org.slf4j.event.Level;
 
@@ -68,63 +71,65 @@ public class DefaultModuleLogger implements ModuleLogger {
     }
 
     @Override
-    public boolean isErrorEnabled() {
-        return getRuntimeLevel().toInt() <= Level.ERROR.toInt();
-    }
-
-    @Override
     public void info(LogSchema schema) {
-        if (! isInfoEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator);
-        logger.info(detail.getPattern(),detail.getArgs());
+        LogEvent logEvent = new LogEvent(logHandler.beforeOutput(schema).setFieldSeparator(fieldSeparator), Level.INFO, logger);
+        if (isInfoEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
     public void warn(LogSchema schema) {
-        if (! isWarnEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator);
-        logger.warn(detail.getPattern(),detail.getArgs());
+        LogEvent logEvent = new LogEvent(logHandler.beforeOutput(schema).setFieldSeparator(fieldSeparator), Level.WARN, logger);
+        if (isWarnEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
     public void warn(LogSchema schema, Throwable t) {
-        if (! isWarnEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator, 1);
-        detail.getArgs()[detail.getArgs().length - 1] = t;
-        logger.warn(detail.getPattern(),detail.getArgs());
+        LogEvent logEvent = new LogEvent(logHandler.beforeOutput(schema).setFieldSeparator(fieldSeparator), Level.WARN, logger,t);
+        if (isWarnEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
     public void debug(LogSchema schema) {
-        if (! isDebugEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator);
-        logger.debug(detail.getPattern(),detail.getArgs());
+        LogEvent logEvent = new LogEvent(logHandler.beforeOutput(schema).setFieldSeparator(fieldSeparator), Level.DEBUG, logger);
+        if (isDebugEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
     public void trace(LogSchema schema) {
-        if (! isTraceEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator);
-        logger.trace(detail.getPattern(),detail.getArgs());
+        LogEvent logEvent = new LogEvent(logHandler.beforeOutput(schema).setFieldSeparator(fieldSeparator), Level.TRACE, logger);
+        if (isTraceEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
     public void error(LogSchema schema) {
-        if (! isErrorEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator);
-        errorLogger.error(detail.getPattern(),detail.getArgs());
+        LogEvent logEvent = new LogEvent(logHandler.beforeOutput(schema).setFieldSeparator(fieldSeparator), Level.ERROR, errorLogger);
+        LogEventReactor.recordingEvent(logEvent);
     }
 
     @Override
     public void error(LogSchema schema, Throwable t) {
-        if (! isErrorEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(schema).buildDetail(fieldSeparator,1);
-        // https://stackoverflow.com/questions/45054154/logger-format-and-throwable-slf4j-arguments/45054272#45054272
-        // 关键代码：
-        // org.apache.logging.log4j.message.ParameterizedMessage.initThrowable
-        //   if (usedParams < argCount && this.throwable == null && params[argCount - 1] instanceof Throwable) {
-        detail.getArgs()[detail.getArgs().length - 1] = t;
-        errorLogger.error(detail.getPattern(),detail.getArgs());
+        LogEvent logEvent = new LogEvent(logHandler.beforeOutput(schema).setFieldSeparator(fieldSeparator), Level.ERROR, errorLogger,t);
+        LogEventReactor.recordingEvent(logEvent);
     }
 
     @Override
@@ -144,11 +149,14 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void trace(String format, Object... arguments) {
-        if (! isTraceEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
-        logger.trace(detail.getPattern(),detail.getArgs());
+        LogSchema logSchema = logHandler.beforeOutput(LogSchema.empty()).setFieldSeparator(fieldSeparator).msgPattern(format).msgArgs(arguments);
+        LogEvent logEvent = new LogEvent(logSchema, Level.TRACE, logger);
+        if (isTraceEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
-
 
     @Override
     public void debug(String msg) {
@@ -167,9 +175,13 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void debug(String format, Object... arguments) {
-        if (! isDebugEnabled())  return ;
-        LogSchema.Detail detail = logHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
-        logger.debug(detail.getPattern(),detail.getArgs());
+        LogSchema logSchema = logHandler.beforeOutput(LogSchema.empty()).setFieldSeparator(fieldSeparator).msgPattern(format).msgArgs(arguments);
+        LogEvent logEvent = new LogEvent(logSchema, Level.DEBUG, logger);
+        if (isDebugEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
@@ -189,9 +201,13 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void info(String format, Object... arguments) {
-        if (! isInfoEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
-        logger.info(detail.getPattern(),detail.getArgs());
+        LogSchema logSchema = logHandler.beforeOutput(LogSchema.empty()).setFieldSeparator(fieldSeparator).msgPattern(format).msgArgs(arguments);
+        LogEvent logEvent = new LogEvent(logSchema, Level.INFO, logger);
+        if (isInfoEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
@@ -211,9 +227,13 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void warn(String format, Object... arguments) {
-        if (! isWarnEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
-        errorLogger.warn(detail.getPattern(),detail.getArgs());
+        LogSchema logSchema = logHandler.beforeOutput(LogSchema.empty()).setFieldSeparator(fieldSeparator).msgPattern(format).msgArgs(arguments);
+        LogEvent logEvent = new LogEvent(logSchema, Level.WARN, logger);
+        if (isWarnEnabled()) {
+            LogEventReactor.recordingEvent(logEvent);
+        } else {
+            LogContextHolder.shelveLogEvent(logEvent);
+        }
     }
 
     @Override
@@ -238,9 +258,9 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void error(String format, Object... arguments) {
-        if (! isErrorEnabled()) return;
-        LogSchema.Detail detail = logHandler.beforeOutput(LogSchema.empty()).buildDetail(fieldSeparator, format, arguments);
-        errorLogger.error(detail.getPattern(),detail.getArgs());
+        LogSchema logSchema = logHandler.beforeOutput(LogSchema.empty()).setFieldSeparator(fieldSeparator).msgPattern(format).msgArgs(arguments);
+        LogEvent logEvent = new LogEvent(logSchema, Level.WARN, errorLogger);
+        LogEventReactor.recordingEvent(logEvent);
     }
 
     @Override

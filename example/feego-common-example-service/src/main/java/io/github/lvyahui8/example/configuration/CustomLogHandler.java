@@ -24,7 +24,7 @@ public class CustomLogHandler extends DefaultLogHandler {
     }
 
     @Override
-    public Level runtimeLevel(String enumLoggerName) {
+    public Level innerRuntimeLevel(String enumLoggerName) {
         CustomLogger customLogger = null;
         try {
             customLogger = CustomLogger.valueOf(enumLoggerName);
@@ -33,7 +33,7 @@ public class CustomLogHandler extends DefaultLogHandler {
             return levelMap.containsKey(customLogger) ?
                     levelMap.get(customLogger) : super.runtimeLevel(enumLoggerName);
         }
-        return super.runtimeLevel(enumLoggerName);
+        return super.innerRuntimeLevel(enumLoggerName);
     }
 
     @Override

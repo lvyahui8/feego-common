@@ -9,6 +9,27 @@
 - [x] [模块化日志](/readme.assets/logging.md)
 - [x] 统一的异常处理/响应封装
 - [ ] [统一的加签验签](/readme.assets/signature.md)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+- [ ] 敏感报文加密
 - [x] [基于redis的分布式锁](/readme.assets/lock.md)
 - [ ] Dubbo扩展
 - [ ] 基于注解的分级权限控制
