@@ -55,6 +55,9 @@ public class MainController {
         SystemLogger.status.debug("debug log example");
         SystemLogger.status.warn("warn log example");
         SystemLogger.status.error("error log example");
+        for (int i = 0; i < 20; i++) {
+            SystemLogger.status.trace("trace after error");
+        }
         return "ok";
     }
 

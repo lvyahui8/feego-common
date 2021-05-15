@@ -58,10 +58,7 @@ public class LogContextHolder {
     }
 
     public static void initDiscardedEventQueue(Queue<LogEvent> eventQueue) {
-        LogContext logContext = contextHolder.get();
-        if (logContext == null) {
-            return ;
-        }
+        LogContext logContext = getLogContext();
         if (eventQueue != null) {
             logContext.setDiscardedEventQueue(eventQueue);
         } else {
