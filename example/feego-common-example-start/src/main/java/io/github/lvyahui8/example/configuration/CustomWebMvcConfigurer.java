@@ -1,6 +1,6 @@
 package io.github.lvyahui8.example.configuration;
 
-import io.github.lvyahui8.web.wrapper.TraceFilter;
+
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

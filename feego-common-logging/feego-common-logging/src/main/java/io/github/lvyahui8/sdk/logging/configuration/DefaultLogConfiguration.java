@@ -1,7 +1,6 @@
 package io.github.lvyahui8.sdk.logging.configuration;
 
 import io.github.lvyahui8.sdk.logging.handler.AbstractLogHandler;
-import io.github.lvyahui8.sdk.logging.handler.LogHandler;
 
 /**
  * @author feego lvyahui8@gmail.com
@@ -48,6 +47,25 @@ public class DefaultLogConfiguration {
      * 日志文件单独输出error、warn级别的日志
      */
     boolean     separateErrorLog = false;
+
+    private static DefaultLogConfiguration configurationInstance ;
+
+    public static DefaultLogConfiguration getInstance() {
+        if (configurationInstance == null){
+            throw new IllegalStateException("The instance has not been initialized.");
+        }
+        return configurationInstance;
+    }
+
+    public DefaultLogConfiguration() {
+        synchronized (DefaultLogConfiguration.class) {
+            if (configurationInstance != null) {
+                throw new UnsupportedOperationException("Each application can only have one configuration instance.");
+            }
+            configurationInstance = this;
+        }
+    }
+
     /**
      * 日志处理工具
      */
