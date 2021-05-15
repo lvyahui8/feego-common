@@ -10,6 +10,8 @@ public interface LogConstants {
         String TRACE_ID = "tid";
         String MESSAGE = "msg";
         String SUCCESS = "suc";
+        String IS_REPLAY = "__isReplay";
+        String ACTUAL_TIME = "__logActualTime";
     }
 
     interface Config {

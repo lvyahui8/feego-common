@@ -1,5 +1,7 @@
 package io.github.lvyahui8.sdk.logging.logger;
 
+import io.github.lvyahui8.sdk.logging.configuration.LogConstants;
+import io.github.lvyahui8.sdk.logging.context.LogContext;
 import io.github.lvyahui8.sdk.logging.context.LogContextHolder;
 import io.github.lvyahui8.sdk.logging.event.LogEvent;
 import org.slf4j.Logger;
@@ -49,12 +51,18 @@ public class LogEventReactor {
         }
     }
 
-    public static void replayDiscardedEvents() {
+    public static void replayDiscardedEventsIfHasError() {
         Queue<LogEvent> queue = LogContextHolder.getDiscardedEventQueue();
         if (queue != null) {
-            LogEvent event ;
-            while((event = queue.poll()) != null) {
-                recordingEvent(event);
+            if (LogContextHolder.getLogContext().isHasError()) {
+                LogEvent event ;
+                while((event = queue.poll()) != null) {
+                    event.getSchema().of(LogConstants.ReversedKey.IS_REPLAY,true)
+                            .of(LogConstants.ReversedKey.ACTUAL_TIME,event.getTs());
+                    recordingEvent(event);
+                }
+            } else {
+                queue.clear();
             }
             LogContextHolder.getLogContext().setDiscardedEventQueue(null);
         }

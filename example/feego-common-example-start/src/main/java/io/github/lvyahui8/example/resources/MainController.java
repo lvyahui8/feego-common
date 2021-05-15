@@ -51,6 +51,10 @@ public class MainController {
     @RequestMapping("/status")
     public Object status() {
         SystemLogger.status.info(LogSchema.empty().of("status","ok"));
+        SystemLogger.status.trace("trace log example");
+        SystemLogger.status.debug("debug log example");
+        SystemLogger.status.warn("warn log example");
+        SystemLogger.status.error("error log example");
         return "ok";
     }
 

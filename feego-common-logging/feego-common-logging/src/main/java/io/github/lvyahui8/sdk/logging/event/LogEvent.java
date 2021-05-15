@@ -13,6 +13,11 @@ public class LogEvent {
     Level level;
     Logger logger;
     Throwable throwable;
+    long ts;
+
+    {
+        ts = System.currentTimeMillis();
+    }
 
     public LogEvent(LogSchema schema, Level level, Logger logger) {
         this.schema = schema;
@@ -57,5 +62,9 @@ public class LogEvent {
 
     public void setThrowable(Throwable throwable) {
         this.throwable = throwable;
+    }
+
+    public long getTs() {
+        return ts;
     }
 }

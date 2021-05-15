@@ -19,7 +19,7 @@ public class HttpRequestLogContextFilter implements Filter {
             LogContextHolder.initDiscardedEventQueue(null);
             chain.doFilter(request,response);
         } finally {
-            LogEventReactor.replayDiscardedEvents();
+            LogEventReactor.replayDiscardedEventsIfHasError();
             LogContextHolder.resetLogContext();
         }
     }
