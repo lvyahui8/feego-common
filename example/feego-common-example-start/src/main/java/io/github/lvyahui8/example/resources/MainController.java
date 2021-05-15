@@ -55,6 +55,7 @@ public class MainController {
         SystemLogger.status.debug("debug log example");
         SystemLogger.status.warn("warn log example");
         SystemLogger.status.error("error log example");
+        // 出现error级别的日志， 之前的内容会被回朔
         for (int i = 0; i < 20; i++) {
             SystemLogger.status.trace("trace after error");
         }
