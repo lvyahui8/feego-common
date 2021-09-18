@@ -17,7 +17,7 @@ import java.util.concurrent.Future;
 public class AsyncTaskExecutor {
 
     @Setter(AccessLevel.PACKAGE)
-    @Getter(AccessLevel.PACKAGE)
+    @Getter(AccessLevel.PUBLIC)
     private static Executor executor;
 
     public static void execute(Runnable r) {
