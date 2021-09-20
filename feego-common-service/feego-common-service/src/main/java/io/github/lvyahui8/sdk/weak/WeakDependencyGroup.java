@@ -2,9 +2,9 @@ package io.github.lvyahui8.sdk.weak;
 
 import io.github.lvyahui8.sdk.utils.AsyncTaskExecutor;
 
-import javax.sound.sampled.Line;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -19,7 +19,7 @@ public class WeakDependencyGroup {
 
     public List<CompletableFuture<?>> futures = new LinkedList<>();
 
-    public class WeakDependencyItem<RES> {
+    public static class WeakDependencyItem<RES> {
         CompletableFuture<RES> future;
         OnException<RES> onException;
     }
@@ -43,7 +43,7 @@ public class WeakDependencyGroup {
         return this;
     }
 
-    public Map<Class<?>,Object> get(long timeoutMs) {
+    public Map<Type,Object> get(long timeoutMs) {
         if (timeoutMs > 0){
             CompletableFuture<Void> future = CompletableFuture.allOf(futures.toArray(new CompletableFuture[0]));
             try {
@@ -51,11 +51,22 @@ public class WeakDependencyGroup {
             } catch (Exception ignored) {
             }
         }
-
+        Map<Type,Object> res = new HashMap<>();
         for (WeakDependencyItem<?> weakDependencyItem : weakDependencyItems) {
             Type retType = ((ParameterizedType) weakDependencyItem.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+            Object ret = null;
+            if (weakDependencyItem.future == null) {
+                ret = weakDependencyItem.onException.apply();
+            } else {
+                try {
+                    ret = weakDependencyItem.future.getNow(null);
+                } catch (Exception e) {
+                    ret = weakDependencyItem.onException.apply();
+                }
+            }
+            res.put(retType,ret);
         }
-        return null;
+        return res;
     }
 }
 
