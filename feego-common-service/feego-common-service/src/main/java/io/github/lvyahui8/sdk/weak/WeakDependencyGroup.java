@@ -32,8 +32,8 @@ public class WeakDependencyGroup {
             weakDependencyItem.future = CompletableFuture.supplyAsync(() -> {
                 try {
                     return weakDependency.get();
-                } catch (Exception ignored) {
-                    return onException.apply();
+                } catch (Exception e) {
+                    return onException.apply(e);
                 }
             }, AsyncTaskExecutor.getExecutor());
             futures.add(weakDependencyItem.future);
@@ -56,12 +56,12 @@ public class WeakDependencyGroup {
             Type retType = ((ParameterizedType) weakDependencyItem.getClass().getGenericSuperclass()).getActualTypeArguments()[0];
             Object ret = null;
             if (weakDependencyItem.future == null) {
-                ret = weakDependencyItem.onException.apply();
+                ret = weakDependencyItem.onException.apply(new TimeoutException());
             } else {
                 try {
                     ret = weakDependencyItem.future.getNow(null);
                 } catch (Exception e) {
-                    ret = weakDependencyItem.onException.apply();
+                    ret = weakDependencyItem.onException.apply(e);
                 }
             }
             res.put(retType,ret);

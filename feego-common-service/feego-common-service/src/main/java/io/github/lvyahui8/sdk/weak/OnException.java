@@ -6,5 +6,5 @@ package io.github.lvyahui8.sdk.weak;
  */
 @FunctionalInterface
 public interface OnException<R> {
-    R apply();
+    R apply(Exception e);
 }
