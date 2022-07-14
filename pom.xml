@@ -20,7 +20,7 @@ limitations under the License.
 
     <groupId>io.github.lvyahui8</groupId>
     <artifactId>feego-common</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.0</version>
     <modules>
         <module>feego-common-web/feego-common-web</module>
         <module>feego-common-service/feego-common-service</module>
