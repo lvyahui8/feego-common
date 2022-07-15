@@ -21,7 +21,7 @@ public class DefaultModuleLogger implements ModuleLogger {
     private final Logger errorLogger;
 
     private final String fieldSeparator;
-    private final LogHandler logHandler;
+    private LogHandler logHandler;
 
     private final String enumLoggerName;
 
@@ -37,6 +37,10 @@ public class DefaultModuleLogger implements ModuleLogger {
     @Override
     public ModuleLogger getInnerLogger() {
         return this;
+    }
+
+    protected void setLogHandler(LogHandler logHandler) {
+        this.logHandler = logHandler;
     }
 
     @Override

@@ -5,6 +5,7 @@ import io.github.lvyahui8.sdk.logging.handler.LogHandler;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLogger;
 import io.github.lvyahui8.sdk.logging.logger.ModuleLoggerRepository;
 import io.github.lvyahui8.sdk.logging.logger.DefaultModuleLogger;
+import io.github.lvyahui8.sdk.logging.logger.RootLogger;
 import org.slf4j.ILoggerFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,6 +47,9 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
                     // 相同模块不重复创建logger
                     continue;
                 }
+                if (loggerEnum.name().equals("_root")) {
+                    continue;
+                }
                 Logger generalLogger = createSlf4jLogger(loggerEnum.name(), "general", configuration.getGeneralLogPattern());
                 Logger monitorLogger = createSlf4jLogger(loggerEnum.name(), "monitor", configuration.getMonitorLogPattern());
                 Logger errorLogger = generalLogger;
@@ -62,6 +66,7 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
                 );
                 ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
             }
+            RootLogger.getInstance().setLogHandler(logHandler);
         }
     }
 

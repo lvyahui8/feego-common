@@ -26,4 +26,9 @@ public class RootLogger extends DefaultModuleLogger {
         }
         return instance;
     }
+
+    @Override
+    public void setLogHandler(LogHandler logHandler) {
+        super.setLogHandler(logHandler);
+    }
 }
