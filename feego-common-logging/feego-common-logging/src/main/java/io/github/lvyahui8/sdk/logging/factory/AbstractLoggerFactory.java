@@ -66,7 +66,9 @@ public abstract class AbstractLoggerFactory implements ModuleLoggerFactory {
                 );
                 ModuleLoggerRepository.put(loggerEnum.name(), realModuleLogger);
             }
-            RootLogger.getInstance().setLogHandler(logHandler);
+            if (logHandler != null){
+                RootLogger.getInstance().setLogHandler(logHandler);
+            }
         }
     }
 
