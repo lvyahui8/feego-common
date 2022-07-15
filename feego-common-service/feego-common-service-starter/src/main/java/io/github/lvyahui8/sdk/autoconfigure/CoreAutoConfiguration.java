@@ -8,6 +8,7 @@ import io.github.lvyahui8.sdk.reddot.DefaultRedDotManager;
 import io.github.lvyahui8.sdk.reddot.RedDotManager;
 import io.github.lvyahui8.sdk.utils.AsyncTaskExecutorInitializer;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -64,6 +65,7 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
     }
 
     @Bean
+    @ConditionalOnClass(RedisConnectionFactory.class)
     public RedisTemplate<Object, Object> redisTemplate(RedisConnectionFactory connectionFactory) {
         RedisTemplate<Object, Object> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory);
@@ -77,6 +79,7 @@ public class CoreAutoConfiguration implements ApplicationListener<ApplicationRea
     }
 
     @Bean
+    @ConditionalOnClass(RedisTemplate.class)
     public RedDotManager redDotManager(RedisTemplate<Object,Object> redisTemplate) {
         return new DefaultRedDotManager(redisTemplate);
     }
