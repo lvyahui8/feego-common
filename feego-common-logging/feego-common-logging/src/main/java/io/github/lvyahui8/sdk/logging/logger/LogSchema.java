@@ -53,6 +53,14 @@ public final class LogSchema {
         return of(LogConstants.ReversedKey.SUCCESS,suc);
     }
 
+    public LogSchema suc(boolean suc) {
+        return success(suc);
+    }
+
+    public LogSchema cost(long costMs) {
+        return of("cost",costMs);
+    }
+
     public LogSchema clear() {
         items.clear();
         return this;
