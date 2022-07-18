@@ -15,6 +15,7 @@
     <name>feego-common-example-api-starter</name>
 
     <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>

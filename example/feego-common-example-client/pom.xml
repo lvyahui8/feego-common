@@ -15,6 +15,7 @@
     <name>feego-common-example-client</name>
 
     <properties>
+        <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
     <dependencies>
