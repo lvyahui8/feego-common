@@ -38,4 +38,9 @@ public abstract class AbstractLogHandler implements LogHandler {
     }
 
     public abstract LogSchema innerBeforeOutput(LogSchema logSchema);
+
+    @Override
+    public LogSchema monitor(LogSchema logSchema) {
+        return logSchema;
+    }
 }

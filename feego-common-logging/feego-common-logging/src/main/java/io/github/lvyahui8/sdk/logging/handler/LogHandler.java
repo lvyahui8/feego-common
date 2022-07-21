@@ -10,4 +10,6 @@ import org.slf4j.event.Level;
 public interface LogHandler {
     Level runtimeLevel(String enumLoggerName);
     LogSchema beforeOutput(LogSchema logSchema);
+
+    LogSchema monitor(LogSchema logSchema);
 }
