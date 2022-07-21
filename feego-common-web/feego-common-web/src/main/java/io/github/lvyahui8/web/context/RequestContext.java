@@ -12,7 +12,8 @@ public class RequestContext {
     }
 
     public static String getTraceId() {
-        return REQUEST_LOCAL.get().getTraceId();
+        RequestMessage message = REQUEST_LOCAL.get();
+        return message != null ? message.getTraceId() : "";
     }
 
     public static boolean isStressTraffic() {

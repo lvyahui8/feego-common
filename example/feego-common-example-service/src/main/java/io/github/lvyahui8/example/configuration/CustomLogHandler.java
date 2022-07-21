@@ -42,4 +42,10 @@ public class CustomLogHandler extends DefaultLogHandler {
                 .prepend("rid", RequestContext.getTraceId());
         return super.innerBeforeOutput(logSchema);
     }
+
+    @Override
+    public LogSchema monitor(LogSchema logSchema) {
+        logSchema.of("user_id","lyh");
+        return super.monitor(logSchema);
+    }
 }

@@ -45,7 +45,7 @@ public class DefaultModuleLogger implements ModuleLogger {
 
     @Override
     public void monitor(LogSchema schema) {
-        LogSchema.Detail detail =  logHandler.beforeOutput(schema).buildDetail(fieldSeparator);
+        LogSchema.Detail detail =  logHandler.monitor(logHandler.beforeOutput(schema)).buildDetail(fieldSeparator);
         monitorLogger.info(detail.getPattern(),detail.getArgs());
     }
 

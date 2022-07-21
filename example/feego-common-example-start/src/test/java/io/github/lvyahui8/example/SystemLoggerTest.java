@@ -103,4 +103,9 @@ public class SystemLoggerTest {
         SystemLogger.campaign.warn(LogSchema.biz("rebate").of("t",System.currentTimeMillis()),new RuntimeException("system busy"));
         SystemLogger.campaign.warn(LogSchema.empty().of("x",System.nanoTime()),new RuntimeException("system busy"));
     }
+
+    @Test
+    public void testMonitor() throws Exception {
+        SystemLogger.campaign.monitor(LogSchema.biz("apiM").of("api","/post/create").suc(true).cost(100));
+    }
 }
