@@ -48,7 +48,7 @@ limitations under the License.
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <log4j2.version>2.17.1</log4j2.version>
-        <dubbo.version>2.7.15</dubbo.version>
+        <dubbo.version>2.7.21</dubbo.version>
         <skipTests>true</skipTests>
     </properties>
 
